@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 
@@ -17,33 +19,32 @@
     <link rel="alternate" type="application/rss+xml" title="头秃程序猿 - 前端学习知识分享" href="http://localhost:4000/feed.xml">
 
     <!-- Third-Party CSS -->
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/bower_components/octicons/octicons/octicons.css">
-    <link rel="stylesheet" href="/bower_components/hover/css/hover-min.css">
-    <link rel="stylesheet" href="/bower_components/primer-markdown/dist/user-content.min.css">
-    <link rel="stylesheet" href="/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
 
     <!-- My CSS -->
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
 
     <!-- CSS set in page -->
     
 
     <!-- CSS set in layout -->
     
-    <link rel="stylesheet" href="/assets/css/sidebar-post-nav.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/sidebar-post-nav.css">
     
 
-    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </head>
 
 
     <body>
-
     <header class="site-header">
     <div class="container">
         <a id="site-header-brand" href="/" title="ttcoder">
@@ -90,7 +91,7 @@
     </div>
 </header>
 
-
+    
         <div class="content">
             
 
@@ -239,10 +240,6 @@
 </div>
 
     </article>
-    <div class="share">
-      
-
-    </div>
     <div class="comment">
       
 
@@ -294,69 +291,18 @@ SimpleJekyllSearch({
 })
 </script>
 
-    <h3>Post Directory</h3>
-<div id="post-directory-module">
-<section class="post-directory">
-    <!-- Links that trigger the jumping -->
-    <!-- Added by javascript below -->
-    <dl></dl>
-</section>
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
 </div>
 
-<script type="text/javascript">
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
 
-    $(document).ready(function(){
-        $( "article h2" ).each(function( index ) {
-            $(".post-directory dl").append("<dt><a class=\"jumper\" hre=#" +
-                    $(this).attr("id")
-                    + ">"
-                    + $(this).text()
-                    + "</a></dt>");
-
-            var children = $(this).nextUntil("h2", "h3")
-
-            children.each(function( index ) {
-                $(".post-directory dl").append("<dd><a class=\"jumper\" hre=#" +
-                        $(this).attr("id")
-                        + ">"
-                        + "&nbsp;&nbsp;- " + $(this).text()
-                        + "</a></dd>");
-            });
-        });
-
-        var fixmeTop = $('#post-directory-module').offset().top - 100;       // get initial position of the element
-
-        $(window).scroll(function() {                  // assign scroll event listener
-
-            var currentScroll = $(window).scrollTop(); // get current position
-
-            if (currentScroll >= fixmeTop) {           // apply position: fixed if you
-                $('#post-directory-module').css({      // scroll to that element or below it
-                    top: '100px',
-                    position: 'fixed',
-                    width: 'inherit'
-                });
-            } else {                                   // apply position: static
-                $('#post-directory-module').css({      // if you scroll above it
-                    position: 'inherit',
-                    width: 'inherit'
-                });
-            }
-
-        });
-
-        $("a.jumper").on("click", function( e ) {
-
-            e.preventDefault();
-
-            $("body, html").animate({
-                scrollTop: ($( $(this).attr('hre') ).offset().top - 100)
-            }, 600);
-
-        });
-    });
-
-</script>
   </div>
 </div>
 </article>
@@ -406,7 +352,7 @@ SimpleJekyllSearch({
 
       <!-- 不蒜子访问统计 -->
 
-<script async src="/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="mobile-hidden" style="margin-top:8px">
   <span id="busuanzi_container_site_pv" style="display:none">
     本站访问量<span id="busuanzi_value_site_pv"></span>次
