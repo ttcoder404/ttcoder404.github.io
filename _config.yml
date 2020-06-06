@@ -1,8 +1,9 @@
 # ---------------- #
 #   Main Configs   #
 # ---------------- #
-title: 头秃程序猿
-name: Liang Qi
+title: 头秃程序猿 - 前端学习知识分享
+subtitle: "公众号：头秃程序猿(ttcoder404)"
+name: ttcoder
 email: im@ttcoder.com
 location: Beijing, China
 company: 
@@ -10,7 +11,7 @@ company_url:
 github_url: https://github.com/ttcoder404
 github_username: ttcoder404
 description: "专注前端开发学习分享，程序员升职技巧，防脱指南"
-favicon: favicon.jpg # Image must be in assets/images
+favicon: favicon.png # Image must be in assets/images
 repository: ttcoder404/ttcoder404.github.io
 
 url: https://ttcoder.com
