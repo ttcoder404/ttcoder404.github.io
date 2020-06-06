@@ -1,1 +1,1 @@
-article h1,article h2,article h3,article h4,article h5,article h6 { padding-top: 82px;margin-top: -82px;}
+article h1:before,article h2:before,article h3:before,article h4:before,article h5:before,article h6:before { display:block;content:"";padding-top: 82px;margin-top: -82px;}
