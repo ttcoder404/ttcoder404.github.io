@@ -102,7 +102,7 @@
 $(document).ready(function(){
   $('.post-directory').toc();
 
-  var fixmeTop = $('#post-directory-module').offset().top - 82;
+  var fixmeTop = $('#post-directory-module').offset().top - 81;
   var tocSections = $('.clickable-header');
   var tocSectionOffsets = [];
 
