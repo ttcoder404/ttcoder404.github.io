@@ -1,6 +1,5 @@
 ---
 layout: default
-css: ['sidebar-post-nav.css']
 ---
 {% assign assets_base_url = site.url %}
 {% if site.cdn.jsdelivr.enabled %}
@@ -10,7 +9,7 @@ css: ['sidebar-post-nav.css']
 {% include jumbotron.html %}
 
 <!-- / .banner -->
-<article class="post container" itemscope itemtype="http://schema.org/BlogPosting">
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
@@ -26,5 +25,5 @@ css: ['sidebar-post-nav.css']
     {% include sidebar-post-nav.html %}
   </div>
 </div>
-</article>
+</section>
 <!-- /section.content -->
