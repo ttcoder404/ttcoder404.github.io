@@ -25,6 +25,7 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
 
     <!-- CSS set in page -->
     
@@ -64,11 +65,11 @@
                 Open-Source
             </a>
             
-            <a href="/blog"
+            <a href="/talk"
                class=" site-header-nav-item hvr-underline-from-center"
                target=""
-               title="Blog">
-                Blog
+               title="Talk">
+                Talk
             </a>
             
             <a href="/bookmark"
@@ -91,7 +92,10 @@
 
 
         <div class="content">
-            <section class="jumbotron geopattern" data-pattern-id="CSS Animation">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="CSS Animation">
     <div class="container">
         <div id="jumbotron-meta-info">
             <h1>CSS Animation</h1>
@@ -113,14 +117,13 @@
 
     });
 </script>
+
+<!-- / .banner -->
 <article class="post container" itemscope itemtype="http://schema.org/BlogPosting">
-
-    <div class="row">
-
-        
-        <div class="col-md-8 markdown-body">
-
-            <p>Quick note about CSS animation.</p>
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>Quick note about CSS animation.</p>
 
 <h2 id="css-animation">CSS Animation</h2>
 
@@ -320,14 +323,72 @@
   <li><a href="http://www.w3schools.com/cssref/css3_pr_animation-timing-function.asp">CSS3 animation-timing-function Property</a></li>
 </ul>
 
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息</h3>
+  <ul>
+    <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
+    <li>本文链接：<a href="http://localhost:4000/css/2016/04/22/CSS-Animation.html" target="_blank">http://localhost:4000/css/2016/04/22/CSS-Animation.html</a></li>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>
+  </ul>
+</div>
 
-            <!-- Comments -->
-            
+    </article>
+    <div class="share">
+      
 
-        </div>
+    </div>
+    <div class="comment">
+      
 
-        <div class="col-md-4">
-            <h3>Post Directory</h3>
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/css/2016/04/22/CSS-Animation.html',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <h3>Post Directory</h3>
 <div id="post-directory-module">
 <section class="post-directory">
     <!-- Links that trigger the jumping -->
@@ -390,32 +451,72 @@
     });
 
 </script>
-        </div>
-        
-
-    </div>
-
+  </div>
+</div>
 </article>
-
+<!-- /section.content -->
         </div>
 
     <footer class="container">
 
     <div class="site-footer" role="contentinfo">
 
-        <div class="copyright pull-left">
-            <!-- 请不要更改这一行 方便其他人知道模板的来源 谢谢 -->
-            <!-- Please keep this line to let others know where this theme comes from. Thank you :D -->
-            Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll">Yummy Jekyll</a>
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
         </div>
-
-        <a href="https://github.com/DONGChuan" target="_blank" aria-label="view source code">
-            <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
-        </a>
-
         <div class="pull-right">
             <a href="javascript:window.scrollTo(0,0)" >TOP</a>
         </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/bookmark" title="Bookmark" target="">Bookmark</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
 
     </div>
 

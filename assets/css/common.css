@@ -95,7 +95,7 @@
 
 /** Jumbotron **/
 .jumbotron {
-    padding-top: 200px;
+    padding-top: 120px;
     padding-bottom: 100px;
     color: #fff;
 }
@@ -176,4 +176,26 @@
 
 .sidebar-title {
     text-align: center;
+}
+
+.site-footer-links {
+    margin: 0;
+    list-style: none;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.site-footer-links li {
+    display: inline-block;
+    line-height: 16px
+}
+
+.site-footer-links li+li {
+    margin-left: 10px
+}
+
+.top-most-flag {
+    color: red;
+    display: inline-block;
+    margin-right: 20px;
 }

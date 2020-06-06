@@ -2,19 +2,28 @@
 
     <div class="site-footer" role="contentinfo">
 
-        <div class="copyright pull-left">
-            <!-- 请不要更改这一行 方便其他人知道模板的来源 谢谢 -->
-            <!-- Please keep this line to let others know where this theme comes from. Thank you :D -->
-            Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll">Yummy Jekyll</a>
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="{{ site.author}}">{{ site.author }}</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
         </div>
-
-        <a href="https://github.com/DONGChuan" target="_blank" aria-label="view source code">
-            <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
-        </a>
-
         <div class="pull-right">
             <a href="javascript:window.scrollTo(0,0)" >TOP</a>
         </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            {% for nav in site.navs %}
+            <li>
+                <a href="{{ site.url }}{{ nav.href }}" title="{{ nav.label }}" target="{{ nav.target | default: _self }}">{{ nav.label }}</a>
+            </li>
+            {% endfor %}
+            <li><a href="{{ site.url }}{{ site.subscribe_rss }}"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      {% include visit-stat.html %}
 
     </div>
 

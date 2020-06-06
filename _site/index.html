@@ -25,6 +25,7 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
 
     <!-- CSS set in page -->
     
@@ -66,11 +67,11 @@
                 Open-Source
             </a>
             
-            <a href="/blog"
+            <a href="/talk"
                class=" site-header-nav-item hvr-underline-from-center"
                target=""
-               title="Blog">
-                Blog
+               title="Talk">
+                Talk
             </a>
             
             <a href="/bookmark"
@@ -122,6 +123,42 @@
 
             <ol class="post-list">
                 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li class="post-list-item">
+                    <h1 class="repo-list-name">
+                        <a href="http://localhost:4000/css/2016/04/22/CSS-Animation.html"><span class="top-most-flag">[置顶]</span>CSS Animation</a>
+                    </h1>
+                    <p class="repo-list-description">
+                        Quick note about CSS animation.
+                    </p>
+                    <p class="post-list-meta">
+                    <span class="meta-info">
+                    <span class="octicon octicon-calendar"></span> 2016/04/22
+                    </span>
+                    
+                    <span class="meta-info">
+                    <span class="octicon octicon-file-directory"></span>
+                    <a href="http://localhost:4000/bookmark/#css" title="css">css</a>
+                    </span>
+                    
+                    </p>
+                </li>
+                
+                
+                
+
+                
+                
                 <li class="post-list-item">
                     <h2 class="post-list-title">
                         <a class="hvr-underline-from-center" href="http://localhost:4000/jekyll/update/2016/05/13/Example-No-Sidebar-Nav.html">Welcome to Jekyll!</a>
@@ -133,6 +170,8 @@
                         <span class="octicon octicon-calendar"></span> 2016/05/13
                     </p>
                 </li>
+                
+                
                 
                 <li class="post-list-item">
                     <h2 class="post-list-title">
@@ -146,17 +185,8 @@
                     </p>
                 </li>
                 
-                <li class="post-list-item">
-                    <h2 class="post-list-title">
-                        <a class="hvr-underline-from-center" href="http://localhost:4000/css/2016/04/22/CSS-Animation.html">CSS Animation</a>
-                    </h2>
-                    <p class="post-list-description">
-                        Quick note about CSS animation.
-                    </p>
-                    <p class="post-list-meta">
-                        <span class="octicon octicon-calendar"></span> 2016/04/22
-                    </p>
-                </li>
+                
+                
                 
             </ol>
 
@@ -219,9 +249,9 @@
                 <span data-toggle="tooltip" class="meta-info" title="0 forks">
                     <span class="octicon octicon-git-branch"></span> 0
                 </span>
-                <span data-toggle="tooltip" class="meta-info" title="Last updated：2020-06-06 05:05:09 UTC">
+                <span data-toggle="tooltip" class="meta-info" title="Last updated：2020-06-06 05:14:39 UTC">
                     <span class="octicon octicon-clock"></span>
-                    <time datetime="2020-06-06 05:05:09 UTC" title="2020-06-06 05:05:09 UTC">2020-06-06</time>
+                    <time datetime="2020-06-06 05:14:39 UTC" title="2020-06-06 05:14:39 UTC">2020-06-06</time>
                 </span>
             </div>
         </div>
@@ -253,19 +283,62 @@
 
     <div class="site-footer" role="contentinfo">
 
-        <div class="copyright pull-left">
-            <!-- 请不要更改这一行 方便其他人知道模板的来源 谢谢 -->
-            <!-- Please keep this line to let others know where this theme comes from. Thank you :D -->
-            Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll">Yummy Jekyll</a>
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
         </div>
-
-        <a href="https://github.com/DONGChuan" target="_blank" aria-label="view source code">
-            <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
-        </a>
-
         <div class="pull-right">
             <a href="javascript:window.scrollTo(0,0)" >TOP</a>
         </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/bookmark" title="Bookmark" target="">Bookmark</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
 
     </div>
 
