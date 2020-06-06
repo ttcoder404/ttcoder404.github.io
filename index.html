@@ -3,6 +3,11 @@ layout: default
 menu: home
 css: ['index.css', 'sidebar-popular-repo.css']
 ---
+
+{% assign assets_base_url = site.url %}
+{% if site.cdn.jsdelivr.enabled %}
+{% assign assets_base_url = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: '@master' %}
+{% endif %}
 <section class="jumbotron">
     <div class="container">
         <h1>{{ site.subtitle }}</h1>
@@ -50,9 +55,6 @@ css: ['index.css', 'sidebar-popular-repo.css']
 
             <!-- Pagination -->
             {% include pagination.html %}
-
-            <!-- Comments -->
-            {% include disqus-comments.html %}
 
         </div>
 

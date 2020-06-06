@@ -39,12 +39,57 @@ destination: ./_site
 quiet:    false
 defaults: []
 
+# 对 css 和 js 资源的 cdn 加速配置
+cdn:
+    jsdelivr:
+        enabled: true
+# 组件配置
+components:
+    # 分享
+    share:
+        enabled: false
+    # 不蒜子访问统计
+    busuanzi:
+        enabled: true
+        start_date: 2020-06-05
+# 压缩页面内容
+compress_html:
+  clippings: all
+  comments: ["<!--", "-->"]
+# 文章字数统计
+word_count:
+    enabled: true
+
+# ---------------- #
+#      Comments    #
+# ---------------- #
+# support provider: disqus, gitment, gitalk
+comments_provider: gitalk
+# !!!重要!!! 请修改下面这些信息为你自己申请的
+# !!!Important!!! Please modify infos below to yours
+# https://disqus.com
+disqus:
+    username: 
+# https://imsun.net/posts/gitment-introduction/
+gitment:
+    owner: ttcoder404
+    repo: blog-comments
+    oauth:
+        client_id: 0f1df03507262b92fd0e
+        client_secret: 08cb3c71e4bd1aad2087b35962258d7eb284c543
+# https://github.com/gitalk/gitalk#install
+gitalk:
+    owner: mzlogin
+    repo: blog-comments
+    clientID: 0f1df03507262b92fd0e
+    clientSecret: 08cb3c71e4bd1aad2087b35962258d7eb284c543
+# 在使用其它评论组件时可点击显示 Disqus
+lazy_load_disqus : false
+
 kramdown:
   input: GFM
   enable_coderay: true
 
-# Disque
-disque: my_disque_settings # ex. httpdongchuangithubio.disqus.com
 
 # Pagination
 paginate: 10
