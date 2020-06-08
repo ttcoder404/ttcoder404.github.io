@@ -102,7 +102,7 @@
 $(document).ready(function(){
   $('.post-directory').toc();
 
-  var fixmeTop = $('#post-directory-module').offset().top - 81;
+  var fixmeTop = $('#post-box').offset().top - 100;
   var tocSections = $('.clickable-header');
   var tocSectionOffsets = [];
 
@@ -148,16 +148,16 @@ $(document).ready(function(){
   $(window).scroll(function() {
     var currentScroll = $(window).scrollTop();
     if (currentScroll >= fixmeTop) {
-      $('#post-directory-module').css({
-        top: '82px',
+      $('#post-box').css({
+        top: '80px',
         position: 'fixed',
-        width: 'inherit'
+        width: '100%'
       });
       $('.post-directory').css('overflow', 'auto');
     } else {
-      $('#post-directory-module').css({
+      $('#post-box').css({
         position: 'inherit',
-        width: 'inherit'
+        width: '100%'
       });
       $('.post-directory').css('overflow', 'hidden');
       $('.post-directory').scrollTop(0);
@@ -171,11 +171,12 @@ $(document).ready(function(){
   $(window).on("resize", function() {
       updateTocHeight();
   });
-});
 
-$(".jumper").on("click", function( e ) {
-  e.preventDefault();
-  $("body, html").animate({
-    scrollTop: $( $(this).attr('href') ).offset().top
-  }, 600);
+  $("a.jumper").on("click", function( e ) {
+    e.preventDefault();
+    $("body, html").animate({
+      scrollTop: ($( $(this).attr('href') ).offset().top - 100)
+    }, 600);
+  });
+  
 });
