@@ -13,5 +13,22 @@
             </a>
             {% endfor %}
         </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            {% for nav in site.navs %}
+			<li _t_nav="{{ nav.label }}" class=" {% if page.menu == nav.label %} selected {% endif %}">
+                <a href="{{ nav.href }}" target="{{ nav.target | default: _self }}"><span>{{ nav.label }}</span></a>
+            </li>               
+            {% endfor %}
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
     </div>
 </header>

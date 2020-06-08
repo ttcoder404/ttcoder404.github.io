@@ -12,7 +12,7 @@
     position: fixed;
     margin: 40px 0 30px 0;
     top: 0;
-    left: 0 !important;
+    left: 0;
     right: 0;
     z-index: 103;
 
@@ -90,6 +90,62 @@
     -ms-box-shadow: 0 0.125em 0.125em 0 rgba(0, 0, 0, 0.125);
     -o-box-shadow: 0 0.125em 0.125em 0 rgba(0, 0, 0, 0.125);
     box-shadow: 0 0.125em 0.125em 0 rgba(0, 0, 0, 0.125);
+}
+
+
+.nav_menu {
+    position: absolute;
+    right: 0;
+    display: block;
+}
+
+#nav {
+    height: 100%;
+    width: 0;
+    background: #4183c4;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 101;
+    overflow: hidden;
+    -webkit-box-shadow: 3px 0 7px rgba(0, 0, 0, 0.55);
+    -moz-box-shadow: 3px 0 7px rgba(0, 0, 0, 0.55);
+    box-shadow: 3px 0 7px rgba(0, 0, 0, 0.55);
+}
+
+#nav .nav-site {
+    margin-top: 45px;
+    z-index: 101;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#nav .nav-site li {
+    display: block;
+}
+
+#nav .nav-site li a {
+    display: block;
+    min-width: 130px;
+    padding: 18px 8px;
+    color: #fff;
+    font-size: 1.45em;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+
+.overlay {
+    position: fixed;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+  
+.openmenu .overlay {
+    top: 0;
 }
 /******* Scroll End *******/
 

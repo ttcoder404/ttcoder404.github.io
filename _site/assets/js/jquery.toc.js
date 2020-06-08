@@ -121,11 +121,11 @@ $(document).ready(function(){
     var sectionsCount = tocSectionOffsets.length;
     var currentScroll = $(window).scrollTop();
 
-    if (currentScroll+60 > tocSectionOffsets[sectionsCount-1]) {
+    if (currentScroll+160 > tocSectionOffsets[sectionsCount-1]) {
       highlightIndex = sectionsCount;
     } else {
       for (var i=0; i<sectionsCount; i++) {
-        if (currentScroll+60 <= tocSectionOffsets[i]) {
+        if (currentScroll+160 <= tocSectionOffsets[i]) {
           highlightIndex = i;
           break;
         }

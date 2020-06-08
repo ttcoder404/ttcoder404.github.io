@@ -5,12 +5,12 @@ var windowScroll = function () {
         var scrollPos = $(this).scrollTop();
         
         var system ={win : false,mac : false,xll : false};
-        //检测平台
+        
         var p = navigator.platform;
         system.win = p.indexOf("Win") == 0;
         system.mac = p.indexOf("Mac") == 0;
         system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
-        //判断平台类型
+        
         if(system.win||system.mac||system.xll){
             if ($(window).scrollTop() > 70)
             {
@@ -19,7 +19,7 @@ var windowScroll = function () {
                 $('.site-header').removeClass('site-header-nav-scrolled');
             }
         }else{
-            //如果是手机则将顶栏移除界面
+            
             if ($(window).scrollTop() > 40) 
             {
                 $('.site-header').addClass('site-header-nav-scrolled-ph');
@@ -32,4 +32,52 @@ var windowScroll = function () {
 
 $( document ).ready(function() {
     windowScroll();
+    
+    var menuwidth  = 140; // 杈规爮瀹藉害
+    var menuspeed  = 400; // 杈规爮婊戝嚭鑰楄垂鏃堕棿
+    
+    var $bdy       = $('body');
+    var $burger    = $('#nav');
+    var $snav      = $('.site-header');
+    var negwidth   = "-"+menuwidth+"px";
+    var poswidth   = menuwidth+"px";
+    
+    $('.nav_menu').on('click',function(e){
+        if($bdy.hasClass('openmenu')) {
+        jsAnimateMenu('close');
+        } else {
+        jsAnimateMenu('open');
+        }
+    });
+    
+    $('.overlay').on('click', function(e){
+        if($bdy.hasClass('openmenu')) {
+        jsAnimateMenu('close');
+        }
+    });
+
+    $('.overlay').bind("touchmove", function (e) {
+        e.preventDefault();
+    });
+
+    function jsAnimateMenu(tog) {
+        if(tog == 'open') {
+          $bdy.addClass('openmenu');
+          
+          $bdy.animate({marginLeft: negwidth, marginRight: poswidth}, menuspeed);
+          $burger.animate({width: poswidth}, menuspeed);
+          $snav.animate({left: '-140px'}, menuspeed);
+          $('.overlay').animate({right: poswidth}, menuspeed);
+        }
+        
+        if(tog == 'close') {
+          $bdy.removeClass('openmenu');
+          
+          $bdy.animate({marginLeft: "0", marginRight: "0"}, menuspeed);
+          $burger.animate({width: "0"}, menuspeed);
+          $snav.animate({left: '0px'}, menuspeed);
+          $('.overlay').animate({right: "0"}, menuspeed);
+        }
+    }
+    
 });
