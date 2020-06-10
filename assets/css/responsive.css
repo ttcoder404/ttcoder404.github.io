@@ -78,6 +78,9 @@
     display: block;
     text-align: right;
   }
+  .nav_menu {
+    display: block;
+  }
   .collapsed {
     float: right;
     display: block;
