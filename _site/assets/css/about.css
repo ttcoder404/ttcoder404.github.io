@@ -9,3 +9,28 @@
 .about .btn {
     margin-bottom: 5px;
 }
+
+#myTabs { margin: 0;}
+
+img { display: block; max-width: 90%; margin: 5%;}
+
+.tab-content > .tab-pane {
+    display: none;
+}
+.tab-content > .active {
+    display: block;
+}
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    -o-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.fade.in {
+    opacity: 1;
+}
+
+.stitle { font-size: 16px; font-weight: 500; text-align: center; color: #337ab7; margin-bottom: 20px;}
+.tab-pane i { display: inline; margin: 0 10px; color: #337ab7; }
+.tab-pane a { font-size: 14px; color: #000; text-decoration: none; }
+.tab-pane a:hover, .tab-pane a:visited { color: #000; text-decoration: none; }

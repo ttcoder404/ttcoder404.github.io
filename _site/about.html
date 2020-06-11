@@ -19,34 +19,34 @@
     <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
 
     <!-- Third-Party CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/syntax.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/posts/index.css">
 
     <!-- My CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/common.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/responsive.css">
 
     <!-- CSS set in page -->
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/about.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/about.css">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/sidebar-popular-repo.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/sidebar-popular-repo.css">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/../../bower_components/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/../../bower_components/flag-icon-css/css/flag-icon.min.css">
     
 
     <!-- CSS set in layout -->
     
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="http://localhost:4000/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://localhost:4000/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     
 </head>
@@ -282,73 +282,38 @@
     </div>
 
     <div class="col-md-4">
-        <h3 class="sidebar-title">Blog Categories</h3>
-<div id="blog-categories">
-    <div class="list-group">
-        <a href="javascript:" class="list-group-item" data-category="" data-posts="">
-            All
-            <span class="badge">3</span>
-        </a>
-        
-        <a href="javascript:" class="list-group-item" data-category="CSS" data-posts="CSS Animation||">
-            CSS
-            <span class="badge">1</span>
-        </a>
-        
-        <a href="javascript:" class="list-group-item" data-category="jekyll" data-posts="Welcome to Jekyll!||Welcome to Jekyll!||">
-            jekyll
-            <span class="badge">2</span>
-        </a>
-        
-        <a href="javascript:" class="list-group-item" data-category="update" data-posts="Welcome to Jekyll!||Welcome to Jekyll!||">
-            update
-            <span class="badge">2</span>
-        </a>
-        
-    </div>
+        <div id="blog-categories">
+    <ul id="myTabs" class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="active"><a href="#wechat">公众号</a></li>
+        <li role="presentation"><a href="#know">小密圈</a></li>
+        <li role="presentation"><a href="#qq">QQ群</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="fade in tab-pane active" id="wechat">
+            <img src="assets/images/follow.png" alt="ttcoder404" />
+        </div>
+        <div role="tabpanel" class="fade tab-pane" id="know">
+            <img src="assets/images/know.png" alt="know" />
+            <h5 class="stitle">只要<span class="glyphicon glyphicon-yen"></span>199元,跟我学一年</h5>
+            <p><i class="glyphicon glyphicon-ok"></i>答疑解惑，回答所提问题（选择性回答）</p>
+            <p><i class="glyphicon glyphicon-ok"></i>资源共享，mac工具，学习教程，最新电影</p>
+        </div>
+        <div role="tabpanel" class="fade tab-pane" id="qq">
+            <h5 class="stitle" style="margin-top: 40px;">加入QQ群，一起学习交流</h5>
+            <p><i class="glyphicon glyphicon-user"></i><a href="//shang.qq.com/wpa/qunwpa?idkey=8642d48cdbbbf663c5ce969efdb052297463aa0fef90b3ebc024a03f75610a8b" target="_blank">头秃程序猿交流群1</a></p>
+            <p><i class="glyphicon glyphicon-user"></i><a href="//shang.qq.com/wpa/qunwpa?idkey=cb88d9f7e8ac9f2649d837320c4cad094439835a95bd46fe368514ef16089c80" target="_blank">头秃程序猿求职群1</a></p>
+            <p><i class="glyphicon glyphicon-user"></i><a href="//shang.qq.com/wpa/qunwpa?idkey=aa316326cf9dd7bcd88b21b0f6b2253850dfc307674877df67d1a22302e65115" target="_blank">头秃程序猿VIP群1</a></p>
+        </div>
+      </div>
 </div>
 <script type="text/javascript">
-
-    $(document).ready(function () {
-
-        filterPosts();
-
-        $("#blog-categories li").css('text-transform', 'capitalize');
-
-        $(".list-group-item").click(function () {
-            window.location.hash = $(this).attr('data-category') ? $(this).attr('data-category') : "";
-        });
-
-        window.addEventListener('hashchange', function () {
-            filterPosts();
-        });
-    });
-
-    function filterPosts() {
-        if (location.hash) {
-            var hash = decodeURIComponent(location.hash.slice(1));
-
-            $("#blog-categories .list-group-item").each(function (i, item) {
-                if ($(item).attr("data-category") == hash) {
-                    $(item).addClass("active");
-                    var posts = $(item).attr("data-posts").split("||");
-                    $("#posts-list .posts-list-item").each(function (i, item) {
-                        $.inArray($(item).attr("data-title"), posts) != -1 ? $(item).show() : $(item).hide();
-                    });
-                } else {
-                    $(item).removeClass("active");
-                }
-            });
-        } else {
-            $("#posts-list .posts-list-item").each(function (i, item) {
-                $(item).show();
-            });
-            $("#blog-categories .list-group-item").each(function (i, item) {
-                $(item).attr("data-category") == "" ? $(item).addClass("active") : $(item).removeClass("active");
-            });
-        }
-    }
-
+$(function(){
+    $("#myTabs a").click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+})
 </script>
     </div>
 
@@ -402,7 +367,7 @@
 
       <!-- 不蒜子访问统计 -->
 
-<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script async src="http://localhost:4000/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="mobile-hidden" style="margin-top:8px">
   <span id="busuanzi_container_site_pv" style="display:none">
     本站访问量<span id="busuanzi_value_site_pv"></span>次
