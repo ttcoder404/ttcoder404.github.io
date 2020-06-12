@@ -32,6 +32,7 @@ kramdown:
 highlighter: rouge
 lsi:         false
 excerpt_separator: "\n\n"
+permalink: /:year/:month/:day/:title/
 
 source:      .
 destination: ./_site
@@ -52,6 +53,9 @@ collections:
     talk:
         output: true
         permalink: /talk/:path/
+    wiki:
+        output: true
+        permalink: /wiki/:path/
 
 # Pagination
 paginate: 10
@@ -119,6 +123,10 @@ navs:
   -
     href: /talk
     label: Talk
+
+  -
+    href: /wiki
+    label: Wiki
 
   -
     href: /bookmark

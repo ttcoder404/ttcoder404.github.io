@@ -15,7 +15,7 @@
     <meta name="description"
           content="专注前端开发学习分享，程序员升职技巧，防脱指南">
 
-    <link rel="canonical" href="http://localhost:4000/talk.html">
+    <link rel="canonical" href="http://localhost:4000/talk/">
     <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
 
     <!-- Third-Party CSS -->
@@ -71,10 +71,17 @@
             </a>
             
             <a href="/talk"
-               class=" site-header-nav-item hvr-underline-from-center"
+               class=" selected  site-header-nav-item hvr-underline-from-center"
                target=""
                title="Talk">
                 Talk
+            </a>
+            
+            <a href="/wiki"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Wiki">
+                Wiki
             </a>
             
             <a href="/bookmark"
@@ -109,8 +116,12 @@
                 <a href="/open-source" target=""><span>Open-Source</span></a>
             </li>               
             
-			<li _t_nav="Talk" class=" ">
+			<li _t_nav="Talk" class="  selected ">
                 <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Wiki" class=" ">
+                <a href="/wiki" target=""><span>Wiki</span></a>
             </li>               
             
 			<li _t_nav="Bookmark" class=" ">
@@ -161,26 +172,10 @@
         <!-- Blog list -->
         <ul id="posts-list">
             
-            <li class="posts-list-item" data-title="Welcome to Jekyll!">
+            <li class="posts-list-item" data-title="本博客模板常见问题 Q &amp; A">
                 <div class="posts-content">
-                    <span class="posts-list-meta">2016-05-13</span>
-                    <a class="posts-list-name bubble-float-left" href="http://localhost:4000/jekyll/update/2016/05/13/Example-No-Sidebar-Nav.html">Welcome to Jekyll!</a>
-                    <span class="circle"></span>
-                </div>
-            </li>
-            
-            <li class="posts-list-item" data-title="Welcome to Jekyll!">
-                <div class="posts-content">
-                    <span class="posts-list-meta">2016-05-13</span>
-                    <a class="posts-list-name bubble-float-left" href="http://localhost:4000/jekyll/update/2016/05/13/welcome-to-yummy.html">Welcome to Jekyll!</a>
-                    <span class="circle"></span>
-                </div>
-            </li>
-            
-            <li class="posts-list-item" data-title="CSS Animation">
-                <div class="posts-content">
-                    <span class="posts-list-meta">2016-04-22</span>
-                    <a class="posts-list-name bubble-float-left" href="http://localhost:4000/css/2016/04/22/CSS-Animation.html">CSS Animation</a>
+                    <span class="posts-list-meta">2020-05-03</span>
+                    <a class="posts-list-name bubble-float-left" href="http://localhost:4000/talk/2020-05-03-blog-template-qna/">本博客模板常见问题 Q &amp; A</a>
                     <span class="circle"></span>
                 </div>
             </li>
@@ -188,10 +183,6 @@
         </ul>
 
         <!-- Pagination -->
-        
-
-
-        <!-- Comments -->
         
 
 
@@ -203,7 +194,7 @@
     <div class="list-group">
         <a href="javascript:" class="list-group-item" data-category="" data-posts="">
             All
-            <span class="badge">3</span>
+            <span class="badge">4</span>
         </a>
         
         <a href="javascript:" class="list-group-item" data-category="CSS" data-posts="CSS Animation||">
@@ -219,6 +210,11 @@
         <a href="javascript:" class="list-group-item" data-category="update" data-posts="Welcome to Jekyll!||Welcome to Jekyll!||">
             update
             <span class="badge">2</span>
+        </a>
+        
+        <a href="javascript:" class="list-group-item" data-category="Markdown" data-posts="Markdown||">
+            Markdown
+            <span class="badge">1</span>
         </a>
         
     </div>
@@ -312,6 +308,10 @@
             
             <li>
                 <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/wiki" title="Wiki" target="">Wiki</a>
             </li>
             
             <li>

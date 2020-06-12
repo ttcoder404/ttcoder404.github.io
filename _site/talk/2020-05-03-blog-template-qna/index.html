@@ -11,11 +11,11 @@
     <!-- Favicon Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
 
-    <title>Welcome to Jekyll! &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <title>本博客模板常见问题 Q & A &mdash; 头秃程序猿 — 前端知识学习分享</title>
     <meta name="description"
-          content="Welcome to use Yummy Jekyll as your jekyll theme!">
+          content="使用这个博客模板的朋友们时不时会提出一些问题，我将它们以及对应的解决方案逐渐整理归纳，汇总到这一篇帖子里。">
 
-    <link rel="canonical" href="http://localhost:4000/jekyll/update/2016/05/13/welcome-to-yummy.html">
+    <link rel="canonical" href="http://localhost:4000/talk/2020-05-03-blog-template-qna/">
     <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
 
     <!-- Third-Party CSS -->
@@ -142,14 +142,14 @@
             
 
 
-<section class="jumbotron geopattern" data-pattern-id="Welcome to Jekyll!">
+<section class="jumbotron geopattern" data-pattern-id="本博客模板常见问题 Q & A">
     <div class="container">
         <div id="jumbotron-meta-info">
-            <h1>Welcome to Jekyll!</h1>
+            <h1>本博客模板常见问题 Q & A</h1>
             <span class="meta-info">
                 
                 
-                <span class="octicon octicon-calendar"></span> 2016/05/13
+                <span class="octicon octicon-calendar"></span> 2020/05/03
                 
             </span>
         </div>
@@ -170,19 +170,62 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Welcome to use Yummy Jekyll as your jekyll theme!</p>
+    <p>使用这个博客模板的朋友们时不时会提出一些问题，我将它们以及对应的解决方案逐渐整理归纳，汇总到这一篇帖子里。</p>
 
-<h2 id="yummy-jekyll">Yummy Jekyll</h2>
+<h2 id="如何本地预览">如何本地预览</h2>
 
-<h2 id="how-to-install">How to install</h2>
+<p>参考 GitHub 的官方说明：</p>
 
-<h2 id="licence">Licence</h2>
+<ul>
+  <li><a href="https://help.github.com/articles/setting-up-your-pages-site-locally-with-jekyll/">Setting up your Pages site locally with Jekyll</a></li>
+</ul>
+
+<h2 id="本地预览报错-undefined-method-map-for-false">本地预览报错 undefined method map for false</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GitHub Metadata: Failed to open TCP connection to api.github.com:443 (Connection refused - connect(2) for "api.github.com" port 443)
+Liquid Exception: undefined method `map' for false:FalseClass Did you mean? tap in /_layouts/page.html
+jekyll 3.8.5 | Error:  undefined method `map' for false:FalseClass
+Did you mean?  tap
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">undefined method `map` for false:FalseClass</code> 这条报错之前总是伴随着 <code class="language-plaintext highlighter-rouge">Failed to open TCP connection to api.github.com:443</code> 一起出现，是在获取 GitHub Metadata 出错后，导致这一句报错：</p>
+
+<div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{%</span><span class="w"> </span><span class="nt">assign</span><span class="w"> </span><span class="nv">repos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">site</span><span class="p">.</span><span class="nv">github</span><span class="p">.</span><span class="nv">public_repositories</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nf">sort</span><span class="p">:</span><span class="w"> </span><span class="s2">"stargazers_count"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nf">reverse</span><span class="w"> </span><span class="p">%}</span>
+</code></pre></div></div>
+
+<p>解决方法：</p>
+
+<p>模板里主要是 _includes/sidebar-popular-repo.html 和 _pages/open-source.md 两个文件里用到了 Metadata，将以上这一句前的判断条件做一下修改后问题解决，将</p>
+
+<div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{%</span><span class="w"> </span><span class="kr">if</span><span class="w"> </span><span class="nv">site</span><span class="p">.</span><span class="nv">github</span><span class="p">.</span><span class="nv">public_repositories</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span><span class="p">%}</span>
+</code></pre></div></div>
+
+<p>改为</p>
+
+<div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{%</span><span class="w"> </span><span class="kr">if</span><span class="w"> </span><span class="nv">site</span><span class="p">.</span><span class="nv">github</span><span class="p">.</span><span class="nv">public_repositories</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">%}</span>
+</code></pre></div></div>
+
+<p>模板最新代码已经做了修改。</p>
+
+<h2 id="是否支持画流程图时序图mermaid-和-mathjax">是否支持画流程图、时序图、mermaid 和 MathJax</h2>
+
+<p>支持。因为相关的引入文件比较大可能影响加载速度，没有默认对所有文件开启，需要在要想开启的文件的 Front Matter 里加上声明：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">flow</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">sequence</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">mermaid</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">mathjax</span><span class="pi">:</span> <span class="no">true</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<p>以上四个开关分别对应 flowchart.js（流程图）、sequence-diagram.js（时序图）、mermaid 和 MathJax 的支持，按需开启即可，然后就可以在正文里正常画图了，展示效果可以参见 <a href="https://mazhuang.org/wiki/markdown/">https://mazhuang.org/wiki/markdown/</a>，对应写法参考源文件 <a href="https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md">https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md</a>。</p>
 
     <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
   <h3>文档信息</h3>
   <ul>
     <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
-    <li>本文链接：<a href="http://localhost:4000/jekyll/update/2016/05/13/welcome-to-yummy.html" target="_blank">http://localhost:4000/jekyll/update/2016/05/13/welcome-to-yummy.html</a></li>
+    <li>本文链接：<a href="http://localhost:4000/talk/2020-05-03-blog-template-qna/" target="_blank">http://localhost:4000/talk/2020-05-03-blog-template-qna/</a></li>
     <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>
   </ul>
 </div>
@@ -199,7 +242,7 @@
         <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
         <script>
         var gitalk = new Gitalk({
-            id: '/jekyll/update/2016/05/13/welcome-to-yummy.html',
+            id: '/talk/2020-05-03-blog-template-qna/',
             clientID: '0f1df03507262b92fd0e',
             clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
             repo: 'blog-comments',
@@ -240,7 +283,7 @@ SimpleJekyllSearch({
 </script>
 
     <div id="post-box">
-  <h3 class="post-directory-title mobile-hidden">Welcome to Jekyll!</h3>
+  <h3 class="post-directory-title mobile-hidden">本博客模板常见问题 Q & A</h3>
   <div id="post-directory-module" class="mobile-hidden">
     <section class="post-directory">
     <!-- Links that trigger the jumping -->
