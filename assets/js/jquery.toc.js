@@ -102,6 +102,8 @@
 $(document).ready(function(){
   $('.post-directory').toc();
 
+  var fixmeTop = $('#post-directory-module').offset().top;
+  var tocSections = $('.clickable-header');
   var fixmeTop = $('#post-box').offset().top - 100;
   var tocSections = $('.clickable-header');
   var tocSectionOffsets = [];
@@ -174,8 +176,9 @@ $(document).ready(function(){
 
   $("a.jumper").on("click", function( e ) {
     e.preventDefault();
+    var n = $(this).attr('href')
     $("body, html").animate({
-      scrollTop: ($( $(this).attr('href') ).offset().top - 100)
+      scrollTop: ($(decodeURI(n)).offset().top - 100)
     }, 600);
   });
   
