@@ -5,521 +5,69 @@
     <description>专注前端开发学习分享，程序员升职技巧，防脱指南</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 12 Jun 2020 12:22:25 +0800</pubDate>
-    <lastBuildDate>Fri, 12 Jun 2020 12:22:25 +0800</lastBuildDate>
+    <pubDate>Fri, 12 Jun 2020 12:54:20 +0800</pubDate>
+    <lastBuildDate>Fri, 12 Jun 2020 12:54:20 +0800</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
     
       <item>
-        <title>Markdown</title>
-        <description>&lt;p&gt;&lt;strong&gt;目录&lt;/strong&gt;&lt;/p&gt;
+        <title>本博客模板常见问题 Q &amp; A</title>
+        <description>&lt;p&gt;使用这个博客模板的朋友们时不时会提出一些问题，我将它们以及对应的解决方案逐渐整理归纳，汇总到这一篇帖子里。&lt;/p&gt;
 
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#超链接&quot; id=&quot;markdown-toc-超链接&quot;&gt;超链接&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#列表&quot; id=&quot;markdown-toc-列表&quot;&gt;列表&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#强调&quot; id=&quot;markdown-toc-强调&quot;&gt;强调&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#标题&quot; id=&quot;markdown-toc-标题&quot;&gt;标题&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#表格&quot; id=&quot;markdown-toc-表格&quot;&gt;表格&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#代码块&quot; id=&quot;markdown-toc-代码块&quot;&gt;代码块&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#图片&quot; id=&quot;markdown-toc-图片&quot;&gt;图片&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#锚点&quot; id=&quot;markdown-toc-锚点&quot;&gt;锚点&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#inline-attribute&quot; id=&quot;markdown-toc-inline-attribute&quot;&gt;Inline Attribute&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#emoji&quot; id=&quot;markdown-toc-emoji&quot;&gt;Emoji&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#footnotes&quot; id=&quot;markdown-toc-footnotes&quot;&gt;Footnotes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#mermaid&quot; id=&quot;markdown-toc-mermaid&quot;&gt;mermaid&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#sequence&quot; id=&quot;markdown-toc-sequence&quot;&gt;sequence&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#flowchart&quot; id=&quot;markdown-toc-flowchart&quot;&gt;flowchart&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#mathjax&quot; id=&quot;markdown-toc-mathjax&quot;&gt;mathjax&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h2 id=&quot;如何本地预览&quot;&gt;如何本地预览&lt;/h2&gt;
 
-&lt;h3 id=&quot;超链接&quot;&gt;超链接&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[靠谱-ing](https://mazhuang.org)
-
-&amp;lt;https://mazhuang.org&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://mazhuang.org&quot;&gt;靠谱-ing&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://mazhuang.org&quot;&gt;https://mazhuang.org&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;列表&quot;&gt;列表&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 有序列表项 1
-
-2. 有序列表项 2
-
-3. 有序列表项 3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;有序列表项 1&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;有序列表项 2&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;有序列表项 3&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* 无序列表项 1
-
-* 无序列表项 2
-
-* 无序列表项 3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;参考 GitHub 的官方说明：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;无序列表项 1&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;无序列表项 2&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;无序列表项 3&lt;/p&gt;
-  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://help.github.com/articles/setting-up-your-pages-site-locally-with-jekyll/&quot;&gt;Setting up your Pages site locally with Jekyll&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- [x] 任务列表 1
-- [ ] 任务列表 2
+&lt;h2 id=&quot;本地预览报错-undefined-method-map-for-false&quot;&gt;本地预览报错 undefined method map for false&lt;/h2&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GitHub Metadata: Failed to open TCP connection to api.github.com:443 (Connection refused - connect(2) for &quot;api.github.com&quot; port 443)
+Liquid Exception: undefined method `map' for false:FalseClass Did you mean? tap in /_layouts/page.html
+jekyll 3.8.5 | Error:  undefined method `map' for false:FalseClass
+Did you mean?  tap
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;ul class=&quot;task-list&quot;&gt;
-  &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; checked=&quot;checked&quot; /&gt;任务列表 1&lt;/li&gt;
-  &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;任务列表 2&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undefined method `map` for false:FalseClass&lt;/code&gt; 这条报错之前总是伴随着 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Failed to open TCP connection to api.github.com:443&lt;/code&gt; 一起出现，是在获取 GitHub Metadata 出错后，导致这一句报错：&lt;/p&gt;
 
-&lt;h3 id=&quot;强调&quot;&gt;强调&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~~删除线~~
-
-**加黑**
-
-*斜体*
+&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;assign&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;repos&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;site&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;public_repositories&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;stargazers_count&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reverse&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;del&gt;删除线&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;解决方法：&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;加黑&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;模板里主要是 _includes/sidebar-popular-repo.html 和 _pages/open-source.md 两个文件里用到了 Metadata，将以上这一句前的判断条件做一下修改后问题解决，将&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;标题&quot;&gt;标题&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 一级标题
-## 二级标题
-### 三级标题
-#### 四级标题
-##### 五级标题
-###### 六级标题
+&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;site&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;public_repositories&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Tips: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#&lt;/code&gt; 与标题中间要加空格。&lt;/p&gt;
+&lt;p&gt;改为&lt;/p&gt;
 
-&lt;h3 id=&quot;表格&quot;&gt;表格&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;| HEADER1 | HEADER2 | HEADER3 | HEADER4 |
-| ------- | :------ | :-----: | ------: |
-| content | content | content | content |
+&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;site&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;public_repositories&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;HEADER1&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;HEADER2&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;HEADER3&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;HEADER4&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;content&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;content&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;content&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;content&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;模板最新代码已经做了修改。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;:—– 表示左对齐&lt;/li&gt;
-  &lt;li&gt;:—-: 表示中对齐&lt;/li&gt;
-  &lt;li&gt;—–: 表示右对齐&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h2 id=&quot;是否支持画流程图时序图mermaid-和-mathjax&quot;&gt;是否支持画流程图、时序图、mermaid 和 MathJax&lt;/h2&gt;
 
-&lt;h3 id=&quot;代码块&quot;&gt;代码块&lt;/h3&gt;
+&lt;p&gt;支持。因为相关的引入文件比较大可能影响加载速度，没有默认对所有文件开启，需要在要想开启的文件的 Front Matter 里加上声明：&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Hello, World!'&lt;/span&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;sequence&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;mermaid&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;mathjax&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;list item1&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;list item2&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'hello'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;图片&quot;&gt;图片&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![本站favicon](/favicon.ico)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/favicon.ico&quot; alt=&quot;本站favicon&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;锚点&quot;&gt;锚点&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* [目录](#目录)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;#目录&quot;&gt;目录&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;inline-attribute&quot;&gt;Inline Attribute&lt;/h3&gt;
-
-&lt;p&gt;Span Inline Attribute 详情参考 &lt;a href=&quot;https://kramdown.gettalong.org/syntax.html#span-ials&quot;&gt;https://kramdown.gettalong.org/syntax.html#span-ials&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Block Inline Attribute 详情参考 &lt;a href=&quot;https://kramdown.gettalong.org/syntax.html#block-ials&quot;&gt;https://kramdown.gettalong.org/syntax.html#block-ials&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;给块/元素添加 class、id、内嵌样式等：&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![本站favicon](/favicon.ico){:.center}
-
-Hello, *world*{:#world} 
-
-Hello, *world*{: style=&quot;color:red&quot;} 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/favicon.ico&quot; alt=&quot;本站favicon&quot; class=&quot;center&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Hello, &lt;em id=&quot;world&quot;&gt;world&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Hello, &lt;em style=&quot;color:red&quot;&gt;world&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;结合自定义的样式，有些场景比较有用。&lt;/p&gt;
-
-&lt;h3 id=&quot;emoji&quot;&gt;Emoji&lt;/h3&gt;
-
-&lt;p&gt;:camel:
-:blush:
-:smile:&lt;/p&gt;
-
-&lt;h3 id=&quot;footnotes&quot;&gt;Footnotes&lt;/h3&gt;
-
-&lt;p&gt;This is a text with footnote&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;mermaid&quot;&gt;mermaid&lt;/h3&gt;
-
-&lt;div class=&quot;mermaid&quot;&gt;
-sequenceDiagram
-    Alice--&amp;gt;&amp;gt;John: Hello John, how are you?
-    John--&amp;gt;&amp;gt;Alice: Great!
-&lt;/div&gt;
-
-&lt;h3 id=&quot;sequence&quot;&gt;sequence&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-sequence&quot;&gt;Andrew-&amp;gt;China: Says Hello
-Note right of China: China thinks\nabout it
-China--&amp;gt;Andrew: How are you?
-Andrew-&amp;gt;&amp;gt;China: I am good thanks!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;flowchart&quot;&gt;flowchart&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-flow&quot;&gt;st=&amp;gt;start: Start
-e=&amp;gt;end
-op1=&amp;gt;operation: My Operation
-sub1=&amp;gt;subroutine: My Subroutine
-cond=&amp;gt;condition: Yes
-or No?
-io=&amp;gt;inputoutput: catch something...
-
-st-&amp;gt;op1-&amp;gt;cond
-cond(yes)-&amp;gt;io-&amp;gt;e
-cond(no)-&amp;gt;sub1(right)-&amp;gt;op1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;mathjax&quot;&gt;mathjax&lt;/h3&gt;
-
-&lt;p&gt;When &lt;script type=&quot;math/tex&quot;&gt;(a \ne 0)&lt;/script&gt;, there are two solutions to &lt;script type=&quot;math/tex&quot;&gt;(ax^2 + bx + c = 0)&lt;/script&gt; and they are&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;x = {-b \pm \sqrt{b^2-4ac} \over 2a}.&lt;/script&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;Here is the footnote 1 definition. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
+&lt;p&gt;以上四个开关分别对应 flowchart.js（流程图）、sequence-diagram.js（时序图）、mermaid 和 MathJax 的支持，按需开启即可，然后就可以在正文里正常画图了，展示效果可以参见 &lt;a href=&quot;https://mazhuang.org/wiki/markdown/&quot;&gt;https://mazhuang.org/wiki/markdown/&lt;/a&gt;，对应写法参考源文件 &lt;a href=&quot;https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md&quot;&gt;https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md&lt;/a&gt;。&lt;/p&gt;
 </description>
-        <pubDate>Fri, 12 Jun 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/markdown/2020/06/12/markdown.html</link>
-        <guid isPermaLink="true">http://localhost:4000/markdown/2020/06/12/markdown.html</guid>
-        
-        <category>talk</category>
+        <pubDate>Sun, 03 May 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/05/03/blog-template-qna/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/05/03/blog-template-qna/</guid>
         
         
-        <category>Markdown</category>
-        
-      </item>
-    
-      <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;This is post no right side bar to nav posts.&lt;/p&gt;
-
-&lt;p&gt;You just need to set &lt;strong&gt;no-post-nav: true&lt;/strong&gt; for your post&lt;/p&gt;
-</description>
-        <pubDate>Fri, 13 May 2016 19:25:35 +0800</pubDate>
-        <link>http://localhost:4000/jekyll/update/2016/05/13/Example-No-Sidebar-Nav.html</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll/update/2016/05/13/Example-No-Sidebar-Nav.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;Welcome to use Yummy Jekyll as your jekyll theme!&lt;/p&gt;
-
-&lt;h2 id=&quot;yummy-jekyll&quot;&gt;Yummy Jekyll&lt;/h2&gt;
-
-&lt;h2 id=&quot;how-to-install&quot;&gt;How to install&lt;/h2&gt;
-
-&lt;h2 id=&quot;licence&quot;&gt;Licence&lt;/h2&gt;
-</description>
-        <pubDate>Fri, 13 May 2016 19:25:35 +0800</pubDate>
-        <link>http://localhost:4000/jekyll/update/2016/05/13/welcome-to-yummy.html</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll/update/2016/05/13/welcome-to-yummy.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
-        <title>CSS Animation</title>
-        <description>&lt;p&gt;Quick note about CSS animation.&lt;/p&gt;
-
-&lt;h2 id=&quot;css-animation&quot;&gt;CSS Animation&lt;/h2&gt;
-
-&lt;p&gt;CSS3 animation lets an element gradually change from one style to another.&lt;/p&gt;
-
-&lt;p&gt;Two steps:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@keyframes&lt;/code&gt; to define an animation.&lt;/li&gt;
-  &lt;li&gt;Set this animation on an element with animation properties&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;We could set properties one-by-one or with following shorthand:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;animation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-duration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-timing-function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-delay&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-iteration-count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-direction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-fill-mode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;animation-play-state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;keyframes&quot;&gt;@keyframes&lt;/h2&gt;
-
-&lt;p&gt;It defines what the animation looks like at each stage of the animation timeline. It is composed of:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Name of the animation. For example, changeColor.&lt;/li&gt;
-  &lt;li&gt;Stages: From 0% to 100% to represent the whole process of animation&lt;/li&gt;
-  &lt;li&gt;CSS Properties: The CSS properties defined for each stage of the animation timeline.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Following example creates an animation called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;changeColor&lt;/code&gt; and assign it to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;div:hover&lt;/code&gt;:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;k&quot;&gt;@keyframes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;changeColor&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;blue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:hover&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;animation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;changeColor&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;5s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ease&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.1s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;In above example, we could also use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;from&lt;/code&gt; to represent &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0%&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;to&lt;/code&gt; to represent &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;100%&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;animation-properties&quot;&gt;Animation Properties&lt;/h2&gt;
-
-&lt;p&gt;It has following properties:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;animation-name&lt;/li&gt;
-  &lt;li&gt;animation-duration&lt;/li&gt;
-  &lt;li&gt;animation-timing-function&lt;/li&gt;
-  &lt;li&gt;animation-delay&lt;/li&gt;
-  &lt;li&gt;animation-iteration-count&lt;/li&gt;
-  &lt;li&gt;animation-direction&lt;/li&gt;
-  &lt;li&gt;animation-fill-mode&lt;/li&gt;
-  &lt;li&gt;animation-play-state&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;animation-name&quot;&gt;animation-name&lt;/h3&gt;
-
-&lt;p&gt;The name of the animation, defined in the @keyframes.&lt;/p&gt;
-
-&lt;h3 id=&quot;animation-duration&quot;&gt;animation-duration&lt;/h3&gt;
-
-&lt;p&gt;The duration of the animation, in seconds (e.g., 5s) or milliseconds (e.g., 200ms).&lt;/p&gt;
-
-&lt;h3 id=&quot;animation-timing-function&quot;&gt;animation-timing-function&lt;/h3&gt;
-
-&lt;p&gt;The speed curve or pace of the animation:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Timing Function&lt;/th&gt;
-      &lt;th&gt;Description&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;linear&lt;/td&gt;
-      &lt;td&gt;The animation has the same speed from start to end&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ease&lt;/td&gt;
-      &lt;td&gt;&lt;strong&gt;Default value&lt;/strong&gt;. The animation has a slow start, then fast, before it ends slowly.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ease-in&lt;/td&gt;
-      &lt;td&gt;Start slowly and end fast.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ease-out&lt;/td&gt;
-      &lt;td&gt;Start more quickly than linear ones and end slowly. The opposite of ease-in.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ease-in-out&lt;/td&gt;
-      &lt;td&gt;Both a slow start and a slow end&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;initial&lt;/td&gt;
-      &lt;td&gt;Sets this property to its default value. So &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ease&lt;/code&gt;.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;inherit&lt;/td&gt;
-      &lt;td&gt;Inherits this property from its parent element.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Check &lt;a href=&quot;https://developers.google.com/web/fundamentals/design-and-ui/animations/the-basics-of-easing?hl=en&quot;&gt;The basics of easing&lt;/a&gt; for details.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;animation-delay&quot;&gt;animation-delay&lt;/h3&gt;
-
-&lt;p&gt;It specifies when the animation will start. The value is defined in seconds (s) or milliseconds (mil).&lt;/p&gt;
-
-&lt;h3 id=&quot;animation-iteration-count&quot;&gt;animation-iteration-count&lt;/h3&gt;
-
-&lt;p&gt;It specifies the number of times that the animation will play. The possible values are:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;a specific number of iterations (default is 1)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;infinite&lt;/code&gt; - repeats forever&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;initial&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inherit&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;animation-direction&quot;&gt;animation-direction&lt;/h3&gt;
-
-&lt;p&gt;It specifies whether the animation should play forward, reverse, or in alternate cycles.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;normal&lt;/code&gt; - Default. On each cycle the animation resets to the beginning state (0%) and plays forward again (to 100%).&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reverse&lt;/code&gt; - On each cycle the animation resets to the end state (100%) and plays backwards (to 0%).&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alternate&lt;/code&gt; - On each odd cycle, the animation plays forward (0% to 100%). On each even cycle, the animation plays backwards (100% to 0%).&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alternate-reverse&lt;/code&gt; - On each odd cycle, the animation plays in reverse (100% to 0%). On each even cycle, the animation plays forward (0% or 100%).&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;animation-fill-mode&quot;&gt;animation-fill-mode&lt;/h3&gt;
-
-&lt;p&gt;It specifies if the animation styles are visible before or after the animation plays.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;normal&lt;/code&gt; - Default. The animation does not apply any styles to the element, before or after the animation.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;forwards&lt;/code&gt; - After the animation is finished, the styles defined in the final keyframe (100%) are retained by the element.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;backwards&lt;/code&gt; - Before the animation (during the animation delay), the styles of the initial keyframe (0%) are applied to the element.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;both&lt;/code&gt; - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;forwards&lt;/code&gt; with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;backwards&lt;/code&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;animation-play-state&quot;&gt;animation-play-state&lt;/h3&gt;
-
-&lt;p&gt;Two values: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;running&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;paused&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;It specifies whether the animation is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;playing&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;paused&lt;/code&gt;. &lt;strong&gt;Resuming a paused animation starts the animation where it was left off. But if pause an animation, the element style will return back to its origin.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Example:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:hover&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;animation-play-state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paused&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;multiple-animations&quot;&gt;Multiple Animations&lt;/h2&gt;
-
-&lt;p&gt;Add multiple animations to a selector with comma:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;animation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animationA&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animationB&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;refs&quot;&gt;Refs&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.imooc.com/learn/33&quot;&gt;Imooc 十天精通CSS3&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://robots.thoughtbot.com/css-animation-for-beginners#animation-iteration-count&quot;&gt;CSS Animation for Beginners&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.w3schools.com/cssref/css3_pr_animation-timing-function.asp&quot;&gt;CSS3 animation-timing-function Property&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 22 Apr 2016 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/css/2016/04/22/CSS-Animation.html</link>
-        <guid isPermaLink="true">http://localhost:4000/css/2016/04/22/CSS-Animation.html</guid>
-        
-        <category>css</category>
-        
-        
-        <category>CSS</category>
+        <category>GitHub</category>
         
       </item>
     

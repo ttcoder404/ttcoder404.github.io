@@ -52,10 +52,7 @@ plugins:
 collections:
     talk:
         output: true
-        permalink: /talk/:path/
-    wiki:
-        output: true
-        permalink: /wiki/:path/
+        permalink: /talk/:year/:month/:day/:title/
 
 # Pagination
 paginate: 10
@@ -123,10 +120,6 @@ navs:
   -
     href: /talk
     label: Talk
-
-  -
-    href: /wiki
-    label: Wiki
 
   -
     href: /bookmark

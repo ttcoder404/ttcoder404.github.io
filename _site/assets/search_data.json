@@ -5,14 +5,14 @@
   
     {
       "title"    : "About Me",
-      "url"      : "http://localhost:4000/about.html"
+      "url"      : "http://localhost:4000/about/"
     } ,
   
   
   
     {
       "title"    : "Bookmarks",
-      "url"      : "http://localhost:4000/bookmark.html"
+      "url"      : "http://localhost:4000/bookmark/"
     } ,
   
   
@@ -23,7 +23,7 @@
   
     {
       "title"    : "Open Source Projects",
-      "url"      : "http://localhost:4000/open-source.html"
+      "url"      : "http://localhost:4000/open-source/"
     } ,
   
   
@@ -37,34 +37,27 @@
   
   
   
-    {
-      "title"    : "Wiki",
-      "url"      : "http://localhost:4000/wiki/"
-    } ,
-  
-  
-  
   
   
   
   
     {
       "title"    : "2.0.2 - Jan 27, 2015",
-      "url"      : "http://localhost:4000/bower_components/hover/HISTORY.html"
+      "url"      : "http://localhost:4000/bower_components/hover/HISTORY/"
     } ,
   
   
   
     {
       "title"    : "3.5.0 (February 12, 2016)",
-      "url"      : "http://localhost:4000/bower_components/octicons/CHANGELOG.html"
+      "url"      : "http://localhost:4000/bower_components/octicons/CHANGELOG/"
     } ,
   
   
   
     {
       "title"    : "GitHub CLA",
-      "url"      : "http://localhost:4000/bower_components/primer-markdown/CLA.html"
+      "url"      : "http://localhost:4000/bower_components/primer-markdown/CLA/"
     } ,
   
   
@@ -114,52 +107,10 @@
 
   
     {
-      "title"    : "CSS Animation",
-      "category" : "CSS",
-      
-      "url"      : "http://localhost:4000/css/2016/04/22/CSS-Animation.html"
-    } ,
-  
-    {
-      "title"    : "Welcome to Jekyll!",
-      "category" : "jekyll",
-      
-      "url"      : "http://localhost:4000/jekyll/update/2016/05/13/welcome-to-yummy.html"
-    } ,
-  
-    {
-      "title"    : "Welcome to Jekyll!",
-      "category" : "jekyll",
-      
-      "url"      : "http://localhost:4000/jekyll/update/2016/05/13/Example-No-Sidebar-Nav.html"
-    } ,
-  
-    {
-      "title"    : "Markdown",
-      "category" : "Markdown",
-      
-      "url"      : "http://localhost:4000/markdown/2020/06/12/markdown.html"
-    } ,
-  
-    {
       "title"    : "本博客模板常见问题 Q &amp; A",
       "category" : "GitHub",
       
-      "url"      : "http://localhost:4000/talk/2020-05-03-blog-template-qna/"
-    } ,
-  
-    {
-      "title"    : "Git",
-      "category" : "Git",
-      
-      "url"      : "http://localhost:4000/wiki/git/"
-    } ,
-  
-    {
-      "title"    : "Wiki Template",
-      "category" : "cate1",
-      
-      "url"      : "http://localhost:4000/wiki/template/"
+      "url"      : "http://localhost:4000/2020/05/03/blog-template-qna/"
     } 
   
 ]

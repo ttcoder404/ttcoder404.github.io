@@ -1,7 +1,7 @@
 ---
 layout: default
 menu: home
-css: ['index.css', 'sidebar-popular-repo.css']
+css: ['index.css', 'sidebar-popular-repo.css', 'about.css']
 ---
 
 {% assign assets_base_url = site.url %}
@@ -88,6 +88,7 @@ css: ['index.css', 'sidebar-popular-repo.css']
         </div>
 
         <div class="col-md-4">
+            {% include sidebar-about.html %}
             {% include sidebar-popular-repo.html %}
         </div>
 

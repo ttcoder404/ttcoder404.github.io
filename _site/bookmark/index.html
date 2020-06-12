@@ -11,11 +11,11 @@
     <!-- Favicon Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
 
-    <title>本博客模板常见问题 Q & A &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <title>Bookmarks &mdash; 头秃程序猿 — 前端知识学习分享</title>
     <meta name="description"
-          content="使用这个博客模板的朋友们时不时会提出一些问题，我将它们以及对应的解决方案逐渐整理归纳，汇总到这一篇帖子里。">
+          content="专注前端开发学习分享，程序员升职技巧，防脱指南">
 
-    <link rel="canonical" href="http://localhost:4000/talk/2020-05-03-blog-template-qna/">
+    <link rel="canonical" href="http://localhost:4000/bookmark/">
     <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
 
     <!-- Third-Party CSS -->
@@ -75,15 +75,8 @@
                 Talk
             </a>
             
-            <a href="/wiki"
-               class=" site-header-nav-item hvr-underline-from-center"
-               target=""
-               title="Wiki">
-                Wiki
-            </a>
-            
             <a href="/bookmark"
-               class=" site-header-nav-item hvr-underline-from-center"
+               class=" selected  site-header-nav-item hvr-underline-from-center"
                target=""
                title="Bookmark">
                 Bookmark
@@ -118,11 +111,7 @@
                 <a href="/talk" target=""><span>Talk</span></a>
             </li>               
             
-			<li _t_nav="Wiki" class=" ">
-                <a href="/wiki" target=""><span>Wiki</span></a>
-            </li>               
-            
-			<li _t_nav="Bookmark" class=" ">
+			<li _t_nav="Bookmark" class="  selected ">
                 <a href="/bookmark" target=""><span>Bookmark</span></a>
             </li>               
             
@@ -142,14 +131,14 @@
             
 
 
-<section class="jumbotron geopattern" data-pattern-id="本博客模板常见问题 Q & A">
+<section class="jumbotron geopattern" data-pattern-id="Bookmarks">
     <div class="container">
         <div id="jumbotron-meta-info">
-            <h1>本博客模板常见问题 Q & A</h1>
+            <h1>Bookmarks</h1>
             <span class="meta-info">
                 
+                    <span class="mega-octicon octicon-repo"></span>&nbsp;&nbsp; To mark useful libs - tools - books
                 
-                <span class="octicon octicon-calendar"></span> 2020/05/03
                 
             </span>
         </div>
@@ -170,62 +159,117 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>使用这个博客模板的朋友们时不时会提出一些问题，我将它们以及对应的解决方案逐渐整理归纳，汇总到这一篇帖子里。</p>
-
-<h2 id="如何本地预览">如何本地预览</h2>
-
-<p>参考 GitHub 的官方说明：</p>
-
+    <h2 id="java">Java</h2>
 <ul>
-  <li><a href="https://help.github.com/articles/setting-up-your-pages-site-locally-with-jekyll/">Setting up your Pages site locally with Jekyll</a></li>
+  <li><a href="https://dom4j.github.io/">Dom4j</a> - Flexible XML framework</li>
+  <li><a href="https://github.com/google/gson">Gson</a> - Google Library to support JSON</li>
+  <li><a href="http://x-stream.github.io/index.html">Xstream</a> -  Serialize objects to XML and back again</li>
+  <li><a href="https://jaxb.java.net/">JAXB</a> - Java Architecture for XML Binding</li>
 </ul>
 
-<h2 id="本地预览报错-undefined-method-map-for-false">本地预览报错 undefined method map for false</h2>
+<h2 id="android">Android</h2>
+<ul>
+  <li><a href="https://github.com/nostra13/Android-Universal-Image-Loader">Universal-Image-Loader</a> - Powerful and flexible library for loading, caching and displaying images</li>
+  <li><a href="http://greendao-orm.com/">greenDAO</a> - greenDAO is a light and fast ORM solution that maps objects to SQLite databases</li>
+  <li><a href="http://greenrobot.github.io/EventBus/">EventBus</a> - Android optimized event bus that simplifies communication</li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GitHub Metadata: Failed to open TCP connection to api.github.com:443 (Connection refused - connect(2) for "api.github.com" port 443)
-Liquid Exception: undefined method `map' for false:FalseClass Did you mean? tap in /_layouts/page.html
-jekyll 3.8.5 | Error:  undefined method `map' for false:FalseClass
-Did you mean?  tap
-</code></pre></div></div>
+<h2 id="php">PHP</h2>
+<ul>
+  <li><a href="https://github.com/j4mie/idiorm/">Idiorm</a> - A lightweight nearly-zero-config object-relational mapper and fluent query builder for PHP5</li>
+  <li><a href="https://github.com/matteosister/GitElephant">GitElephant</a> - An abstraction layer to manage your git repositories with php</li>
+  <li><a href="https://github.com/propelorm/Propel">Propel</a> - ORM for PHP5</li>
+  <li><a href="https://code.google.com/archive/p/simpledom/">SimpleDOM</a> - Built upon SimpleXML and provids DOM methods using SimpleXML’s syntax.</li>
+</ul>
 
-<p><code class="language-plaintext highlighter-rouge">undefined method `map` for false:FalseClass</code> 这条报错之前总是伴随着 <code class="language-plaintext highlighter-rouge">Failed to open TCP connection to api.github.com:443</code> 一起出现，是在获取 GitHub Metadata 出错后，导致这一句报错：</p>
+<h3 id="symfony">Symfony</h3>
+<ul>
+  <li><a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a> - Generate a decent documentation for your APIs</li>
+  <li><a href="http://symfony.com/doc/current/bundles/FOSRestBundle/index.html">FOSRestBundle</a> - Creat a REST API with Symfony2</li>
+</ul>
 
-<div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{%</span><span class="w"> </span><span class="nt">assign</span><span class="w"> </span><span class="nv">repos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">site</span><span class="p">.</span><span class="nv">github</span><span class="p">.</span><span class="nv">public_repositories</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nf">sort</span><span class="p">:</span><span class="w"> </span><span class="s2">"stargazers_count"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nf">reverse</span><span class="w"> </span><span class="p">%}</span>
-</code></pre></div></div>
+<h2 id="javascript">Javascript</h2>
+<ul>
+  <li><a href="http://alvarotrigo.com/fullPage/">fullPage.js</a> - To create fullscreen scrolling websites / single page websites</li>
+  <li><a href="http://lunrjs.com/">lunr.js</a> - Simple full-text search</li>
+  <li><a href="http://eragonj.github.io/Trip.js/index.html">Trip.js</a> - Help you customize a tutorial trip easily with more flexibilities</li>
+  <li><a href="http://momentjs.com/">Moment.js</a> - Parse, validate, manipulate, and display dates in JavaScript.</li>
+  <li><a href="http://underscorejs.org/">Underscore.js</a> - It provides a whole mess of useful functional programming helpers without extending any built-in objects.</li>
+</ul>
 
-<p>解决方法：</p>
+<h3 id="angularjs">AngularJs</h3>
+<ul>
+  <li><a href="http://angular.github.io/protractor">Protractor</a> - End-to-end test framework for AngularJS applications</li>
+  <li><a href="https://github.com/colthreepv/angular-media-player">angular-media-player</a> - Directive for audio and video</li>
+  <li><a href="http://lorenzofox3.github.io/smart-table-website/">Smart table</a> - Module to easily display data in a table</li>
+  <li><a href="http://esvit.github.io/ng-table/#/">ng-table</a> - Module to easily display data in a table</li>
+  <li><a href="https://github.com/tameraydin/ngToast">ngToast</a> - AngularJS toast</li>
+  <li><a href="http://newaeonweb.com.br/generator-angm/">ANGM-GENERATOR</a> - AngularJS Yeoman Generator</li>
+</ul>
 
-<p>模板里主要是 _includes/sidebar-popular-repo.html 和 _pages/open-source.md 两个文件里用到了 Metadata，将以上这一句前的判断条件做一下修改后问题解决，将</p>
+<h3 id="nodejs">Node.js</h3>
+<ul>
+  <li><a href="https://github.com/node-modules/utility">utility</a> - A collection of useful utilities</li>
+  <li><a href="https://github.com/cheeriojs/cheerio">cheerio</a> - Implementation of core jQuery designed specifically for the server</li>
+  <li><a href="http://mongoosejs.com/">mongoose</a> - elegant mongodb object modeling for node.js</li>
+  <li><a href="http://visionmedia.github.io/superagent/">SuperAgent</a> - Super Agent is light-weight progressive ajax API</li>
+  <li><a href="https://github.com/kcbanner/connect-mongo">connect-mongo</a> - MongoDB session store for Express and Connect</li>
+  <li><a href="https://github.com/expressjs/morgan">Morgan</a> - HTTP request logger middleware for node.js</li>
+</ul>
 
-<div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{%</span><span class="w"> </span><span class="kr">if</span><span class="w"> </span><span class="nv">site</span><span class="p">.</span><span class="nv">github</span><span class="p">.</span><span class="nv">public_repositories</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span><span class="p">%}</span>
-</code></pre></div></div>
+<h2 id="css">CSS</h2>
+<ul>
+  <li><a href="https://connoratherton.com/loaders">loaders.css</a> - Delightful and performance-focused pure css loading animations</li>
+  <li><a href="http://github.danielcardoso.net/load-awesome/animations.html">Load Awesome</a> - Pure CSS Loaders and Spinners</li>
+  <li><a href="http://ianlunn.github.io/Hover/">Hover.css</a> - Collection of CSS3 powered hover effects</li>
+  <li><a href="https://github.com/daneden/animate.css">Animate.css</a> - Bunch of cool, fun, and cross-browser animation.</li>
+</ul>
 
-<p>改为</p>
+<h2 id="front-end-web-uiframework">Front-end web UI/Framework</h2>
+<ul>
+  <li><a href="http://getbootstrap.com/">Bootstrap</a> - HTML, CSS, and JS framework for developing responsive, mobile first projects on the web</li>
+  <li><a href="https://material.angularjs.org/latest/">Angular-Material</a> - Implementation of Google’s Material Design Specification</li>
+</ul>
 
-<div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{%</span><span class="w"> </span><span class="kr">if</span><span class="w"> </span><span class="nv">site</span><span class="p">.</span><span class="nv">github</span><span class="p">.</span><span class="nv">public_repositories</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">%}</span>
-</code></pre></div></div>
+<h2 id="fonts">Fonts</h2>
+<ul>
+  <li><a href="https://www.google.com/fonts">Google Fonts</a> - So it’s google fonts :D</li>
+</ul>
 
-<p>模板最新代码已经做了修改。</p>
+<h2 id="icons">Icons</h2>
+<ul>
+  <li><a href="https://octicons.github.com/">Github-Octicons</a> - GitHub’s icons</li>
+  <li><a href="https://fortawesome.github.io/Font-Awesome/">Font-Awesome</a> - Scalable vector icons that can instantly be customized</li>
+  <li><a href="http://www.iconfont.cn/">Iconfont</a> - Alibaba Icon Library (Chinese)</li>
+  <li><a href="http://lipis.github.io/flag-icon-css/">flag-icon-css</a> - Country Flags</li>
+  <li><a href="http://weloveiconfonts.com/">weloveiconfonts</a> - Icon fonts</li>
+  <li><a href="https://design.google.com/icons/#ic_accessibility">Material Icon</a> - Material icons</li>
+</ul>
 
-<h2 id="是否支持画流程图时序图mermaid-和-mathjax">是否支持画流程图、时序图、mermaid 和 MathJax</h2>
+<h2 id="color">Color</h2>
+<ul>
+  <li><a href="https://www.behance.net/gallery/32154055/Minimalist-Color-Palettes-2015">Minimalist-Color-Palettes</a> - Minimalist Color Palettes</li>
+</ul>
 
-<p>支持。因为相关的引入文件比较大可能影响加载速度，没有默认对所有文件开启，需要在要想开启的文件的 Front Matter 里加上声明：</p>
+<h2 id="tool">Tool</h2>
+<ul>
+  <li><a href="https://www.processon.com/">ProcessOn</a> - UML web app for team (Chinese)</li>
+  <li><a href="https://www.draw.io/">draw.io</a> - UML web app for team</li>
+  <li><a href="https://winscp.net/eng/download.php">WinSCP</a> - SFTP, SCP and FTP client for Windows</li>
+</ul>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
-<span class="na">flow</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">sequence</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">mermaid</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">mathjax</span><span class="pi">:</span> <span class="no">true</span>
-<span class="nn">---</span>
-</code></pre></div></div>
-
-<p>以上四个开关分别对应 flowchart.js（流程图）、sequence-diagram.js（时序图）、mermaid 和 MathJax 的支持，按需开启即可，然后就可以在正文里正常画图了，展示效果可以参见 <a href="https://mazhuang.org/wiki/markdown/">https://mazhuang.org/wiki/markdown/</a>，对应写法参考源文件 <a href="https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md">https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md</a>。</p>
+<h2 id="books">Books</h2>
+<ul>
+  <li><a href="https://github.com/tiimgreen/github-cheat-sheet">GitHub Cheat Sheet</a> - GitHub Practical Tips</li>
+  <li><a href="http://jonas.nitro.dk/git/quick-reference.html">Git Quick Reference</a> - Git Quick Reference</li>
+  <li><a href="https://geemus.gitbooks.io/http-api-design/content/en/index.html">HTTP API Design Guide</a> - HTTP+JSON API design practices</li>
+</ul>
 
     <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
   <h3>文档信息</h3>
   <ul>
     <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
-    <li>本文链接：<a href="http://localhost:4000/talk/2020-05-03-blog-template-qna/" target="_blank">http://localhost:4000/talk/2020-05-03-blog-template-qna/</a></li>
+    <li>本文链接：<a href="http://localhost:4000/bookmark/" target="_blank">http://localhost:4000/bookmark/</a></li>
     <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>
   </ul>
 </div>
@@ -242,7 +286,7 @@ Did you mean?  tap
         <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
         <script>
         var gitalk = new Gitalk({
-            id: '/talk/2020-05-03-blog-template-qna/',
+            id: '/bookmark/',
             clientID: '0f1df03507262b92fd0e',
             clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
             repo: 'blog-comments',
@@ -283,7 +327,7 @@ SimpleJekyllSearch({
 </script>
 
     <div id="post-box">
-  <h3 class="post-directory-title mobile-hidden">本博客模板常见问题 Q & A</h3>
+  <h3 class="post-directory-title mobile-hidden">Bookmarks</h3>
   <div id="post-directory-module" class="mobile-hidden">
     <section class="post-directory">
     <!-- Links that trigger the jumping -->
@@ -329,10 +373,6 @@ SimpleJekyllSearch({
             
             <li>
                 <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
-            </li>
-            
-            <li>
-                <a href="http://localhost:4000/wiki" title="Wiki" target="">Wiki</a>
             </li>
             
             <li>

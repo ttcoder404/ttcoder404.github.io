@@ -39,6 +39,10 @@
     color: #4183c4;
 }
 
+a.selected  {
+    color: #4183c4;
+}
+
 #site-header-brand, #site-header-brand .octicon {
     margin-top: 0;
     margin-bottom: 0;

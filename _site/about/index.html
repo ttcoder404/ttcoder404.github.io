@@ -15,7 +15,7 @@
     <meta name="description"
           content="专注前端开发学习分享，程序员升职技巧，防脱指南">
 
-    <link rel="canonical" href="http://localhost:4000/about.html">
+    <link rel="canonical" href="http://localhost:4000/about/">
     <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
 
     <!-- Third-Party CSS -->
@@ -81,13 +81,6 @@
                 Talk
             </a>
             
-            <a href="/wiki"
-               class=" site-header-nav-item hvr-underline-from-center"
-               target=""
-               title="Wiki">
-                Wiki
-            </a>
-            
             <a href="/bookmark"
                class=" site-header-nav-item hvr-underline-from-center"
                target=""
@@ -96,7 +89,7 @@
             </a>
             
             <a href="/about"
-               class=" site-header-nav-item hvr-underline-from-center"
+               class=" selected  site-header-nav-item hvr-underline-from-center"
                target=""
                title="About">
                 About
@@ -124,15 +117,11 @@
                 <a href="/talk" target=""><span>Talk</span></a>
             </li>               
             
-			<li _t_nav="Wiki" class=" ">
-                <a href="/wiki" target=""><span>Wiki</span></a>
-            </li>               
-            
 			<li _t_nav="Bookmark" class=" ">
                 <a href="/bookmark" target=""><span>Bookmark</span></a>
             </li>               
             
-			<li _t_nav="About" class=" ">
+			<li _t_nav="About" class="  selected ">
                 <a href="/about" target=""><span>About</span></a>
             </li>               
             
@@ -302,10 +291,10 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="fade in tab-pane active" id="wechat">
-            <img src="assets/images/follow.png" alt="ttcoder404" />
+            <img src="/assets/images/follow.png" alt="ttcoder404" />
         </div>
         <div role="tabpanel" class="fade tab-pane" id="know">
-            <img src="assets/images/know.png" alt="know" />
+            <img src="/assets/images/know.png" alt="know" />
             <h5 class="stitle">只要<span class="glyphicon glyphicon-yen"></span>199元,跟我学一年</h5>
             <p><i class="glyphicon glyphicon-ok"></i>答疑解惑，回答所提问题（选择性回答）</p>
             <p><i class="glyphicon glyphicon-ok"></i>资源共享，mac工具，学习教程，最新电影</p>
@@ -363,10 +352,6 @@ $(function(){
             
             <li>
                 <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
-            </li>
-            
-            <li>
-                <a href="http://localhost:4000/wiki" title="Wiki" target="">Wiki</a>
             </li>
             
             <li>
