@@ -78,6 +78,9 @@
     display: block;
     text-align: right;
   }
+  #blog-categories, .sidebar-title {
+    display: none;
+  }
   .nav_menu {
     display: block;
   }
@@ -117,13 +120,13 @@
     font-size: 2rem
   }
   .markdown-body h2 {
-    font-size: 1.4rem
+    font-size: 1.6rem
   }
   .markdown-body h3 {
-    font-size: 1.2rem
+    font-size: 1.4rem
   }
   .markdown-body h4 {
-    font-size: 1.1em
+    font-size: 1.2em
   }
   .markdown-body h5 {
     font-size: 1em
