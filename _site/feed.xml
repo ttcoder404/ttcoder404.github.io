@@ -5,8 +5,8 @@
     <description>专注前端开发学习分享，程序员升职技巧，防脱指南</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 12 Jun 2020 15:52:51 +0800</pubDate>
-    <lastBuildDate>Fri, 12 Jun 2020 15:52:51 +0800</lastBuildDate>
+    <pubDate>Fri, 12 Jun 2020 15:57:10 +0800</pubDate>
+    <lastBuildDate>Fri, 12 Jun 2020 15:57:10 +0800</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
     
       <item>
@@ -60,7 +60,7 @@ Did you mean?  tap
 &lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;以上四个开关分别对应 flowchart.js（流程图）、sequence-diagram.js（时序图）、mermaid 和 MathJax 的支持，按需开启即可，然后就可以在正文里正常画图了，展示效果可以参见 &lt;a href=&quot;https://mazhuang.org/wiki/markdown/&quot;&gt;https://mazhuang.org/wiki/markdown/&lt;/a&gt;，对应写法参考源文件 &lt;a href=&quot;https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md&quot;&gt;https://github.com/mzlogin/mzlogin.github.io/blob/master/_wiki/markdown.md&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;以上四个开关分别对应 flowchart.js（流程图）、sequence-diagram.js（时序图）、mermaid 和 MathJax 的支持，按需开启即可，然后就可以在正文里正常画图了，展示效果可以参见 &lt;a href=&quot;https://ttcoder.com/wiki/markdown/&quot;&gt;https://ttcoder.com/wiki/markdown/&lt;/a&gt;，对应写法参考源文件 &lt;a href=&quot;https://github.com/ttcoder404/ttcoder404.github.io/blob/master/_wiki/markdown.md&quot;&gt;https://github.com/ttcoder404/ttcoder404.github.io/blob/master/_wiki/markdown.md&lt;/a&gt;。&lt;/p&gt;
 </description>
         <pubDate>Sun, 03 May 2020 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2020/05/03/blog-template-qna/</link>
