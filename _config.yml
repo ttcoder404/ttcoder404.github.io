@@ -52,7 +52,7 @@ plugins:
 collections:
     talk:
         output: true
-        permalink: /talk/:year/:month/:day/:title/
+        permalink: /:year/:month/:day/:title/
 
 # Pagination
 paginate: 10
