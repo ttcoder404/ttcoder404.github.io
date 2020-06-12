@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+{% assign assets_base_url = site.url %}
+{% if site.cdn.jsdelivr.enabled %}
+{% assign assets_base_url = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: '@master' %}
+{% endif %}
+
+{% include jumbotron.html %}
+
+<!-- / .banner -->
+<section class="container content">
+    <div class="columns">
+        <div class="column two-thirds" >
+            <article class="article-content markdown-body">
+                {{ content }}
+            </article>
+        </div>
+        <div class="column one-third">
+            {% include sidebar-search.html %}
+            {% include sidebar-about.html %}
+            {% include sidebar-ad.html %}
+        </div>
+    </div>
+</section>
+<!-- /section.content -->
