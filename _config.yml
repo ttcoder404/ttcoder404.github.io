@@ -159,7 +159,15 @@ google:
 
 
 # For about.html. Fell free to create your own!
-skill_software_keywords: [Java, C, C++, Qt, Python, MySQL, Oracle, SQLite, PL/SQL, Design Patterns]
-skill_j2ee_keywords: [Spring, Struct, Hibernet, MyBatis, JSP]
-skill_web_keywords: [HTML, CSS, JS, JQuery, Ajax, AngularJS, NodeJS, ExpressJS, MongoDB, Redis, PHP, Symfony, Boostrap]
-skill_mobile_app_keywords: [Android, Sketch UI Desgin]
+skill_software_keywords: [C#, Python, MySQL, PL/SQL, ETL]
+skill_web_keywords: [HTML, CSS, JS, JQuery, Ajax, VueJs, NodeJS, ExpressJS, Webpack, elementUI, iView, axios ]
+skill_mobile_app_keywords: [iOS, Object-C, Sketch UI Desgin]
+
+twitter: https://twitter.com/ttcoder
+weibo: https://weibo.com/ttcoder
+bilibili: https://space.bilibili.com/160394977
+zhihu: https://www.zhihu.com/people/tt_coder
+juejin: https://juejin.im/user/5ec65be36fb9a047e16c77b0
+jianshu: https://www.jianshu.com/u/8fcf5a4463fe
+v2ex: https://v2ex.com/member/ttcoder
+steam: https://steamcommunity.com/id/ttcoder
