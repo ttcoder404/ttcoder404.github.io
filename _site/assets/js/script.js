@@ -29,32 +29,59 @@ var windowScroll = function () {
         }
  });
 };
+function getHiddenProp() {
+    var prefixes = ['webkit', 'moz', 'ms', 'o'];
+    
+    // if 'hidden' is natively supported just return it
+    if ('hidden' in document) return 'hidden';
+    
+    // otherwise loop over all the known prefixes until we find one
+    for (var i = 0; i < prefixes.length; i++) {
+    if ((prefixes[i] + 'Hidden') in document)
+    return prefixes[i] + 'Hidden';
+    }
+    
+    // otherwise it's not supported
+    return null;
+}
 
-var getHiddenProp = function () {
-    var t = ["webkit", "moz", "ms", "o"];
-    if ("hidden"in document)
-        return "hidden";
-    for (var e = 0; e < t.length; e++)
-        if (t[e] + "Hidden"in document)
-            return t[e] + "Hidden";
-    return null
+function getVisibilityState() {
+    var prefixes = ['webkit', 'moz', 'ms', 'o'];
+    if ('visibilityState' in document) return 'visibilityState';
+    for (var i = 0; i < prefixes.length; i++) {
+        if ((prefixes[i] + 'VisibilityState') in document)
+        return prefixes[i] + 'VisibilityState';
+    }
+    // otherwise it's not supported
+    return null;
+}
+    
+function isHidden() {
+    var prop = getHiddenProp();
+    if (!prop) return false;
+    
+    return document[prop];
 }
 
 $( document ).ready(function() {
     windowScroll();
 
-    // var t = this.getHiddenProp();
-    // this.evtname = t.replace(/[H|h]idden/, "") ,
-    document.addEventListener(getHiddenProp())
-
-    switch (document[this.getHiddenProp()]) {
-        case "visible":
-            document.title = "被发现啦(*´∇｀*)---" 
-            break;
-        case "hidden":
-        default:
-            document.title = "藏好啦(つд⊂)---"
+    var d = document.title;
+    var t = getHiddenProp();
+    console.log(t)
+    var evtname = t.replace(/[H|h]idden/, "") + "visibilitychange"
+    document.addEventListener(evtname, function () {        
+        switch (document[getVisibilityState()]) {
+            case "visible":
+                document.title = d
+                break;
+            case "hidden":
+                document.title = "(つд⊂)藏好啦快回来";
+                break;
+            default:
+                document.title = d
         }
+    },false);
     
     var menuwidth  = 140; // 边栏宽度
     var menuspeed  = 400; // 边栏滑出耗费时间
