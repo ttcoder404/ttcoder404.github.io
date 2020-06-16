@@ -37,8 +37,8 @@ function getHiddenProp() {
     
     // otherwise loop over all the known prefixes until we find one
     for (var i = 0; i < prefixes.length; i++) {
-    if ((prefixes[i] + 'Hidden') in document)
-    return prefixes[i] + 'Hidden';
+        if ((prefixes[i] + 'Hidden') in document)
+        return prefixes[i] + 'Hidden';
     }
     
     // otherwise it's not supported
@@ -68,7 +68,6 @@ $( document ).ready(function() {
 
     var d = document.title;
     var t = getHiddenProp();
-    console.log(t)
     var evtname = t.replace(/[H|h]idden/, "") + "visibilitychange"
     document.addEventListener(evtname, function () {        
         switch (document[getVisibilityState()]) {
