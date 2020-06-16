@@ -147,6 +147,10 @@ a.selected  {
     right: 0;
     left: 0;
 }
+
+#post-box {
+    max-width: 258px;
+}
   
 .openmenu .overlay {
     top: 0;
