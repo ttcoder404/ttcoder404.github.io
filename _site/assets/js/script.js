@@ -30,8 +30,31 @@ var windowScroll = function () {
  });
 };
 
+var getHiddenProp = function () {
+    var t = ["webkit", "moz", "ms", "o"];
+    if ("hidden"in document)
+        return "hidden";
+    for (var e = 0; e < t.length; e++)
+        if (t[e] + "Hidden"in document)
+            return t[e] + "Hidden";
+    return null
+}
+
 $( document ).ready(function() {
     windowScroll();
+
+    // var t = this.getHiddenProp();
+    // this.evtname = t.replace(/[H|h]idden/, "") ,
+    document.addEventListener(getHiddenProp())
+
+    switch (document[this.getHiddenProp()]) {
+        case "visible":
+            document.title = "被发现啦(*´∇｀*)---" 
+            break;
+        case "hidden":
+        default:
+            document.title = "藏好啦(つд⊂)---"
+        }
     
     var menuwidth  = 140; // 边栏宽度
     var menuspeed  = 400; // 边栏滑出耗费时间
