@@ -5,8 +5,8 @@
     <description>专注前端开发学习分享，程序员升职技巧，防脱指南</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 18 Jun 2020 00:07:32 +0800</pubDate>
-    <lastBuildDate>Thu, 18 Jun 2020 00:07:32 +0800</lastBuildDate>
+    <pubDate>Thu, 18 Jun 2020 00:31:12 +0800</pubDate>
+    <lastBuildDate>Thu, 18 Jun 2020 00:31:12 +0800</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
     
       <item>
@@ -35,7 +35,7 @@
 
 &lt;p&gt;当然，因为页面自身还是在 GitHub Pages 托管，有时候首个请求还是会挺久才返回。&lt;/p&gt;
 
-&lt;p&gt;改造后的效果可以打开 &lt;a href=&quot;https://mazhuang.org&quot;&gt;https://mazhuang.org&lt;/a&gt; 体验。&lt;/p&gt;
+&lt;p&gt;改造后的效果可以打开 &lt;a href=&quot;https://ttcoder.com&quot;&gt;https://ttcoder.com&lt;/a&gt; 体验。&lt;/p&gt;
 
 &lt;h2 id=&quot;方案考虑&quot;&gt;方案考虑&lt;/h2&gt;
 
