@@ -1,3 +1,12 @@
+---
+layout: post
+title: 基于原型的JavaScript面向对象编程
+categories: JavaScript
+description: 本文将描述如何使用原型实现JavaScript的面向对象编程。
+keywords: JavaScript
+word_count: true
+---
+
 基于原型的JavaScript面向对象编程
 ============================
 
@@ -72,7 +81,7 @@ alert(foo.__proto__ === F.prototype); // true，使用new运算符实例化对�
 
 在chrome控制台下能看到可访问的__proto__属性：
 
-![oop-1](https://raw.github.com/maxzhang/maxzhang.github.com/master/articles/images/oop-1.png)
+![oop-1](/images/posts/JavaScript/oop-1.png)
 
 通过上面这段代码，既可证明__proto__属性是构造函数“prototype”属性的引用。继续看一段代码：
 
@@ -84,7 +93,7 @@ alert(Foo.prototype.__proto__ === Object.prototype); // true
 
 到这里原型链的脉络就比较清晰了，由于Object.prototype的__proto__属性指向到null，所以，foo正确的原型链如下图：
 
-![oop-2](https://raw.github.com/maxzhang/maxzhang.github.com/master/articles/images/oop-2.png)
+![oop-2](/images/posts/JavaScript/oop-2.png)
 
 **Note：**__proto__属性只有在chrome或firefox浏览器中才是公开允许访问。
 
@@ -106,7 +115,7 @@ alert(Function.prototype.__proto__ === Object.prototype); // true
 
 上面代码可以看出，函数Function自己本身也是构造函数Function的一个实例，这段读起来非常拗口，看下面的图：
 
-![oop-3](https://raw.github.com/maxzhang/maxzhang.github.com/master/articles/images/oop-3.png)
+![oop-3](/images/posts/JavaScript/oop-3.png)
 
 由此可见，Object、Function、Array等等这些函数，都是构造函数Function的实例。
 
@@ -132,7 +141,7 @@ alert(Function instanceof Object); // true
 
 这节最后，引用一张来自mollypages.org的[JavaScript对象结构图](http://www.mollypages.org/misc/js.mp)：
 
-![oop-4](https://raw.github.com/maxzhang/maxzhang.github.com/master/articles/images/oop-4.jpg)
+![oop-4](/images/posts/JavaScript/oop-4.jpg)
 
 ## 3 基于原型的面向对象编程
 前面讲了很多关于原型、原型链的内容，都是为最后的面向对象实现做铺垫，如果不明白原型链的实现机制，基于原型的对象继承将会很难理解。
@@ -243,7 +252,7 @@ a1.sleep(); // alert Animal sleep
 
 总算一切正常，现在来我们来重新组织下Animal与Cat的原型链：
 
-![oop-5](https://raw.github.com/maxzhang/maxzhang.github.com/master/articles/images/oop-5.png)
+![oop-5](/images/posts/JavaScript/oop-5.png)
 
 将继承的方法封装成一个公共函数：
 
@@ -310,7 +319,7 @@ alert(p3.__proto__.name); // 输出persian cat，本地name属性赋值之后，
 
 下面通过一个更详细的原型链图，来描述这个例子中本地属性与prototype属性之间的关系：
 
-![oop-6](https://raw.github.com/maxzhang/maxzhang.github.com/master/articles/images/oop-6.png)
+![oop-6](/images/posts/JavaScript/oop-6.png)
 
 通过这个图，大家应该也看明白了，a1、c2、p3中的是本地属性，其他的都是prototype属性，从例子的运行结果可以知道，对本地属性赋值，并不会覆盖prototype属性。在使用this访问对象的属性或方法时，是先从本地属性中查找，如果未到，那么它会向上遍历原型链，直到找到给定名称的属性为止，当到达原型链的顶部（也就是Object.prototype）仍然没有找到指定的属性，就会返回undefined。
 
