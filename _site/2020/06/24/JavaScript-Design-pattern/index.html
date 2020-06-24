@@ -1,0 +1,605 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>JavaScript常用的设计模式 &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="前言">
+
+    <link rel="canonical" href="http://localhost:4000/2020/06/24/JavaScript-Design-pattern/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="JavaScript常用的设计模式">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>JavaScript常用的设计模式</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/06/24
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#JavaScript" title="JavaScript">JavaScript</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 4524 字，约 13 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="前言">前言</h2>
+
+<p>前几天非常非常粗的读了一本书<a href="https://book.douban.com/subject/2243615/">Head First 设计模式（中文版）</a>，一本 Java 语言层面的设计模式，看这本书的目的只是为了提升自己代码设计上的能力，并且可以和前端代码有所结合，一直以来，，总感觉自己的代码设计得非常非常烂。</p>
+
+<p>先给个定义：设计模式，即解决某个特定场景下对某种问题的解决方案。因此，当我们遇到合适的场景时，我们可能会条件反射一样自然而然想到符合这种场景的设计模式。</p>
+
+<h2 id="策略模式">策略模式</h2>
+
+<p>概念：
+定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。</p>
+
+<p>意义：</p>
+
+<ul>
+  <li>利用组合，委托等技术和思想，有效的避免很多 if 条件语句。</li>
+  <li>提供了开放-封闭原则，使代码更容易理解和扩展。</li>
+  <li>代码复用。</li>
+</ul>
+
+<p>应用场景：表单校验</p>
+
+<p>示例：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">strategies</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">isNonEmpty</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">errorMsg</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="dl">''</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">errorMsg</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">minLength</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">length</span><span class="p">,</span> <span class="nx">errorMsg</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">errorMsg</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">isMobile</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">errorMsg</span><span class="p">){</span> <span class="c1">// 手机号码格式</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/</span><span class="se">(</span><span class="sr">^1</span><span class="se">[</span><span class="sr">3|5|8</span><span class="se">][</span><span class="sr">0-9</span><span class="se">]{9}</span><span class="sr">$</span><span class="se">)</span><span class="sr">/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">value</span><span class="p">)){</span>
+      <span class="k">return</span> <span class="nx">errorMsg</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Validator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">cache</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 保存校验规则</span>
+<span class="p">};</span>
+<span class="nx">Validator</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">add</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dom</span><span class="p">,</span> <span class="nx">rule</span><span class="p">,</span> <span class="nx">errorMsg</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">ary</span> <span class="o">=</span> <span class="nx">rule</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">:</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// 把 strategy 和参数分开</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span> <span class="c1">// 把校验的步骤用空函数包装起来，并且放入 cache</span>
+    <span class="kd">var</span> <span class="nx">strategy</span> <span class="o">=</span> <span class="nx">ary</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span> <span class="c1">// 用户挑选的 strategy</span>
+    <span class="nx">ary</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">dom</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 把 input 的 value 添加进参数列表</span>
+    <span class="nx">ary</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">errorMsg</span><span class="p">);</span> <span class="c1">// 把 errorMsg 添加进参数列表</span>
+    <span class="k">return</span> <span class="nx">strategies</span><span class="p">[</span><span class="nx">strategy</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="nx">dom</span><span class="p">.</span> <span class="nx">ary</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+<span class="nx">Validator</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">start</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">validatorFunc</span><span class="p">;</span> <span class="nx">validatorFunc</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">];){</span>
+    <span class="kd">var</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nx">validatorFunc</span><span class="p">();</span> <span class="c1">// 开始校验，并取得校验后的返回信息</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">msg</span><span class="p">){</span> <span class="c1">// 如果有确切的返回值，说明校验没有通过</span>
+      <span class="k">return</span> <span class="nx">msg</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">validataFunc</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+  <span class="kd">var</span> <span class="nx">validator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Validator</span><span class="p">();</span> <span class="c1">// 创建一个 validator 对象</span>
+    <span class="cm">/***************添加一些校验规则****************/</span>
+    <span class="nx">validator</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">registerForm</span><span class="p">.</span><span class="nx">userName</span><span class="p">,</span> <span class="dl">'</span><span class="s1">isNonEmpty</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">用户名不能为空</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">validator</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">registerForm</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span> <span class="dl">'</span><span class="s1">minLength:6</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">密码长度不能少于 6 位</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">validator</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">registerForm</span><span class="p">.</span><span class="nx">phoneNumber</span><span class="p">,</span> <span class="dl">'</span><span class="s1">isMobile</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">手机号码格式不正确</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">errorMsg</span> <span class="o">=</span> <span class="nx">validator</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span> <span class="c1">// 获得校验结果</span>
+    <span class="k">return</span> <span class="nx">errorMsg</span><span class="p">;</span> <span class="c1">// 返回校验结果</span>
+  <span class="p">}</span>
+  <span class="kd">var</span> <span class="nx">registerForm</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">registerForm</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">registerForm</span><span class="p">.</span><span class="nx">onsubmit</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">errorMsg</span> <span class="o">=</span> <span class="nx">validataFunc</span><span class="p">();</span> <span class="c1">// 如果 errorMsg 有确切的返回值，说明未通过校验 if ( errorMsg ){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">errorMsg</span><span class="p">);</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// 阻止表单提交</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="观察者模式发布订阅模式">观察者模式（发布/订阅模式）</h2>
+
+<p>概念：
+定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知。</p>
+
+<p>意义：</p>
+
+<ul>
+  <li>支持简单的广播通信，自动通知所有已经订阅过的对象。</li>
+  <li>页面载入后目标对象很容易与观察者存在一种动态关联，增加了灵活性。</li>
+  <li>目标对象与观察者之间的抽象耦合关系能够单独扩展以及重用。</li>
+</ul>
+
+<p>应用场景：双向数据绑定</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">EventEmitter</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_events</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="p">}</span>
+  <span class="nx">emit</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">funL</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_events</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span>
+    <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">(</span><span class="nx">arguments</span><span class="p">).</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nx">funL</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">e</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">addListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">func</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_events</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_events</span> <span class="o">||</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_events</span><span class="p">[</span><span class="nx">type</span><span class="p">])</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_events</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_events</span><span class="p">[</span><span class="nx">type</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">func</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">removeListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">func</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_events</span><span class="p">[</span><span class="nx">type</span><span class="p">].</span><span class="nx">splice</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_events</span><span class="p">[</span><span class="nx">type</span><span class="p">].</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">func</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">on</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">func</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">func</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">//  首先实例化 EventEmitter 然后添加监听事件以及触发事件。</span>
+<span class="kd">var</span> <span class="nx">emitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">()</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a1</span> <span class="o">+</span> <span class="nx">a2</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a2</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">augument1</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">argument2</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">augument3</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">argument4</span><span class="dl">'</span><span class="p">)</span>
+<span class="c1">//console</span>
+<span class="c1">// augument1argument2</span>
+<span class="c1">// argument2</span>
+<span class="c1">// augument3argument4</span>
+<span class="c1">// argument4</span>
+</code></pre></div></div>
+
+<h2 id="单例模式">单例模式</h2>
+
+<p>概念：
+保证一个类仅有一个实例，并提供一个访问它的全局访问点。实现的方法为先判断实例存在与否，如果存在则直接返回，如果不存在就创建了再返回，这就确保了一个类只有一个实例对象。</p>
+
+<p>意义：</p>
+
+<ul>
+  <li>对象只有一个实例，节约系统资源，提供性能。</li>
+  <li>提供对唯一实例的受控访问。</li>
+  <li>类可以灵活的改变实例化过程。</li>
+</ul>
+
+<p>应用场景：redux 下的 store、浏览器写某个特定的浮框…
+示例：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Singleton</span> <span class="o">=</span> <span class="nx">name</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span>
+<span class="p">}</span>
+<span class="nx">Singleton</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">Singleton</span><span class="p">.</span><span class="nx">getInstance</span> <span class="o">=</span> <span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">instance</span> <span class="o">=</span> <span class="kc">null</span>
+  <span class="k">return</span> <span class="nx">name</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Singleton</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">instance</span>
+  <span class="p">}</span>
+<span class="p">})()</span>
+
+<span class="kd">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">Singleton</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">(</span><span class="dl">'</span><span class="s1">sven1</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">Singleton</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">(</span><span class="dl">'</span><span class="s1">sven2</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<h2 id="代理模式">代理模式</h2>
+
+<p>概念：
+为对象提供一个代用品或者占位符，以便控制对它的访问。</p>
+
+<p>意义：</p>
+
+<ul>
+  <li>单一职责，只有代理对象才能引起该对象的变化。</li>
+  <li>用代理来过滤掉一些不合规的的访问，减少该对象的访问，在某种意义上可以提高性能。</li>
+</ul>
+
+<p>应用场景：图片预加载、mobx 的变量拦截。</p>
+
+<p>示例：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">myImage</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">imgNode</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">img</span><span class="dl">'</span><span class="p">)</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">imgNode</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">setSrc</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">imgNode</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})()</span>
+<span class="kd">var</span> <span class="nx">proxyImage</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
+  <span class="nx">img</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">myImage</span><span class="p">.</span><span class="nx">setSrc</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">src</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">setSrc</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">myImage</span><span class="p">.</span><span class="nx">setSrc</span><span class="p">(</span><span class="dl">'</span><span class="s1">loading.gif</span><span class="dl">'</span><span class="p">)</span>
+      <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})()</span>
+
+<span class="nx">proxyImage</span><span class="p">.</span><span class="nx">setSrc</span><span class="p">(</span><span class="dl">'</span><span class="s1">http://imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg</span><span class="dl">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="装饰者模式">装饰者模式</h2>
+
+<p>概念：在不改变对象自身的基础上，在程序运行期间给对象动态地添加方法。</p>
+
+<p>意义：</p>
+
+<ul>
+  <li>原有方法维持不变，在原有方法上再挂载其他方法来满足现有需求；函数的解耦，将函数拆分成多个可复用的函数，再将拆分出来的函数挂载到某个函数上，实现相同的效果但增强了复用性。</li>
+  <li>拓展对象功能。</li>
+</ul>
+
+<p>应用场景：动态表单验证…</p>
+
+<p>示例：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">Sale</span><span class="p">(</span><span class="nx">price</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">price</span> <span class="o">=</span> <span class="nx">price</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">decorateList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="p">}</span>
+<span class="nx">Sale</span><span class="p">.</span><span class="nx">decorators</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="nx">Sale</span><span class="p">.</span><span class="nx">decorators</span><span class="p">.</span><span class="nx">fedtax</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">getPrice</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">price</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">price</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">uber</span><span class="p">.</span><span class="nx">getPrice</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nx">price</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="c1">//对price进行处理</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">Sale</span><span class="p">.</span><span class="nx">decorators</span><span class="p">.</span><span class="nx">quebec</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">getPrice</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">price</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">price</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">uber</span><span class="p">.</span><span class="nx">getPrice</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nx">price</span> <span class="o">*</span> <span class="mf">0.7</span> <span class="c1">//对price进行处理</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">Sale</span><span class="p">.</span><span class="nx">decorators</span><span class="p">.</span><span class="nx">money</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">getPrice</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">price</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">price</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">uber</span><span class="p">.</span><span class="nx">getPrice</span><span class="p">()</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">$</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">price</span> <span class="o">*</span> <span class="mf">0.9</span> <span class="c1">//对price进行处理</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">Sale</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">decorate</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">decorator</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">decorateList</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">decorator</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">Sale</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getPrice</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">price</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">price</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">decorateList</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">price</span> <span class="o">=</span> <span class="nx">Sale</span><span class="p">.</span><span class="nx">decorators</span><span class="p">[</span><span class="nx">name</span><span class="p">].</span><span class="nx">getPrice</span><span class="p">(</span><span class="nx">price</span><span class="p">)</span>
+  <span class="p">})</span>
+  <span class="k">return</span> <span class="nx">price</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">sale</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sale</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="nx">sale</span> <span class="o">=</span> <span class="nx">sale</span><span class="p">.</span><span class="nx">decorate</span><span class="p">(</span><span class="dl">'</span><span class="s1">fedtax</span><span class="dl">'</span><span class="p">)</span> <span class="c1">//联邦税</span>
+<span class="nx">sale</span> <span class="o">=</span> <span class="nx">sale</span><span class="p">.</span><span class="nx">decorate</span><span class="p">(</span><span class="dl">'</span><span class="s1">quebec</span><span class="dl">'</span><span class="p">)</span> <span class="c1">//魁北克省税</span>
+<span class="nx">sale</span> <span class="o">=</span> <span class="nx">sale</span><span class="p">.</span><span class="nx">decorate</span><span class="p">(</span><span class="dl">'</span><span class="s1">money</span><span class="dl">'</span><span class="p">)</span> <span class="c1">//转为美元格式</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sale</span><span class="p">.</span><span class="nx">getPrice</span><span class="p">())</span> <span class="c1">//$50.4</span>
+</code></pre></div></div>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息</h3>
+  <ul>
+    <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
+    <li>本文链接：<a href="http://localhost:4000/2020/06/24/JavaScript-Design-pattern/" target="_blank">http://localhost:4000/2020/06/24/JavaScript-Design-pattern/</a></li>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/06/24/JavaScript-Design-pattern/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">JavaScript常用的设计模式</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>

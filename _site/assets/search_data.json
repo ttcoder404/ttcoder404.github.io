@@ -132,6 +132,13 @@
       "category" : "JavaScript",
       
       "url"      : "http://localhost:4000/2020/06/23/javascript-oop/"
+    } ,
+  
+    {
+      "title"    : "JavaScript常用的设计模式",
+      "category" : "JavaScript",
+      
+      "url"      : "http://localhost:4000/2020/06/24/JavaScript-Design-pattern/"
     } 
   
 ]
