@@ -1,9 +1,9 @@
 ---
 layout: post
 title: 基于原型的JavaScript面向对象编程
-categories: JavaScript
-description: 本文将描述如何使用原型实现JavaScript的面向对象编程。
+excerpt: 本文将描述如何使用原型实现JavaScript的面向对象编程。
 keywords: JavaScript
+categories: JavaScript
 word_count: true
 ---
 

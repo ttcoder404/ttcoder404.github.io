@@ -1,9 +1,9 @@
 ---
 layout: post
 title: JavaScript常用的设计模式
-description: 设计模式是程序员自身修炼的宝典,也是高级程序员必备技能。
-categories: JavaScript
+excerpt: 设计模式是程序员自身修炼的宝典,也是高级程序员必备技能。
 keywords: JavaScript
+categories: JavaScript
 word_count: true
 ---
 

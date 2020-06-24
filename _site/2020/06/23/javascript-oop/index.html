@@ -13,24 +13,24 @@
 
     <title>基于原型的JavaScript面向对象编程 &mdash; 头秃程序猿 — 前端知识学习分享</title>
     <meta name="description"
-          content="基于原型的JavaScript面向对象编程">
+          content="本文将描述如何使用原型实现JavaScript的面向对象编程。">
 
-    <link rel="canonical" href="https://ttcoder.com/2020/06/23/javascript-oop/">
-    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="https://ttcoder.com/feed.xml">
+    <link rel="canonical" href="http://localhost:4000/2020/06/23/javascript-oop/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
 
     <!-- Third-Party CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="http://localhost:4000/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/syntax.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/posts/index.css">
 
     <!-- My CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/common.css">
+    <link rel="stylesheet" href="http://localhost:4000/assets/css/responsive.css">
 
     <!-- CSS set in page -->
     
@@ -38,12 +38,10 @@
     <!-- CSS set in layout -->
     
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="http://localhost:4000/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://localhost:4000/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    
-    <script data-ad-client="ca-pub-8085543747681790" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     
 </head>
 
@@ -147,7 +145,7 @@
                 
                 <span class="meta-info">
                 <span class="octicon octicon-file-directory"></span>
-                <a href="https://ttcoder.com/talk/#JavaScript" title="JavaScript">JavaScript</a>
+                <a href="http://localhost:4000/talk/#JavaScript" title="JavaScript">JavaScript</a>
                 </span>
                 
                 
@@ -245,7 +243,7 @@ alert(foo.__proto__ === F.prototype); // true，使用new运算符实例化对�
 
 <p>在chrome控制台下能看到可访问的__proto__属性：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/JavaScript/oop-1.png" alt="oop-1" /></p>
+<p><img src="http://localhost:4000/images/posts/JavaScript/oop-1.png" alt="oop-1" /></p>
 
 <p>通过上面这段代码，既可证明__proto__属性是构造函数“prototype”属性的引用。继续看一段代码：</p>
 
@@ -256,7 +254,7 @@ alert(foo.__proto__ === F.prototype); // true，使用new运算符实例化对�
 
 <p>到这里原型链的脉络就比较清晰了，由于Object.prototype的__proto__属性指向到null，所以，foo正确的原型链如下图：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/JavaScript/oop-2.png" alt="oop-2" /></p>
+<p><img src="http://localhost:4000/images/posts/JavaScript/oop-2.png" alt="oop-2" /></p>
 
 <p><strong>Note：</strong>__proto__属性只有在chrome或firefox浏览器中才是公开允许访问。</p>
 
@@ -276,7 +274,7 @@ alert(Function.prototype.__proto__ === Object.prototype); // true
 
 <p>上面代码可以看出，函数Function自己本身也是构造函数Function的一个实例，这段读起来非常拗口，看下面的图：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/JavaScript/oop-3.png" alt="oop-3" /></p>
+<p><img src="http://localhost:4000/images/posts/JavaScript/oop-3.png" alt="oop-3" /></p>
 
 <p>由此可见，Object、Function、Array等等这些函数，都是构造函数Function的实例。</p>
 
@@ -301,7 +299,7 @@ alert(Function instanceof Object); // true
 
 <p>这节最后，引用一张来自mollypages.org的<a href="http://www.mollypages.org/misc/js.mp">JavaScript对象结构图</a>：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/JavaScript/oop-4.jpg" alt="oop-4" /></p>
+<p><img src="http://localhost:4000/images/posts/JavaScript/oop-4.jpg" alt="oop-4" /></p>
 
 <h2 id="3-基于原型的面向对象编程">3 基于原型的面向对象编程</h2>
 <p>前面讲了很多关于原型、原型链的内容，都是为最后的面向对象实现做铺垫，如果不明白原型链的实现机制，基于原型的对象继承将会很难理解。</p>
@@ -405,7 +403,7 @@ a1.sleep(); // alert Animal sleep
 
 <p>总算一切正常，现在来我们来重新组织下Animal与Cat的原型链：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/JavaScript/oop-5.png" alt="oop-5" /></p>
+<p><img src="http://localhost:4000/images/posts/JavaScript/oop-5.png" alt="oop-5" /></p>
 
 <p>将继承的方法封装成一个公共函数：</p>
 
@@ -470,7 +468,7 @@ alert(p3.__proto__.name); // 输出persian cat，本地name属性赋值之后，
 
 <p>下面通过一个更详细的原型链图，来描述这个例子中本地属性与prototype属性之间的关系：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/JavaScript/oop-6.png" alt="oop-6" /></p>
+<p><img src="http://localhost:4000/images/posts/JavaScript/oop-6.png" alt="oop-6" /></p>
 
 <p>通过这个图，大家应该也看明白了，a1、c2、p3中的是本地属性，其他的都是prototype属性，从例子的运行结果可以知道，对本地属性赋值，并不会覆盖prototype属性。在使用this访问对象的属性或方法时，是先从本地属性中查找，如果未到，那么它会向上遍历原型链，直到找到给定名称的属性为止，当到达原型链的顶部（也就是Object.prototype）仍然没有找到指定的属性，就会返回undefined。</p>
 
@@ -555,8 +553,8 @@ alert(p3.blueEye); // true
     <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
   <h3>文档信息</h3>
   <ul>
-    <li>本文作者：<a href="https://ttcoder.com" target="_blank">Liang Qi</a></li>
-    <li>本文链接：<a href="https://ttcoder.com/2020/06/23/javascript-oop/" target="_blank">https://ttcoder.com/2020/06/23/javascript-oop/</a></li>
+    <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
+    <li>本文链接：<a href="http://localhost:4000/2020/06/23/javascript-oop/" target="_blank">http://localhost:4000/2020/06/23/javascript-oop/</a></li>
     <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>
   </ul>
 </div>
@@ -598,13 +596,13 @@ alert(p3.blueEye); // true
 
 <ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
 
-<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+<script src="http://localhost:4000/assets/js/simple-jekyll-search.min.js"></script>
 
 <script type="text/javascript">
 SimpleJekyllSearch({
     searchInput: document.getElementById('search_box'),
     resultsContainer: document.getElementById('search_results'),
-    json: 'https://ttcoder.com/assets/search_data.json',
+    json: 'http://localhost:4000/assets/search_data.json',
     searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
     noResultsText: 'No results found',
     limit: 10,
@@ -624,7 +622,7 @@ SimpleJekyllSearch({
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+<script src="http://localhost:4000/assets/js/jquery.toc.js"></script>
 
   </div>
 </div>
@@ -651,31 +649,31 @@ SimpleJekyllSearch({
         <ul class="site-footer-links mobile-hidden">
             
             <li>
-                <a href="https://ttcoder.com/" title="Home" target="">Home</a>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
             </li>
             
             <li>
-                <a href="https://ttcoder.com/open-source" title="Open-Source" target="">Open-Source</a>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
             </li>
             
             <li>
-                <a href="https://ttcoder.com/talk" title="Talk" target="">Talk</a>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
             </li>
             
             <li>
-                <a href="https://ttcoder.com/archives" title="Archive" target="">Archive</a>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
             </li>
             
             <li>
-                <a href="https://ttcoder.com/about" title="About" target="">About</a>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
             </li>
             
-            <li><a href="https://ttcoder.com/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
         </ul>
 
       <!-- 不蒜子访问统计 -->
 
-<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script async src="http://localhost:4000/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="mobile-hidden" style="margin-top:8px">
   <span id="busuanzi_container_site_pv" style="display:none">
     本站访问量<span id="busuanzi_value_site_pv"></span>次

@@ -3,10 +3,10 @@
   <channel>
     <title>头秃程序猿 — 前端知识学习分享</title>
     <description>专注前端开发学习分享，程序员升职技巧，防脱指南</description>
-    <link>https://ttcoder.com/</link>
-    <atom:link href="https://ttcoder.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 25 Jun 2020 00:04:53 +0800</pubDate>
-    <lastBuildDate>Thu, 25 Jun 2020 00:04:53 +0800</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 25 Jun 2020 00:22:56 +0800</pubDate>
+    <lastBuildDate>Thu, 25 Jun 2020 00:22:56 +0800</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
     
       <item>
@@ -282,9 +282,9 @@
 &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getPrice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//$50.4&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
-        <pubDate>Wed, 24 Jun 2020 00:00:00 +0800</pubDate>
-        <link>https://ttcoder.com/2020/06/24/JavaScript-Design-pattern/</link>
-        <guid isPermaLink="true">https://ttcoder.com/2020/06/24/JavaScript-Design-pattern/</guid>
+        <pubDate>Thu, 25 Jun 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/06/25/JavaScript-Design-pattern/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/06/25/JavaScript-Design-pattern/</guid>
         
         
         <category>JavaScript</category>
@@ -671,8 +671,8 @@ alert(p3.blueEye); // true
 &lt;p&gt;以上是我的关于JavaScript基于原型的面向对象编程的全部。（完）&lt;/p&gt;
 </description>
         <pubDate>Tue, 23 Jun 2020 00:00:00 +0800</pubDate>
-        <link>https://ttcoder.com/2020/06/23/javascript-oop/</link>
-        <guid isPermaLink="true">https://ttcoder.com/2020/06/23/javascript-oop/</guid>
+        <link>http://localhost:4000/2020/06/23/javascript-oop/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/06/23/javascript-oop/</guid>
         
         
         <category>JavaScript</category>
@@ -834,70 +834,8 @@ alert(p3.blueEye); // true
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 15 Jun 2020 00:00:00 +0800</pubDate>
-        <link>https://ttcoder.com/2020/06/15/cdn-for-github-pages/</link>
-        <guid isPermaLink="true">https://ttcoder.com/2020/06/15/cdn-for-github-pages/</guid>
-        
-        
-        <category>GitHub</category>
-        
-      </item>
-    
-      <item>
-        <title>本博客模板常见问题 Q &amp; A</title>
-        <description>&lt;p&gt;使用这个博客模板的朋友们时不时会提出一些问题，我将它们以及对应的解决方案逐渐整理归纳，汇总到这一篇帖子里。&lt;/p&gt;
-
-&lt;h2 id=&quot;如何本地预览&quot;&gt;如何本地预览&lt;/h2&gt;
-
-&lt;p&gt;参考 GitHub 的官方说明：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://help.github.com/articles/setting-up-your-pages-site-locally-with-jekyll/&quot;&gt;Setting up your Pages site locally with Jekyll&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;本地预览报错-undefined-method-map-for-false&quot;&gt;本地预览报错 undefined method map for false&lt;/h2&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GitHub Metadata: Failed to open TCP connection to api.github.com:443 (Connection refused - connect(2) for &quot;api.github.com&quot; port 443)
-Liquid Exception: undefined method `map' for false:FalseClass Did you mean? tap in /_layouts/page.html
-jekyll 3.8.5 | Error:  undefined method `map' for false:FalseClass
-Did you mean?  tap
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undefined method `map` for false:FalseClass&lt;/code&gt; 这条报错之前总是伴随着 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Failed to open TCP connection to api.github.com:443&lt;/code&gt; 一起出现，是在获取 GitHub Metadata 出错后，导致这一句报错：&lt;/p&gt;
-
-&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;assign&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;repos&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;site&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;public_repositories&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;stargazers_count&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reverse&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;解决方法：&lt;/p&gt;
-
-&lt;p&gt;模板里主要是 _includes/sidebar-popular-repo.html 和 _pages/open-source.md 两个文件里用到了 Metadata，将以上这一句前的判断条件做一下修改后问题解决，将&lt;/p&gt;
-
-&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;site&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;public_repositories&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;改为&lt;/p&gt;
-
-&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;site&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;public_repositories&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;模板最新代码已经做了修改。&lt;/p&gt;
-
-&lt;h2 id=&quot;是否支持画流程图时序图mermaid-和-mathjax&quot;&gt;是否支持画流程图、时序图、mermaid 和 MathJax&lt;/h2&gt;
-
-&lt;p&gt;支持。因为相关的引入文件比较大可能影响加载速度，没有默认对所有文件开启，需要在要想开启的文件的 Front Matter 里加上声明：&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;sequence&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;mermaid&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;mathjax&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;以上四个开关分别对应 flowchart.js（流程图）、sequence-diagram.js（时序图）、mermaid 和 MathJax 的支持，按需开启即可，然后就可以在正文里正常画图了，展示效果可以参见 &lt;a href=&quot;https://ttcoder.com/wiki/markdown/&quot;&gt;https://ttcoder.com/wiki/markdown/&lt;/a&gt;，对应写法参考源文件 &lt;a href=&quot;https://github.com/ttcoder404/ttcoder404.github.io/blob/master/_wiki/markdown.md&quot;&gt;https://github.com/ttcoder404/ttcoder404.github.io/blob/master/_wiki/markdown.md&lt;/a&gt;。&lt;/p&gt;
-</description>
-        <pubDate>Sun, 03 May 2020 00:00:00 +0800</pubDate>
-        <link>https://ttcoder.com/2020/05/03/blog-template-qna/</link>
-        <guid isPermaLink="true">https://ttcoder.com/2020/05/03/blog-template-qna/</guid>
+        <link>http://localhost:4000/2020/06/15/cdn-for-github-pages/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/06/15/cdn-for-github-pages/</guid>
         
         
         <category>GitHub</category>

@@ -1,9 +1,11 @@
 ---
 layout: post
 title: 使用 jsDelivr 免费加速 GitHub Pages 博客的静态资源
-categories: GitHub
-description: 使用 jsdelivr CDN 加速 GitHub Pages 博客的静态资源。
+excerpt: 挺久以前就有网友给我的 GitHub Pages 博客模板提Issue，说希望能增加 CDN 用于加速静态资源的加载，由于懒，一直没有动。
 keywords: GitHub, CDN, jsdelivr
+categories: GitHub
+word_count: true
+topmost: true
 ---
 
 挺久以前就有网友给我的 GitHub Pages 博客模板提 [Issue](https://github.com/ttcoder404/ttcoder404.github.io/issues/65)，说希望能增加 CDN 用于加速静态资源的加载，由于懒，一直没有动。
