@@ -5,21 +5,21 @@
   
     {
       "title"    : "About Me",
-      "url"      : "http://localhost:4000/about/"
+      "url"      : "https://ttcoder.com/about/"
     } ,
   
   
   
     {
       "title"    : "Sort by year Archive",
-      "url"      : "http://localhost:4000/archives/"
+      "url"      : "https://ttcoder.com/archives/"
     } ,
   
   
   
     {
       "title"    : "Bookmarks",
-      "url"      : "http://localhost:4000/bookmark/"
+      "url"      : "https://ttcoder.com/bookmark/"
     } ,
   
   
@@ -30,7 +30,7 @@
   
     {
       "title"    : "Open Source Projects",
-      "url"      : "http://localhost:4000/open-source/"
+      "url"      : "https://ttcoder.com/open-source/"
     } ,
   
   
@@ -39,7 +39,7 @@
   
     {
       "title"    : "All My Blogs",
-      "url"      : "http://localhost:4000/talk/"
+      "url"      : "https://ttcoder.com/talk/"
     } ,
   
   
@@ -50,56 +50,56 @@
   
     {
       "title"    : "2.0.2 - Jan 27, 2015",
-      "url"      : "http://localhost:4000/bower_components/hover/HISTORY/"
+      "url"      : "https://ttcoder.com/bower_components/hover/HISTORY/"
     } ,
   
   
   
     {
       "title"    : "3.5.0 (February 12, 2016)",
-      "url"      : "http://localhost:4000/bower_components/octicons/CHANGELOG/"
+      "url"      : "https://ttcoder.com/bower_components/octicons/CHANGELOG/"
     } ,
   
   
   
     {
       "title"    : "GitHub CLA",
-      "url"      : "http://localhost:4000/bower_components/primer-markdown/CLA/"
+      "url"      : "https://ttcoder.com/bower_components/primer-markdown/CLA/"
     } ,
   
   
   
     {
       "title"    : "Bootstrap",
-      "url"      : "http://localhost:4000/bower_components/bootstrap/"
+      "url"      : "https://ttcoder.com/bower_components/bootstrap/"
     } ,
   
   
   
     {
       "title"    : "flag-icon-css",
-      "url"      : "http://localhost:4000/bower_components/flag-icon-css/"
+      "url"      : "https://ttcoder.com/bower_components/flag-icon-css/"
     } ,
   
   
   
     {
       "title"    : "GeoPattern",
-      "url"      : "http://localhost:4000/bower_components/geopattern/"
+      "url"      : "https://ttcoder.com/bower_components/geopattern/"
     } ,
   
   
   
     {
       "title"    : "jQuery",
-      "url"      : "http://localhost:4000/bower_components/jquery/"
+      "url"      : "https://ttcoder.com/bower_components/jquery/"
     } ,
   
   
   
     {
       "title"    : "Octicons!",
-      "url"      : "http://localhost:4000/bower_components/octicons/"
+      "url"      : "https://ttcoder.com/bower_components/octicons/"
     } ,
   
   
@@ -117,28 +117,28 @@
       "title"    : "本博客模板常见问题 Q &amp; A",
       "category" : "GitHub",
       
-      "url"      : "http://localhost:4000/2020/05/03/blog-template-qna/"
+      "url"      : "https://ttcoder.com/2020/05/03/blog-template-qna/"
     } ,
   
     {
       "title"    : "使用 jsDelivr 免费加速 GitHub Pages 博客的静态资源",
       "category" : "GitHub",
       
-      "url"      : "http://localhost:4000/2020/06/15/cdn-for-github-pages/"
+      "url"      : "https://ttcoder.com/2020/06/15/cdn-for-github-pages/"
     } ,
   
     {
       "title"    : "基于原型的JavaScript面向对象编程",
       "category" : "JavaScript",
       
-      "url"      : "http://localhost:4000/2020/06/23/javascript-oop/"
+      "url"      : "https://ttcoder.com/2020/06/23/javascript-oop/"
     } ,
   
     {
       "title"    : "JavaScript常用的设计模式",
       "category" : "JavaScript",
       
-      "url"      : "http://localhost:4000/2020/06/24/JavaScript-Design-pattern/"
+      "url"      : "https://ttcoder.com/2020/06/24/JavaScript-Design-pattern/"
     } 
   
 ]

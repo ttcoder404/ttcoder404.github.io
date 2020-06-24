@@ -3,10 +3,10 @@
   <channel>
     <title>头秃程序猿 — 前端知识学习分享</title>
     <description>专注前端开发学习分享，程序员升职技巧，防脱指南</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 24 Jun 2020 23:58:05 +0800</pubDate>
-    <lastBuildDate>Wed, 24 Jun 2020 23:58:05 +0800</lastBuildDate>
+    <link>https://ttcoder.com/</link>
+    <atom:link href="https://ttcoder.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 25 Jun 2020 00:04:53 +0800</pubDate>
+    <lastBuildDate>Thu, 25 Jun 2020 00:04:53 +0800</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
     
       <item>
@@ -283,8 +283,8 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
         <pubDate>Wed, 24 Jun 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/06/24/JavaScript-Design-pattern/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/06/24/JavaScript-Design-pattern/</guid>
+        <link>https://ttcoder.com/2020/06/24/JavaScript-Design-pattern/</link>
+        <guid isPermaLink="true">https://ttcoder.com/2020/06/24/JavaScript-Design-pattern/</guid>
         
         
         <category>JavaScript</category>
@@ -671,8 +671,8 @@ alert(p3.blueEye); // true
 &lt;p&gt;以上是我的关于JavaScript基于原型的面向对象编程的全部。（完）&lt;/p&gt;
 </description>
         <pubDate>Tue, 23 Jun 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/06/23/javascript-oop/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/06/23/javascript-oop/</guid>
+        <link>https://ttcoder.com/2020/06/23/javascript-oop/</link>
+        <guid isPermaLink="true">https://ttcoder.com/2020/06/23/javascript-oop/</guid>
         
         
         <category>JavaScript</category>
@@ -834,8 +834,8 @@ alert(p3.blueEye); // true
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 15 Jun 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/06/15/cdn-for-github-pages/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/06/15/cdn-for-github-pages/</guid>
+        <link>https://ttcoder.com/2020/06/15/cdn-for-github-pages/</link>
+        <guid isPermaLink="true">https://ttcoder.com/2020/06/15/cdn-for-github-pages/</guid>
         
         
         <category>GitHub</category>
@@ -896,8 +896,8 @@ Did you mean?  tap
 &lt;p&gt;以上四个开关分别对应 flowchart.js（流程图）、sequence-diagram.js（时序图）、mermaid 和 MathJax 的支持，按需开启即可，然后就可以在正文里正常画图了，展示效果可以参见 &lt;a href=&quot;https://ttcoder.com/wiki/markdown/&quot;&gt;https://ttcoder.com/wiki/markdown/&lt;/a&gt;，对应写法参考源文件 &lt;a href=&quot;https://github.com/ttcoder404/ttcoder404.github.io/blob/master/_wiki/markdown.md&quot;&gt;https://github.com/ttcoder404/ttcoder404.github.io/blob/master/_wiki/markdown.md&lt;/a&gt;。&lt;/p&gt;
 </description>
         <pubDate>Sun, 03 May 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/05/03/blog-template-qna/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/05/03/blog-template-qna/</guid>
+        <link>https://ttcoder.com/2020/05/03/blog-template-qna/</link>
+        <guid isPermaLink="true">https://ttcoder.com/2020/05/03/blog-template-qna/</guid>
         
         
         <category>GitHub</category>
