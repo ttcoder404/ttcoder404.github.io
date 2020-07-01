@@ -146,6 +146,13 @@
       "category" : "JavaScript",
       
       "url"      : "http://localhost:4000/2020/06/28/JavaScript-prototype/"
+    } ,
+  
+    {
+      "title"    : "浏览器工作原理",
+      "category" : "principle",
+      
+      "url"      : "http://localhost:4000/2020/07/01/browser-principle/"
     } 
   
 ]
