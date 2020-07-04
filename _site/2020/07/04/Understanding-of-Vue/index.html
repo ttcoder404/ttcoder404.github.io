@@ -194,7 +194,7 @@
 
 <p>Vue 是一套用于构建用户界面的渐进式MVVM框架。那怎么理解<code class="language-plaintext highlighter-rouge">渐进式</code>呢？渐进式含义：强制主张最少。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/1-1.png" alt="渐进式概念" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/1-1.png" alt="渐进式概念" /></p>
 
 <p>Vue.js包含了声明式渲染、组件化系统、客户端路由、大规模状态管理、构建工具、数据持久化、跨平台支持等，但在实际开发中，并没有强制要求开发者之后某一特定功能，而是根据需求逐渐扩展。</p>
 
@@ -449,7 +449,7 @@
 
 <p>至此，父子组件的关系如下图：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/1-2.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/1-2.png" alt="img" /></p>
 
 <h3 id="模板渲染">模板渲染</h3>
 
@@ -477,7 +477,7 @@
 
 <p>模板编译分三个阶段，<code class="language-plaintext highlighter-rouge">parse</code>、<code class="language-plaintext highlighter-rouge">optimize</code>、<code class="language-plaintext highlighter-rouge">generate</code>，最终生成<code class="language-plaintext highlighter-rouge">render</code>函数。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/1-3.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/1-3.png" alt="img" /></p>
 
 <p><code class="language-plaintext highlighter-rouge">parse</code>阶段：使用正在表达式将<code class="language-plaintext highlighter-rouge">template</code>进行字符串解析，得到指令、class、style等数据，生成抽象语法树 AST。</p>
 
@@ -582,7 +582,7 @@
 
 <h3 id="小结-1">小结</h3>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/2-1.png" alt="响应式系统" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/2-1.png" alt="响应式系统" /></p>
 
 <p>Observer 负责将数据进行拦截，Watcher 负责订阅，观察数据变化， Dep 负责接收订阅并通知 Observer 和接收发布并通知所有 Watcher。</p>
 
@@ -590,7 +590,7 @@
 
 <p>在 Vue 中，<code class="language-plaintext highlighter-rouge">template</code>被编译成浏览器可执行的<code class="language-plaintext highlighter-rouge">render function</code>，然后配合响应式系统，将<code class="language-plaintext highlighter-rouge">render function</code>挂载在<code class="language-plaintext highlighter-rouge">render-watcher</code>中，当有数据更改的时候，调度中心<code class="language-plaintext highlighter-rouge">Dep</code>通知该<code class="language-plaintext highlighter-rouge">render-watcher</code>执行<code class="language-plaintext highlighter-rouge">render function</code>，完成视图的渲染与更新。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-1.png" alt="DOM更新" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-1.png" alt="DOM更新" /></p>
 
 <p>整个流程看似通顺，但是当执行<code class="language-plaintext highlighter-rouge">render function</code>时，如果每次都全量删除并重建 DOM，这对执行性能来说，无疑是一种巨大的损耗，因为我们知道，浏览器的DOM很“昂贵”的，当我们频繁的更新 DOM，会产生一定的性能问题。</p>
 
@@ -620,7 +620,7 @@
 
 <p>Vue.js 内部的 diff 被称为<code class="language-plaintext highlighter-rouge">patch</code>。其 diff 算法的是通过同层的树节点进行比较，而非对树进行逐层搜索遍历的方式，所以时间复杂度只有O(n)，是一种相当高效的算法。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-2.png" alt="DIFF" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-2.png" alt="DIFF" /></p>
 
 <p>首先定义新老节点是否相同判定函数<code class="language-plaintext highlighter-rouge">sameVnode</code>：满足键值<code class="language-plaintext highlighter-rouge">key</code>和标签名<code class="language-plaintext highlighter-rouge">tag</code>必须一致等条件，返回<code class="language-plaintext highlighter-rouge">true</code>，否则<code class="language-plaintext highlighter-rouge">false</code>。</p>
 
@@ -656,7 +656,7 @@
 
 <p>每一次遍历，<code class="language-plaintext highlighter-rouge">oldStartIdx</code>和<code class="language-plaintext highlighter-rouge">oldEndIdx</code>与<code class="language-plaintext highlighter-rouge">newStartIdx</code>和<code class="language-plaintext highlighter-rouge">newEndIdx</code>之间的距离会向中间靠拢。当 oldStartIdx &gt; oldEndIdx 或者 newStartIdx &gt; newEndIdx 时结束循环。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-3.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-3.png" alt="img" /></p>
 
 <p>在遍历中，取出4索引对应的 Vnode节点：</p>
 
@@ -673,47 +673,47 @@
 
 <p>情况一：当<code class="language-plaintext highlighter-rouge">oldStartVnode</code>与<code class="language-plaintext highlighter-rouge">newStartVnode</code>满足 sameVnode，则<code class="language-plaintext highlighter-rouge">oldStartVnode</code>与<code class="language-plaintext highlighter-rouge">newStartVnode</code>进行 patchVnode，并且<code class="language-plaintext highlighter-rouge">oldStartIdx</code>与<code class="language-plaintext highlighter-rouge">newStartIdx</code>右移动。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-4.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-4.png" alt="img" /></p>
 
 <p>情况二：与情况一类似，当<code class="language-plaintext highlighter-rouge">oldEndVnode</code>与<code class="language-plaintext highlighter-rouge">newEndVnode</code>满足 sameVnode，则<code class="language-plaintext highlighter-rouge">oldEndVnode</code>与<code class="language-plaintext highlighter-rouge">newEndVnode</code>进行 patchVnode，并且<code class="language-plaintext highlighter-rouge">oldEndIdx</code>与<code class="language-plaintext highlighter-rouge">newEndIdx</code>左移动。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-5.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-5.png" alt="img" /></p>
 
 <p>情况三：当<code class="language-plaintext highlighter-rouge">oldStartVnode</code>与<code class="language-plaintext highlighter-rouge">newEndVnode</code>满足 sameVnode，则说明<code class="language-plaintext highlighter-rouge">oldStartVnode</code>已经跑到了<code class="language-plaintext highlighter-rouge">oldEndVnode</code>后面去了，此时<code class="language-plaintext highlighter-rouge">oldStartVnode</code>与<code class="language-plaintext highlighter-rouge">newEndVnode</code>进行 patchVnode 的同时，还需要将<code class="language-plaintext highlighter-rouge">oldStartVnode</code>的真实 DOM 节点移动到<code class="language-plaintext highlighter-rouge">oldEndVnode</code>的后面，并且<code class="language-plaintext highlighter-rouge">oldStartIdx</code>右移，<code class="language-plaintext highlighter-rouge">newEndIdx</code>左移。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-6.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-6.png" alt="img" /></p>
 
 <p>情况四：与情况三类似，当<code class="language-plaintext highlighter-rouge">oldEndVnode</code>与<code class="language-plaintext highlighter-rouge">newStartVnode</code>满足 sameVnode，则说明<code class="language-plaintext highlighter-rouge">oldEndVnode</code>已经跑到了<code class="language-plaintext highlighter-rouge">oldStartVnode</code>前面去了，此时<code class="language-plaintext highlighter-rouge">oldEndVnode</code>与<code class="language-plaintext highlighter-rouge">newStartVnode</code>进行 patchVnode 的同时，还需要将<code class="language-plaintext highlighter-rouge">oldEndVnode</code>的真实 DOM 节点移动到<code class="language-plaintext highlighter-rouge">oldStartVnode</code>的前面，并且<code class="language-plaintext highlighter-rouge">oldStartIdx</code>右移，<code class="language-plaintext highlighter-rouge">newEndIdx</code>左移。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-7.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-7.png" alt="img" /></p>
 
 <p>当这四种情况都不满足，则在<code class="language-plaintext highlighter-rouge">oldStartIdx</code>与<code class="language-plaintext highlighter-rouge">oldEndIdx</code>之间查找与<code class="language-plaintext highlighter-rouge">newStartVnode</code>满足<code class="language-plaintext highlighter-rouge">sameVnode</code>的节点，若存在，则将匹配的节点真实 DOM 移动到<code class="language-plaintext highlighter-rouge">oldStartVnode</code>的前面。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-8.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-8.png" alt="img" /></p>
 
 <p>若不存在，说明<code class="language-plaintext highlighter-rouge">newStartVnode</code>为新节点，创建新节点放在<code class="language-plaintext highlighter-rouge">oldStartVnode</code>前面即可。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-9.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-9.png" alt="img" /></p>
 
 <p>当 oldStartIdx &gt; oldEndIdx 或者 newStartIdx &gt; newEndIdx，循环结束，这个时候我们需要处理那些未被遍历到的 VNode。</p>
 
 <p>当 oldStartIdx &gt; oldEndIdx 时，说明老的节点已经遍历完，而新的节点没遍历完，这个时候需要将新的节点创建之后放在<code class="language-plaintext highlighter-rouge">oldEndVnode</code>后面。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-10.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-10.png" alt="img" /></p>
 
 <p>当 newStartIdx &gt; newEndIdx 时，说明新的节点已经遍历完，而老的节点没遍历完，这个时候要将没遍历的老的节点全都删除。</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/3-11.png" alt="img" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/3-11.png" alt="img" /></p>
 
 <p>此时已经完成了子节点的匹配。下面是一个例子 patch 过程图：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/patchChildren.gif" alt="patchChildren" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/patchChildren.gif" alt="patchChildren" /></p>
 
 <h2 id="总结">总结</h2>
 
 <p>借用官方的一幅图：</p>
 
-<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images//images/posts/interview/interview/final.png" alt="final" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/interview/final.png" alt="final" /></p>
 
 <p>Vue.js 实现了一套声明式渲染引擎，并在<code class="language-plaintext highlighter-rouge">runtime</code>或者预编译时将声明式的模板编译成渲染函数，挂载在观察者 Watcher 中，在渲染函数中（touch），响应式系统使用响应式数据的<code class="language-plaintext highlighter-rouge">getter</code>方法对观察者进行依赖收集（Collect as Dependency），使用响应式数据的<code class="language-plaintext highlighter-rouge">setter</code>方法通知（notify）所有观察者进行更新，此时观察者 Watcher 会触发组件的渲染函数（Trigger re-render），组件执行的 render 函数，生成一个新的 Virtual DOM Tree，此时 Vue 会对新老 Virtual DOM Tree 进行 Diff，查找出需要操作的真实 DOM 并对其进行更新。</p>
 
