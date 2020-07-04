@@ -153,6 +153,13 @@
       "category" : "principle",
       
       "url"      : "http://localhost:4000/2020/07/01/browser-principle/"
+    } ,
+  
+    {
+      "title"    : "聊聊对Vue.js框架的理解",
+      "category" : "Vue,",
+      
+      "url"      : "http://localhost:4000/2020/07/04/Understanding-of-Vue/"
     } 
   
 ]

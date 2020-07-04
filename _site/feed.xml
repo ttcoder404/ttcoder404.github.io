@@ -5,9 +5,581 @@
     <description>专注前端开发学习分享，程序员升职技巧，防脱指南</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 02 Jul 2020 01:18:37 +0800</pubDate>
-    <lastBuildDate>Thu, 02 Jul 2020 01:18:37 +0800</lastBuildDate>
+    <pubDate>Sat, 04 Jul 2020 22:33:31 +0800</pubDate>
+    <lastBuildDate>Sat, 04 Jul 2020 22:33:31 +0800</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
+    
+      <item>
+        <title>聊聊对Vue.js框架的理解</title>
+        <description>&lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;今年OKR定了一条KR是每一个季度进行一次前端相关技术的分享，还有十几天就到2020年了，一直忙于业务开发，没有时间准备和学习高端话题，迫于无奈，那就讲讲平时使用频率较高，却没有真正认真的了解其内部原理的 Vue.js 吧。&lt;/p&gt;
+
+&lt;p&gt;分享目标：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;了解 Vue.js 的组件化机制&lt;/li&gt;
+  &lt;li&gt;了解 Vue.js 的响应式系统原理&lt;/li&gt;
+  &lt;li&gt;了解 Vue.js 中的 Virtual DOM 及 Diff 原理&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;vuejs概述&quot;&gt;Vue.js概述&lt;/h2&gt;
+
+&lt;p&gt;Vue 是一套用于构建用户界面的渐进式MVVM框架。那怎么理解&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;渐进式&lt;/code&gt;呢？渐进式含义：强制主张最少。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/1-1.png&quot; alt=&quot;渐进式概念&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Vue.js包含了声明式渲染、组件化系统、客户端路由、大规模状态管理、构建工具、数据持久化、跨平台支持等，但在实际开发中，并没有强制要求开发者之后某一特定功能，而是根据需求逐渐扩展。&lt;/p&gt;
+
+&lt;p&gt;Vue.js的核心库只关心视图渲染，且由于渐进式的特性，Vue.js便于与第三方库或既有项目整合。&lt;/p&gt;
+
+&lt;h2 id=&quot;组件机制&quot;&gt;组件机制&lt;/h2&gt;
+
+&lt;p&gt;定义：组件就是对一个功能和样式进行独立的封装，让HTML元素得到扩展，从而使得代码得到复用，使得开发灵活，更加高效。&lt;/p&gt;
+
+&lt;p&gt;与HTML元素一样，Vue.js的组件拥有外部传入的属性（prop）和事件，除此之外，组件还拥有自己的状态（data）和通过数据和状态计算出来的计算属性（computed），各个维度组合起来决定组件最终呈现的样子与交互的逻辑。&lt;/p&gt;
+
+&lt;h3 id=&quot;数据传递&quot;&gt;数据传递&lt;/h3&gt;
+
+&lt;p&gt;每一个组件之间的作用域是孤立的，这个意味着组件之间的数据不应该出现引用关系，即使出现了引用关系，也不允许组件操作组件内部以外的其他数据。Vue中，允许向组件内部传递&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prop&lt;/code&gt;数据，组件内部需要显性地声明该&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prop&lt;/code&gt;字段，如下声明一个child组件：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- child.vue --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;hello world&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 当default为引用类型时，需要使用 function 形式返回&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;父组件向该组件传递数据：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- parent.vue --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;child&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;:msg=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;parentMsg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/child&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;child&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;./child&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;child&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;parentMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;some words&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;事件传递&quot;&gt;事件传递&lt;/h3&gt;
+
+&lt;p&gt;Vue内部实现了一个事件总线系统，即&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EventBus&lt;/code&gt;。在Vue中可以使用 EventBus 来作为沟通桥梁的概念，每一个Vue的组件实例都继承了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EventBus&lt;/code&gt;，都可以接受事件&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$on&lt;/code&gt;和发送事件&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$emit&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;如上面一个例子，child.vue 组件想修改 parent.vue 组件的 parentMsg 数据，怎么办呢？为了保证数据流的可追溯性，直接修改组件内 prop 的 msg 字段是不提倡的，且例子中为非引用类型 String，直接修改也修改不了，这个时候需要将修改 parentMsg 的事件传递给 child.vue，让 child.vue 来触发修改 parentMsg 的事件。如：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- child.vue --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;hello world&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;methods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;changeMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$emit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;updateMsg&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;父组件：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- parent.vue --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;child&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;:msg=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;parentMsg&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;updateMsg=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;changeParentMsg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/child&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;child&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;./child&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;child&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;parentMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;some words&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;methods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;changeParentMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parentMsg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newMsg&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;父组件 parent.vue 向子组件 child.vue 传递了 updateMsg 事件，在子组件实例化的时候，子组件将 updateMsg 事件使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$on&lt;/code&gt;函数注册到组件内部，需要触发事件的时候，调用函数&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;this.$emit&lt;/code&gt;来触发事件。&lt;/p&gt;
+
+&lt;p&gt;除了父子组件之间的事件传递，还可以使用一个 Vue 实例为多层级的父子组件建立数据通信的桥梁，如：&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eventBus&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 父组件中使用$on监听事件&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;eventBus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;eventName&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//  ...do something&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 子组件使用$emit触发事件&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;eventBus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$emit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;eventName&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;this is a message.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;除了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$on&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$emit&lt;/code&gt;以外，事件总线系统还提供了另外两个方法，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$once&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$off&lt;/code&gt;，所有事件如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$on：监听、注册事件。&lt;/li&gt;
+  &lt;li&gt;$emit：触发事件。&lt;/li&gt;
+  &lt;li&gt;$once：注册事件，仅允许该事件触发一次，触发结束后立即移除事件。&lt;/li&gt;
+  &lt;li&gt;$off：移除事件。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;内容分发&quot;&gt;内容分发&lt;/h3&gt;
+
+&lt;p&gt;Vue实现了一套遵循 &lt;a href=&quot;https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Slots-Proposal.md&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Web Components 规范草案&lt;/code&gt;&lt;/a&gt; 的内容分发系统，即将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;slot&amp;gt;&lt;/code&gt;元素作为承载分发内容的出口。&lt;/p&gt;
+
+&lt;p&gt;插槽slot，也是组件的一块HTML模板，这一块模板显示不显示、以及怎样显示由父组件来决定。实际上，一个slot最核心的两个问题在这里就点出来了，是显示不显示和怎样显示。&lt;/p&gt;
+
+&lt;p&gt;插槽又分默认插槽、具名插槽。&lt;/p&gt;
+
+&lt;h4 id=&quot;默认插槽&quot;&gt;默认插槽&lt;/h4&gt;
+
+&lt;p&gt;又名单个插槽、匿名插槽，与具名插槽相对，这类插槽没有具体名字，一个组件只能有一个该类插槽。&lt;/p&gt;
+
+&lt;p&gt;如：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 父组件 parent.vue --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;parent&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;父容器&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;child&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmpl&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;菜单1&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/child&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 子组件 child.vue --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;child&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;子组件&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;slot&amp;gt;&amp;lt;/slot&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如上，渲染时子组件的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;slot&lt;/code&gt;标签会被父组件传入的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;div.tmpl&lt;/code&gt;替换。&lt;/p&gt;
+
+&lt;h4 id=&quot;具名插槽&quot;&gt;具名插槽&lt;/h4&gt;
+
+&lt;p&gt;匿名插槽没有name属性，所以叫匿名插槽。那么，插槽加了name属性，就变成了具名插槽。具名插槽可以在一个组件中出现N次，出现在不同的位置，只需要使用不同的name属性区分即可。&lt;/p&gt;
+
+&lt;p&gt;如：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 父组件 parent.vue --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;parent&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;父容器&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;child&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmpl&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;slot=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;up&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;菜单up-1&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmpl&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;slot=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;down&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;菜单down-1&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmpl&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;菜单-&amp;gt;1&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/child&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;child&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 具名插槽 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;slot&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;up&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/slot&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h3&amp;gt;&lt;/span&gt;这里是子组件&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h3&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 具名插槽 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;slot&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;down&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/slot&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 匿名插槽 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;slot&amp;gt;&amp;lt;/slot&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如上，slot 标签会根据父容器给 child 标签内传入的内容的 slot 属性值，替换对应的内容。&lt;/p&gt;
+
+&lt;p&gt;其实，默认插槽也有 name 属性值，为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;default&lt;/code&gt;，同样指定  slot 的 name 值为 default，一样可以显示父组件中传入的没有指定slot的内容。&lt;/p&gt;
+
+&lt;h4 id=&quot;作用域插槽&quot;&gt;作用域插槽&lt;/h4&gt;
+
+&lt;p&gt;作用域插槽可以是默认插槽，也可以是具名插槽，不一样的地方是，作用域插槽可以为 slot 标签绑定数据，让其父组件可以获取到子组件的数据。&lt;/p&gt;
+
+&lt;p&gt;如：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- parent.vue --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;parent&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;这是父组件&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;current-user&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;template&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;slot=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;default&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;slot-scope=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;slotProps&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/current-user&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- child.vue --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;child&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;这是子组件&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;slot&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;:user=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/slot&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;小赵&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如上例子，子组件 child 在渲染默认插槽 slot 的时候，将数据 user 传递给了 slot 标签，在渲染过程中，父组件可以通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;slot-scope&lt;/code&gt;属性获取到 user 数据并渲染视图。&lt;/p&gt;
+
+&lt;p&gt;slot 实现原理：当子组件&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm&lt;/code&gt;实例化时，获取到父组件传入的 slot 标签的内容，存放在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm.$slot&lt;/code&gt;中，默认插槽为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm.$slot.default&lt;/code&gt;，具名插槽为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm.$slot.xxx&lt;/code&gt;，xxx 为 插槽名，当组件执行渲染函数时候，遇到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;slot&amp;gt;&lt;/code&gt;标签，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$slot&lt;/code&gt;中的内容进行替换，此时可以为插槽传递数据，若存在数据，则可曾该插槽为作用域插槽。&lt;/p&gt;
+
+&lt;p&gt;至此，父子组件的关系如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/1-2.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;模板渲染&quot;&gt;模板渲染&lt;/h3&gt;
+
+&lt;p&gt;Vue.js 的核心是声明式渲染，与命令式渲染不同，声明式渲染只需要告诉程序，我们想要的什么效果，其他的事情让程序自己去做。而命令式渲染，需要命令程序一步一步根据命令执行渲染。如下例子区分：&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 命令式渲染，关心每一步、关心流程。用命令去实现&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newArr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;newArr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 声明式渲染，不用关心中间流程，只需要关心结果和实现的条件&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newArr1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Vue.js 实现了if、for、事件、数据绑定等指令，允许采用简洁的模板语法来声明式地将数据渲染出视图。&lt;/p&gt;
+
+&lt;h4 id=&quot;模板编译&quot;&gt;模板编译&lt;/h4&gt;
+
+&lt;p&gt;为什么要进行模板编译？实际上，我们组件中的 template 语法是无法被浏览器解析的，因为它不是正确的 HTML 语法，而模板编译，就是将组件的 template 编译成可执行的 JavaScript 代码，即将 template 转化为真正的渲染函数。&lt;/p&gt;
+
+&lt;p&gt;模板编译分三个阶段，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;parse&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;optimize&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;generate&lt;/code&gt;，最终生成&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render&lt;/code&gt;函数。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/1-3.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;parse&lt;/code&gt;阶段：使用正在表达式将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;template&lt;/code&gt;进行字符串解析，得到指令、class、style等数据，生成抽象语法树 AST。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;optimize&lt;/code&gt;阶段：寻找 AST 中的静态节点进行标记，为后面 VNode 的 patch 过程中对比做优化。被标记为 static 的节点在后面的 diff 算法中会被直接忽略，不做详细的比较。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;generate&lt;/code&gt;阶段：根据 AST 结构拼接生成 render 函数的字符串。&lt;/p&gt;
+
+&lt;h4 id=&quot;预编译&quot;&gt;预编译&lt;/h4&gt;
+
+&lt;p&gt;对于 Vue 组件来说，模板编译只会在组件实例化的时候编译一次，生成渲染函数之后在也不会进行编译。因此，编译对组件的 runtime 是一种性能损耗。而模板编译的目的仅仅是将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;template&lt;/code&gt;转化为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render function&lt;/code&gt;，而这个过程，正好可以在项目构建的过程中完成。&lt;/p&gt;
+
+&lt;p&gt;比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;webpack&lt;/code&gt;的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vue-loader&lt;/code&gt;依赖了&lt;a href=&quot;https://www.npmjs.com/package/vue-template-compiler&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vue-template-compiler&lt;/code&gt;&lt;/a&gt;模块，在 webpack 构建过程中，将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;template&lt;/code&gt;预编译成 render 函数，在 runtime 可直接跳过模板编译过程。&lt;/p&gt;
+
+&lt;p&gt;回过头看，runtime 需要是仅仅是 render 函数，而我们有了预编译之后，我们只需要保证构建过程中生成 render 函数就可以。与 React 类似，在添加&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSX&lt;/code&gt;的语法糖编译器&lt;a href=&quot;https://www.npmjs.com/package/babel-plugin-transform-vue-jsx&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;babel-plugin-transform-vue-jsx&lt;/code&gt;&lt;/a&gt;之后，我们可以在 Vue 组件中使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSX&lt;/code&gt;语法直接书写 render 函数。&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Hello JSX.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/div&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;;
+&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如上面组件，使用 JSX 之后，可以在 JS 代码中直接使用 html 标签，而且声明了 render 函数以后，我们不再需要声明 template。当然，假如我们同时声明了 template 标签和 render 函数，构建过程中，template 编译的结果将覆盖原有的 render 函数，即 template 的优先级高于直接书写的 render 函数。&lt;/p&gt;
+
+&lt;p&gt;相对于 template 而言，JSX 具有更高的灵活性，面对与一些复杂的组件来说，JSX 有着天然的优势，而 template 虽然显得有些呆滞，但是代码结构上更符合视图与逻辑分离的习惯，更简单、更直观、更好维护。&lt;/p&gt;
+
+&lt;p&gt;需要注意的是，最后生成的 render 函数是被包裹在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;with&lt;/code&gt;语法中运行的。&lt;/p&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;Vue 组件通过 prop 进行数据传递，并实现了数据总线系统&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EventBus&lt;/code&gt;，组件集成了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EventBus&lt;/code&gt;进行事件注册监听、事件触发，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;slot&lt;/code&gt;进行内容分发。&lt;/p&gt;
+
+&lt;p&gt;除此以外，实现了一套声明式模板系统，在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;runtime&lt;/code&gt;或者预编译是对模板进行编译，生成渲染函数，供组件渲染视图使用。&lt;/p&gt;
+
+&lt;h2 id=&quot;响应式系统&quot;&gt;响应式系统&lt;/h2&gt;
+
+&lt;p&gt;Vue.js 是一款 MVVM 的JS框架，当对数据模型&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;进行修改时，视图会自动得到更新，即框架帮我们完成了更新DOM的操作，而不需要我们手动的操作DOM。可以这么理解，当我们对数据进行赋值的时候，Vue 告诉了所有依赖该数据模型的组件，你依赖的数据有更新，你需要进行重渲染了，这个时候，组件就会重渲染，完成了视图的更新。&lt;/p&gt;
+
+&lt;h3 id=&quot;数据模型--计算属性--监听器&quot;&gt;数据模型 &amp;amp;&amp;amp; 计算属性 &amp;amp;&amp;amp; 监听器&lt;/h3&gt;
+
+&lt;p&gt;在组件中，可以为每个组件定义数据模型&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;、计算属性&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed&lt;/code&gt;、监听器&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;watch&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;数据模型：Vue 实例在创建过程中，对数据模型&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;的每一个属性加入到响应式系统中，当数据被更改时，视图将得到响应，同步更新。&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;必须采用函数的方式 return，不使用 return 包裹的数据会在项目的全局可见，会造成变量污染；使用return包裹后数据中变量只在当前组件中生效，不会影响其他组件。&lt;/p&gt;
+
+&lt;p&gt;计算属性：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed&lt;/code&gt;基于组件响应式依赖进行计算得到结果并缓存起来。只在相关响应式依赖发生改变时它们才会重新求值，也就是说，只有它依赖的响应式数据（data、prop、computed本身）发生变化了才会重新计算。那什么时候应该使用计算属性呢？模板内的表达式非常便利，但是设计它们的初衷是用于简单运算的。在模板中放入太多的逻辑会让模板过重且难以维护。对于任何复杂逻辑，你都应当使用计算属性。&lt;/p&gt;
+
+&lt;p&gt;监听器：监听器&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;watch&lt;/code&gt;作用如其名，它可以监听响应式数据的变化，响应式数据包括 data、prop、computed，当响应式数据发生变化时，可以做出相应的处理。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。&lt;/p&gt;
+
+&lt;h3 id=&quot;响应式原理&quot;&gt;响应式原理&lt;/h3&gt;
+
+&lt;p&gt;在 Vue 中，数据模型下的所有属性，会被 Vue 使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Object.defineProperty&lt;/code&gt;（Vue3.0 使用 Proxy）进行数据劫持代理。响应式的核心机制是观察者模式，数据是被观察的一方，一旦发生变化，通知所有观察者，这样观察者可以做出响应，比如当观察者为视图时，视图可以做出视图的更新。&lt;/p&gt;
+
+&lt;p&gt;Vue.js 的响应式系统以来三个重要的概念，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Observer&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dep&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watcher&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h4 id=&quot;发布者-observer&quot;&gt;发布者-Observer&lt;/h4&gt;
+
+&lt;p&gt;Observe 扮演的角色是发布者，他的主要作用是在组件&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm&lt;/code&gt;初始化的时，调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;defineReactive&lt;/code&gt;函数，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Object.defineProperty&lt;/code&gt;方法对对象的每一个子属性进行数据劫持/监听，即为每个属性添加&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getter&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setter&lt;/code&gt;，将对应的属性值变成响应式。&lt;/p&gt;
+
+&lt;p&gt;在组件初始化时，调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;initState&lt;/code&gt;函数，内部执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;initState&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;initProps&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;initComputed&lt;/code&gt;方法，分别对&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prop&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed&lt;/code&gt;进行初始化，让其变成响应式。&lt;/p&gt;
+
+&lt;p&gt;初始化&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;props&lt;/code&gt;时，对所有&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;props&lt;/code&gt;进行遍历，调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;defineReactive&lt;/code&gt;函数，将每个 prop 属性值变成响应式，然后将其挂载到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_props&lt;/code&gt;中，然后通过代理，把&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm.xxx&lt;/code&gt;代理到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm._props.xxx&lt;/code&gt;中。&lt;/p&gt;
+
+&lt;p&gt;同理，初始化&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;时，与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prop&lt;/code&gt;相同，对所有&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;进行遍历，调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;defineReactive&lt;/code&gt;函数，将每个 data 属性值变成响应式，然后将其挂载到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_data&lt;/code&gt;中，然后通过代理，把&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm.xxx&lt;/code&gt;代理到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm._data.xxx&lt;/code&gt;中。&lt;/p&gt;
+
+&lt;p&gt;初始化&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed&lt;/code&gt;，首先创建一个观察者对象&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed-watcher&lt;/code&gt;，然后遍历&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed&lt;/code&gt;的每一个属性，对每一个属性值调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;defineComputed&lt;/code&gt;方法，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Object.defineProperty&lt;/code&gt;将其变成响应式的同时，将其代理到组件实例上，即可通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vm.xxx&lt;/code&gt;访问到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xxx&lt;/code&gt;计算属性。&lt;/p&gt;
+
+&lt;h4 id=&quot;调度中心订阅器-dep&quot;&gt;调度中心/订阅器-Dep&lt;/h4&gt;
+
+&lt;p&gt;Dep 扮演的角色是调度中心/订阅器，在调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;defineReactive&lt;/code&gt;将属性值变成响应式的过程中，也为每个属性值实例化了一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dep&lt;/code&gt;，主要作用是对观察者（Watcher）进行管理，收集观察者和通知观察者目标更新，即当属性值数据发生改变时，会遍历观察者列表（dep.subs），通知所有的 watcher，让订阅者执行自己的update逻辑。&lt;/p&gt;
+
+&lt;p&gt;其&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dep&lt;/code&gt;的任务是，在属性的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getter&lt;/code&gt;方法中，调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dep.depend()&lt;/code&gt;方法，将观察者（即 Watcher，可能是组件的render function，可能是 computed，也可能是属性监听 watch）保存在内部，完成其依赖收集。在属性的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setter&lt;/code&gt;方法中，调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dep.notify()&lt;/code&gt;方法，通知所有观察者执行更新，完成派发更新。&lt;/p&gt;
+
+&lt;h4 id=&quot;观察者-watcher&quot;&gt;观察者-Watcher&lt;/h4&gt;
+
+&lt;p&gt;Watcher 扮演的角色是订阅者/观察者，他的主要作用是为观察属性提供回调函数以及收集依赖，当被观察的值发生变化时，会接收到来自调度中心&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dep&lt;/code&gt;的通知，从而触发回调函数。&lt;/p&gt;
+
+&lt;p&gt;而&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watcher&lt;/code&gt;又分为三类，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;normal-watcher&lt;/code&gt;、 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed-watcher&lt;/code&gt;、 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render-watcher&lt;/code&gt;。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;normal-watcher：在组件钩子函数&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;watch&lt;/code&gt;中定义，即监听的属性改变了，都会触发定义好的回调函数。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;computed-watcher：在组件钩子函数&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed&lt;/code&gt;中定义的，每一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;computed&lt;/code&gt;属性，最后都会生成一个对应的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watcher&lt;/code&gt;对象，但是这类&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watcher&lt;/code&gt;有个特点：当计算属性依赖于其他数据时，属性并不会立即重新计算，只有之后其他地方需要读取属性的时候，它才会真正计算，即具备&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lazy&lt;/code&gt;（懒计算）特性。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;render-watcher：每一个组件都会有一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render-watcher&lt;/code&gt;, 当&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data/computed&lt;/code&gt;中的属性改变的时候，会调用该&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watcher&lt;/code&gt;来更新组件的视图。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这三种&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watcher&lt;/code&gt;也有固定的执行顺序，分别是：computed-render -&amp;gt; normal-watcher -&amp;gt; render-watcher。这样就能尽可能的保证，在更新组件视图的时候，computed 属性已经是最新值了，如果 render-watcher 排在 computed-render 前面，就会导致页面更新的时候 computed 值为旧数据。&lt;/p&gt;
+
+&lt;h3 id=&quot;小结-1&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/2-1.png&quot; alt=&quot;响应式系统&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Observer 负责将数据进行拦截，Watcher 负责订阅，观察数据变化， Dep 负责接收订阅并通知 Observer 和接收发布并通知所有 Watcher。&lt;/p&gt;
+
+&lt;h2 id=&quot;virtual-dom&quot;&gt;Virtual DOM&lt;/h2&gt;
+
+&lt;p&gt;在 Vue 中，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;template&lt;/code&gt;被编译成浏览器可执行的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render function&lt;/code&gt;，然后配合响应式系统，将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render function&lt;/code&gt;挂载在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render-watcher&lt;/code&gt;中，当有数据更改的时候，调度中心&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dep&lt;/code&gt;通知该&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render-watcher&lt;/code&gt;执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render function&lt;/code&gt;，完成视图的渲染与更新。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-1.png&quot; alt=&quot;DOM更新&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;整个流程看似通顺，但是当执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render function&lt;/code&gt;时，如果每次都全量删除并重建 DOM，这对执行性能来说，无疑是一种巨大的损耗，因为我们知道，浏览器的DOM很“昂贵”的，当我们频繁的更新 DOM，会产生一定的性能问题。&lt;/p&gt;
+
+&lt;p&gt;为了解决这个问题，Vue 使用 JS 对象将浏览器的 DOM 进行的抽象，这个抽象被称为 Virtual DOM。Virtual DOM 的每个节点被定义为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VNode&lt;/code&gt;，当每次执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render function&lt;/code&gt;时，Vue 对更新前后的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VNode&lt;/code&gt;进行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Diff&lt;/code&gt;对比，找出尽可能少的我们需要更新的真实 DOM 节点，然后只更新需要更新的节点，从而解决频繁更新 DOM 产生的性能问题。&lt;/p&gt;
+
+&lt;h3 id=&quot;vnode&quot;&gt;VNode&lt;/h3&gt;
+
+&lt;p&gt;VNode，全称&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtual node&lt;/code&gt;，即虚拟节点，对真实 DOM 节点的虚拟描述，在 Vue 的每一个组件实例中，会挂载一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$createElement&lt;/code&gt;函数，所有的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VNode&lt;/code&gt;都是由这个函数创建的。&lt;/p&gt;
+
+&lt;p&gt;比如创建一个 div：&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 声明 render function&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 也可以使用 this.$createElement 创建 VNode&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;hellow world&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 以上 render 方法返回html片段 &amp;lt;div&amp;gt;hellow world&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;render 函数执行后，会根据&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VNode Tree&lt;/code&gt;将 VNode 映射生成真实 DOM，从而完成视图的渲染。&lt;/p&gt;
+
+&lt;h3 id=&quot;diff&quot;&gt;Diff&lt;/h3&gt;
+
+&lt;p&gt;Diff 将新老 VNode 节点进行比对，然后将根据两者的比较结果进行最小单位地修改视图，而不是将整个视图根据新的 VNode 重绘，进而达到提升性能的目的。&lt;/p&gt;
+
+&lt;h4 id=&quot;patch&quot;&gt;patch&lt;/h4&gt;
+
+&lt;p&gt;Vue.js 内部的 diff 被称为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;patch&lt;/code&gt;。其 diff 算法的是通过同层的树节点进行比较，而非对树进行逐层搜索遍历的方式，所以时间复杂度只有O(n)，是一种相当高效的算法。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-2.png&quot; alt=&quot;DIFF&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;首先定义新老节点是否相同判定函数&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sameVnode&lt;/code&gt;：满足键值&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;key&lt;/code&gt;和标签名&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tag&lt;/code&gt;必须一致等条件，返回&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;，否则&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;false&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;在进行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;patch&lt;/code&gt;之前，新老 VNode 是否满足条件&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sameVnode(oldVnode, newVnode)&lt;/code&gt;，满足条件之后，进入流程&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;patchVnode&lt;/code&gt;，否则被判定为不相同节点，此时会移除老节点，创建新节点。&lt;/p&gt;
+
+&lt;h4 id=&quot;patchvnode&quot;&gt;patchVnode&lt;/h4&gt;
+
+&lt;p&gt;patchVnode 的主要作用是判定如何对子节点进行更新，&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果新旧VNode都是静态的，同时它们的key相同（代表同一节点），并且新的 VNode 是 clone 或者是标记了 once（标记v-once属性，只渲染一次），那么只需要替换 DOM 以及 VNode 即可。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;新老节点均有子节点，则对子节点进行 diff 操作，进行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;updateChildren&lt;/code&gt;，这个 updateChildren 也是 diff 的核心。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果老节点没有子节点而新节点存在子节点，先清空老节点 DOM 的文本内容，然后为当前 DOM 节点加入子节点。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;当新节点没有子节点而老节点有子节点的时候，则移除该 DOM 节点的所有子节点。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;当新老节点都无子节点的时候，只是文本的替换。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;updatechildren&quot;&gt;updateChildren&lt;/h4&gt;
+
+&lt;p&gt;Diff 的核心，对比新老子节点数据，判定如何对子节点进行操作，在对比过程中，由于老的子节点存在对当前真实 DOM 的引用，新的子节点只是一个 VNode 数组，所以在进行遍历的过程中，若发现需要更新真实 DOM 的地方，则会直接在老的子节点上进行真实 DOM 的操作，等到遍历结束，新老子节点则已同步结束。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;updateChildren&lt;/code&gt;内部定义了4个变量，分别是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndIdx&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartIdx&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndIdx&lt;/code&gt;，分别表示正在 Diff 对比的新老子节点的左右边界点索引，在老子节点数组中，索引在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndIdx&lt;/code&gt;中间的节点，表示老子节点中为被遍历处理的节点，所以小于&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;或大于&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndIdx&lt;/code&gt;的表示未被遍历处理的节点。同理，在新的子节点数组中，索引在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartIdx&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndIdx&lt;/code&gt;中间的节点，表示老子节点中为被遍历处理的节点，所以小于&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartIdx&lt;/code&gt;或大于&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndIdx&lt;/code&gt;的表示未被遍历处理的节点。&lt;/p&gt;
+
+&lt;p&gt;每一次遍历，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndIdx&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartIdx&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndIdx&lt;/code&gt;之间的距离会向中间靠拢。当 oldStartIdx &amp;gt; oldEndIdx 或者 newStartIdx &amp;gt; newEndIdx 时结束循环。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-3.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在遍历中，取出4索引对应的 Vnode节点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;oldStartIdx：oldStartVnode&lt;/li&gt;
+  &lt;li&gt;oldEndIdx：oldEndVnode&lt;/li&gt;
+  &lt;li&gt;newStartIdx：newStartVnode&lt;/li&gt;
+  &lt;li&gt;newEndIdx：newEndVnode&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;diff 过程中，如果存在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;key&lt;/code&gt;，并且满足&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sameVnode&lt;/code&gt;，会将该 DOM 节点进行复用，否则则会创建一个新的 DOM 节点。&lt;/p&gt;
+
+&lt;p&gt;首先，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartVnode&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndVnode&lt;/code&gt;两两比较，一共有 2*2=4 种比较方法。&lt;/p&gt;
+
+&lt;p&gt;情况一：当&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartVnode&lt;/code&gt;满足 sameVnode，则&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartVnode&lt;/code&gt;进行 patchVnode，并且&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartIdx&lt;/code&gt;右移动。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;情况二：与情况一类似，当&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndVnode&lt;/code&gt;满足 sameVnode，则&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndVnode&lt;/code&gt;进行 patchVnode，并且&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndIdx&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndIdx&lt;/code&gt;左移动。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-5.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;情况三：当&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndVnode&lt;/code&gt;满足 sameVnode，则说明&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;已经跑到了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;后面去了，此时&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndVnode&lt;/code&gt;进行 patchVnode 的同时，还需要将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;的真实 DOM 节点移动到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;的后面，并且&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;右移，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndIdx&lt;/code&gt;左移。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-6.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;情况四：与情况三类似，当&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartVnode&lt;/code&gt;满足 sameVnode，则说明&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;已经跑到了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;前面去了，此时&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartVnode&lt;/code&gt;进行 patchVnode 的同时，还需要将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;的真实 DOM 节点移动到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;的前面，并且&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;右移，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEndIdx&lt;/code&gt;左移。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-7.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;当这四种情况都不满足，则在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartIdx&lt;/code&gt;与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndIdx&lt;/code&gt;之间查找与&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartVnode&lt;/code&gt;满足&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sameVnode&lt;/code&gt;的节点，若存在，则将匹配的节点真实 DOM 移动到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;的前面。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-8.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;若不存在，说明&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newStartVnode&lt;/code&gt;为新节点，创建新节点放在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldStartVnode&lt;/code&gt;前面即可。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-9.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;当 oldStartIdx &amp;gt; oldEndIdx 或者 newStartIdx &amp;gt; newEndIdx，循环结束，这个时候我们需要处理那些未被遍历到的 VNode。&lt;/p&gt;
+
+&lt;p&gt;当 oldStartIdx &amp;gt; oldEndIdx 时，说明老的节点已经遍历完，而新的节点没遍历完，这个时候需要将新的节点创建之后放在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;oldEndVnode&lt;/code&gt;后面。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-10.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;当 newStartIdx &amp;gt; newEndIdx 时，说明新的节点已经遍历完，而老的节点没遍历完，这个时候要将没遍历的老的节点全都删除。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/3-11.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;此时已经完成了子节点的匹配。下面是一个例子 patch 过程图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/patchChildren.gif&quot; alt=&quot;patchChildren&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;借用官方的一幅图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/post/interview/final.png&quot; alt=&quot;final&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Vue.js 实现了一套声明式渲染引擎，并在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;runtime&lt;/code&gt;或者预编译时将声明式的模板编译成渲染函数，挂载在观察者 Watcher 中，在渲染函数中（touch），响应式系统使用响应式数据的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getter&lt;/code&gt;方法对观察者进行依赖收集（Collect as Dependency），使用响应式数据的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setter&lt;/code&gt;方法通知（notify）所有观察者进行更新，此时观察者 Watcher 会触发组件的渲染函数（Trigger re-render），组件执行的 render 函数，生成一个新的 Virtual DOM Tree，此时 Vue 会对新老 Virtual DOM Tree 进行 Diff，查找出需要操作的真实 DOM 并对其进行更新。&lt;/p&gt;
+
+&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzIyMDEwNzIwNQ==&amp;amp;mid=2649619127&amp;amp;idx=1&amp;amp;sn=e75d7ae41b679b9e2f558bee8f1ea82d&amp;amp;scene=4#wechat_redirect&quot;&gt;聊聊 VueJs 组件化编程&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://juejin.im/post/5a69ece0f265da3e5a5777ed?utm_source=gold_browser_extension&quot;&gt;深入理解vue中的slot与slot-scope&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/hf872914334/article/details/89098295&quot;&gt;vue响应式系统–observe、watcher、dep&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://ustbhuangyi.github.io/vue-analysis/v2/prepare/&quot;&gt;Vue.js技术揭秘&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://juejin.im/post/59bfbd736fb9a00a52065ec7&quot;&gt;VirtualDOM与diff(Vue实现)&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sat, 04 Jul 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/07/04/Understanding-of-Vue/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/07/04/Understanding-of-Vue/</guid>
+        
+        
+        <category>Vue,</category>
+        
+        <category>Principle</category>
+        
+      </item>
     
       <item>
         <title>浏览器工作原理</title>
