@@ -6,6 +6,8 @@ keywords: GitHub, CDN, jsdelivr
 categories: GitHub
 word_count: true
 topmost: true
+owner: Zhuang Ma
+aurl: https://mazhuang.org/2020/05/01/cdn-for-github-pages/
 ---
 
 挺久以前就有网友给我的 GitHub Pages 博客模板提 [Issue](https://github.com/ttcoder404/ttcoder404.github.io/issues/65)，说希望能增加 CDN 用于加速静态资源的加载，由于懒，一直没有动。
