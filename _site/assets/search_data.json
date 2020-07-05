@@ -160,6 +160,13 @@
       "category" : "Vue,",
       
       "url"      : "http://localhost:4000/2020/07/04/Understanding-of-Vue/"
+    } ,
+  
+    {
+      "title"    : "网站的缓存控制策略最佳实践及注意事项",
+      "category" : "Cache",
+      
+      "url"      : "http://localhost:4000/2020/07/05/http-cache/"
     } 
   
 ]

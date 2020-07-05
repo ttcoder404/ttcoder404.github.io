@@ -1,0 +1,461 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>网站的缓存控制策略最佳实践及注意事项 &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="对于一个网站来讲，性能关乎用户体验，你在更短的时间内打开网站，你将会留住更多的用户。如果你的页面十秒才能打开，那再好的用户交互也是徒然。">
+
+    <link rel="canonical" href="http://localhost:4000/2020/07/05/http-cache/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="网站的缓存控制策略最佳实践及注意事项">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>网站的缓存控制策略最佳实践及注意事项</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/07/05
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#Cache" title="Cache">Cache</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 2378 字，约 7 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h1 id="网站的缓存控制策略最佳实践及注意事项">网站的缓存控制策略最佳实践及注意事项</h1>
+
+<p>对于一个网站来讲，性能关乎用户体验，你在更短的时间内打开网站，你将会留住更多的用户。如果你的页面十秒才能打开，那再好的用户交互也是徒然。</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/cache/render.jpg" alt="" /></p>
+
+<p>缓存控制是网站性能优化中至为常见及重要的一环，好的缓存控制，除了使网站在性能方面有所提升，在财务方面也有重要提升: 更好的缓存策略意味着更少的请求，更少的流量，更少的峰值带宽，从而节省一大笔服务器或者 CDN 的费用。</p>
+
+<p>缓存控制策略就是 http caching 的策略，化繁为简，最有效的策略往往是很简单的。在最简单的粗略下，你对 http cache 只需要了解一个 <code class="language-plaintext highlighter-rouge">Cache-Control</code> 的头部。</p>
+
+<p>一个较好的缓存策略只需要两部分，而它们只需要通过 <code class="language-plaintext highlighter-rouge">Cache-Control</code> 控制：</p>
+
+<ol>
+  <li>带指纹资源: 永久缓存</li>
+  <li>非带指纹资源: 每次进行新鲜度校验</li>
+</ol>
+
+<p>作图如下：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/cache/http-cache.png" alt="缓存控制策略" /></p>
+
+<h2 id="带指纹资源-永久缓存">带指纹资源: 永久缓存</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cache-Control: max-age=31536000
+</code></pre></div></div>
+
+<p>天下武功，无坚不摧，唯快不破。资源请求最快的方式就是不向服务器发起请求，通过以上响应头可以对资源设置永久缓存。</p>
+
+<ol>
+  <li>静态资源带有 hash 值，即指纹</li>
+  <li>对资源设置一年过期时间，即 31536000，一般认为是永久缓存</li>
+  <li>在永久缓存期间浏览器不需要向服务器发送请求</li>
+</ol>
+
+<p>那为什么带有 hash 值的资源可以永久缓存呢？</p>
+
+<p><strong>因为该文件的内容发生变化时，会生成一个带有新的 hash 值的 URL。</strong> 前端将会发起一个新的 URL 的请求。</p>
+
+<h2 id="非带指纹资源-每次进行新鲜度校验">非带指纹资源: 每次进行新鲜度校验</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cache-Control: no-cache
+</code></pre></div></div>
+
+<ol>
+  <li>由于不带有指纹，每次都需要校验资源的新鲜度。(从缓存中取到资源，可能是过期资源)</li>
+  <li>如果校验为最新资源，则从浏览器的缓存中加载资源</li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">index.html</code> 为不带有指纹资源，如果把它置于缓存中，则如何保证服务器刷新数据时，被浏览器可以获取到新鲜的资源？</p>
+
+<p>因此，使用 <code class="language-plaintext highlighter-rouge">Cache-Control: no-cache</code> 时，客户端每次对服务器进行新鲜度校验。</p>
+
+<blockquote>
+  <p>PS：<a href="https://github.com/shfshanyue/Daily-Question/issues/207">no-cache 与 no-store 的区别是什么？</a></p>
+</blockquote>
+
+<p>即使每次校验新鲜度，也不需要每次都从服务器下载资源: <strong>如果浏览器/CDN上缓存经校验没有过期</strong>。这被称为协商缓存，此时 http 状态码返回 304，指 <code class="language-plaintext highlighter-rouge">Not Modified</code>，即没有变更。</p>
+
+<p><strong>幸运的是，关于协商缓存，你无需管理，也无需配置，</strong> <code class="language-plaintext highlighter-rouge">nginx</code> 或者一些 <code class="language-plaintext highlighter-rouge">OSS</code> 都会自动配置协商缓存。</p>
+
+<p>而对于协商缓存，也有它们自己的算法，协商缓存的背后基于响应头 <code class="language-plaintext highlighter-rouge">Last-Modified/ETag</code>。浏览器每次请求资源时，会携带上次服务器响应的 <code class="language-plaintext highlighter-rouge">ETag/Last-Modified</code> 作为标志，与服务端此时的 <code class="language-plaintext highlighter-rouge">ETag/Last-Modified</code> 作比较，来判断内容更改。</p>
+
+<blockquote>
+  <p><a href="https://github.com/shfshanyue/Daily-Question/issues/112">http 响应头中的 ETag 值是如何生成的？</a></p>
+</blockquote>
+
+<p>而在操作系统底层，<code class="language-plaintext highlighter-rouge">Last-Modified</code> 往往通过文件系统(file system)中的 <code class="language-plaintext highlighter-rouge">mtime</code> 属性生成。而 <code class="language-plaintext highlighter-rouge">ETag</code> 提供比 <code class="language-plaintext highlighter-rouge">Last-Modified</code> 更精细的检验粒度，由文件内容的 <code class="language-plaintext highlighter-rouge">hash</code> 或者 <code class="language-plaintext highlighter-rouge">mtime/size</code> 生成。当然，这是后话。</p>
+
+<h2 id="一定要为你的资源添加-cache-control-响应头">一定要为你的资源添加 Cache-Control 响应头</h2>
+
+<p>我会经常接触到一些网站，他们的资源文件并没有 <code class="language-plaintext highlighter-rouge">Cache-Control</code> 这个响应头。究其原因，在于缓存策略配置这个工作的职责不清，有时候它需要协调前端和运维。</p>
+
+<p><strong>那如果不添加 <code class="language-plaintext highlighter-rouge">Cache-Control</code> 这个响应头会怎么样？</strong></p>
+
+<p>是不是每次都会自动去服务器校验新鲜度，很可惜，不是。 <strong>此时会对资源进行强制缓存，而对不带有指纹信息的资源很有可能获取到过期资源。</strong> 如果过期资源存在于浏览器上，还可以通过强制刷新浏览器来获取最新资源。但是如果过期资源存在于 CDN 的边缘节点上，CDN 的刷新就会复杂很多，而且有可能需要多人协作解决。</p>
+
+<p><strong>那默认的强制缓存时间是多少</strong></p>
+
+<p>首先要明确两个响应头代表的含义：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Date</code>: 指源服务器响应报文生成的时间，差不多与发请求的时间等价</li>
+  <li><code class="language-plaintext highlighter-rouge">Last-Modified</code>: 指静态资源上次修改的时间，取决于 <code class="language-plaintext highlighter-rouge">mtime</code></li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">LM factor</code> 算法认为当请求服务器时，如果没有设置 <code class="language-plaintext highlighter-rouge">Cache-Control</code>，如果距离上次的 <code class="language-plaintext highlighter-rouge">Last-Modified</code> 越远，则生成的强制缓存时间越长。</p>
+
+<p>用公式表示如下，其中 <code class="language-plaintext highlighter-rouge">factor</code> 介于 0 与 1 之间：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">MaxAge</span> <span class="o">=</span> <span class="p">(</span><span class="nb">Date</span> <span class="o">-</span> <span class="nx">LastModified</span><span class="p">)</span> <span class="o">*</span> <span class="nx">factor</span>
+</code></pre></div></div>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/cache/http-lm-factor.jpg" alt="LM factor" /></p>
+
+<h2 id="bundle-splitting尽量减少资源变更">Bundle Splitting：尽量减少资源变更</h2>
+
+<p>得益于单页应用与前端工程化的发展，经过打包后，基本上所有资源都是带有指纹信息的，这意味着所有的资源都是能够设置永久缓存。打包策略如下图所示：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/cache/http-cache.png" alt="缓存控制策略" /></p>
+
+<p>但仅仅如此了吗？</p>
+
+<p>如果你所有的 js 资源都打包成一个文件，它确实有永久缓存的优势。但是当有一行文件进行修改时，这一个大包的指纹信息发生改变，永久缓存失效。</p>
+
+<p>所以我们现在需要做到的是：当修改文件后，造成最小范围的缓存失效。<code class="language-plaintext highlighter-rouge">webpack</code> 等打包工具虽然在 <code class="language-plaintext highlighter-rouge">optimization</code> 上内置了很多性能优化，但它不会帮你做这件事，这件事情需要自己动手。</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/cache/http-cache-2.png" alt="缓存控制策略" /></p>
+
+<p>此时我们可以对资源进行分层次缓存的打包方案，这是一个建议方案：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">webpack-runtime</code>: 应用中的 <code class="language-plaintext highlighter-rouge">webpack</code> 的版本比较稳定，分离出来，保证长久的永久缓存</li>
+  <li><code class="language-plaintext highlighter-rouge">react/react-dom</code>: <code class="language-plaintext highlighter-rouge">react</code> 的版本更新频次也较低</li>
+  <li><code class="language-plaintext highlighter-rouge">vendor</code>: 常用的第三方模块打包在一起，如 <code class="language-plaintext highlighter-rouge">lodash</code>，<code class="language-plaintext highlighter-rouge">classnames</code> 基本上每个页面都会引用到，但是它们的更新频率会更高一些。另外对低频次使用的第三方模块不要打进来</li>
+  <li><code class="language-plaintext highlighter-rouge">pageA</code>: A 页面，当 A 页面的组件发生变更后，它的缓存将会失效</li>
+  <li><code class="language-plaintext highlighter-rouge">pageB</code>: B 页面</li>
+  <li><code class="language-plaintext highlighter-rouge">echarts</code>: 不常用且过大的第三方模块单独打包</li>
+  <li><code class="language-plaintext highlighter-rouge">mathjax</code>: 不常用且过大的第三方模块单独打包</li>
+  <li><code class="language-plaintext highlighter-rouge">jspdf</code>: 不常用且过大的第三方模块单独打包</li>
+</ol>
+
+<p>随着 <code class="language-plaintext highlighter-rouge">http2</code> 的发展，特别是多路复用，初始页面的静态资源不受资源数量的影响。<strong>因此为了更好的缓存效果以及按需加载，也有很多方案建议把所有的第三方模块进行单模块打包。</strong></p>
+
+<h2 id="小结">小结</h2>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/cache/http-cache-2.png" alt="缓存控制策略" /></p>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息</h3>
+  <ul>
+    <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
+    <li>本文链接：<a href="http://localhost:4000/2020/07/05/http-cache/" target="_blank">http://localhost:4000/2020/07/05/http-cache/</a></li>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/07/05/http-cache/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">网站的缓存控制策略最佳实践及注意事项</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>
