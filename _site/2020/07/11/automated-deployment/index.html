@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>前端赋能业务 - Node实现自动化部署平台 &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="去年年初，我接手了一个一直由后端维护的JSSDK项目，其实也说不上项目，接手的时候它只是一个2000多行代码的胖脚本，没有任何工程化痕迹。">
+
+    <link rel="canonical" href="http://localhost:4000/2020/07/11/automated-deployment/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="前端赋能业务 - Node实现自动化部署平台">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>前端赋能业务 - Node实现自动化部署平台</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/07/11
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#Node" title="Node">Node</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 9641 字，约 28 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="前言">前言</h2>
+
+<p>是否有很多人跟我一样有这样的一个烦恼，每天有写不完的需求、改不完的BUG，每天撸着重复、繁琐的业务代码，担心着自己的技术成长。</p>
+
+<p>其实换个角度，我们所学的所有前端技术都是服务于业务的，那我们为什么不想办法使用前端技术为业务做点东西？这样既能解决业务的困扰，也能让自己摆脱每天只能写重复繁琐代码的困扰。</p>
+
+<p>本文主要为笔者针对当前团队内的一些业务问题，实现的一个自动化部署平台的技术方案。</p>
+
+<h2 id="背景">背景</h2>
+
+<p>去年年初，由于团队里没有前端，刚好我是被招过来的第一个，也是唯一一个FE，于是我接手了一个一直由后端维护的JSSDK项目，其实也说不上项目，接手的时候它只是一个2000多行代码的胖脚本，没有任何工程化痕迹。</p>
+
+<h3 id="业务需求">业务需求</h3>
+
+<p>这个JSSDK，主要作用是在后端了为业务方分配appKey之后，前端将appKey写死在JSSDK中，上传到CDN后，为业务方提供数据采集服务的脚本。</p>
+
+<p>有的同学可能有疑问，为什么不像一些正常的SDK一样，appKey是以参数的形式传入到JSSDK中，这样就可以统一所有业务方使用同一个JSSDK，而不需要为每个业务业务方都提供一个JSSDK。其实我刚开始也是这么想的，于是我向我的leader提出了我的这个想法，被拒绝了，拒绝原因如下：</p>
+
+<ul>
+  <li>appKey如果以参数形式传入，对业务方的接入成本有所增加，会出现appKey填错的问题。</li>
+  <li>业务方接入JSSDK之后，希望每次JSSDK版本迭代对业务方来说是无感知的（也就是版本迭代是覆盖式发布），如果所有业务方使用同一个JSSDK，每次JSSDK的版本迭代，一次发版会一次性对所有业务方都有影响，会增加风险。</li>
+</ul>
+
+<p>由于我的leader现在主要是负责产品推广，经常和业务方打交道，可能他更能站在业务方的角度来考虑问题。所以，我的leader选择牺牲项目的维护成本来降低SDK的接入成本和规避风险，可以理解。</p>
+
+<p>那既然我们改变不了现状，那就只能适应现状。</p>
+
+<h3 id="项目痛点">项目痛点</h3>
+
+<p>那么针对原来没有任何工程化情况的胖脚本，每次新增一个业务方，我需要做的事情如下：</p>
+
+<ol>
+  <li>打开一个胖脚本和JSSDK接入文档，拷贝一份新的。</li>
+  <li>找后端要分配好的appKey，找对对应的appKey那一行代码手动修改。</li>
+  <li>手动混淆修改完好的脚本并上传到CDN。</li>
+  <li>修改JSSDK接入文档中CDN的地址，保存后发送给业务方。</li>
+</ol>
+
+<p>整个过程都需要手动进行，相对来说非常繁琐，并且一不小心就会填错，每次都需要对脚本和接入文档进行检查。</p>
+
+<p>针对以上情况，得到我们需要解决的问题：</p>
+
+<ul>
+  <li>怎样针对一个新的业务方快速输出一份新的JSSDK和接入文档？</li>
+  <li>怎样快速对新的JSSDK进行混淆并上传到CDN。</li>
+</ul>
+
+<h2 id="自动化方案">自动化方案</h2>
+
+<p>介绍方案之前，先上一张平台截图，以便先有一个直观的认识：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/automated/1.jpg" alt="img" /></p>
+
+<p>SDK自动化部署平台主要实现了JSSDK的编译，发布测试（在线预览），上传CDN功能。</p>
+
+<p>服务端技术栈包括：</p>
+
+<ul>
+  <li><a href="http://expressjs.com/">框架 Express</a></li>
+  <li><a href="https://github.com/remy/nodemon">热更新 nodemon</a></li>
+  <li><a href="https://github.com/jeffijoe/awilix">依赖注入 awilix</a></li>
+  <li><a href="https://github.com/sequelize/sequelize">数据持久化 sequelize</a></li>
+  <li><a href="https://pm2.io/">部署 pm2</a></li>
+</ul>
+
+<p>客户端技术栈就不介绍了，Vue全家桶 + <a href="https://github.com/kaorun343/vue-property-decorator#readme">vue-property-decorator</a> + <a href="https://github.com/ktsn/vuex-class">vuex-class</a>。</p>
+
+<p>项目搭建参考：<a href="https://juejin.im/post/5ce96694f265da1bc5523f69">Vue+Express+Mysql 全栈初体验</a></p>
+
+<p>自动化部署平台主要依赖于 GIT + 本地环境 + 私有NPM源 + MYSQL，各环节之间进行通信交互，完成自动化部署。</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/automated/2.jpg" alt="img" /></p>
+
+<p>主要达到的效果：本地环境拉取git仓库代码后，进行需求开发，完成后发布一个带Rollup的SDK编译器包到私有NPM仓库，自动化部署平台在工程目录安装指定版本的SDK，并且备份到本地，在SDK编译时，选择特定版本的Rollup的SDK编译器，并传参（如appKey，appId等）到编译器中进行编译，同时自动生成JSSDK接入文档等后打包成带描述文件的Release包，在上传到CDN时，将描述文件的对应的信息写入MYSQL中进行保存。</p>
+
+<h3 id="版本管理">版本管理</h3>
+
+<p>由于JSSDK原本只是一个脚本，我们必须实现项目的工程化，从而完成版本管理，方便快速版本切换进行发布，回滚，进而快速止损。</p>
+
+<p>首先，我们需要将项目工程化，使用<code class="language-plaintext highlighter-rouge">Rollup</code>进行模块管理，并且在发包NPM包的时候，输入为各种参数（如appKey）输出为一个<code class="language-plaintext highlighter-rouge">Rollup Complier</code>的函数，然后使用<a href="https://www.npmjs.com/package/rollup-plugin-replace">rollup-plugin-replace</a>在编译时候替换代码中具体的参数。</p>
+
+<p><code class="language-plaintext highlighter-rouge">lib/build.js</code>，JSSDK中发包的入口文件，提供给SDK编译时使用</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">rollup</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">rollup</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">replace</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">rollup-plugin-replace</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">pkgPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">..</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">package.json</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">pkg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="nx">pkgPath</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">proConfig</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./proConfig</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">getRollupConfig</span><span class="p">(</span><span class="nx">replaceParams</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">proConfig</span><span class="p">;</span>
+    <span class="c1">// 注入系统变量</span>
+    <span class="kd">const</span> <span class="nx">replacePlugin</span> <span class="o">=</span> <span class="nx">replace</span><span class="p">({</span>
+        <span class="dl">'</span><span class="s1">__JS_SDK_VERSION__</span><span class="dl">'</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">pkg</span><span class="p">.</span><span class="nx">version</span><span class="p">),</span>
+        <span class="dl">'</span><span class="s1">__SUPPLY_ID__</span><span class="dl">'</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">replaceParams</span><span class="p">.</span><span class="nx">supplyId</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">7102</span><span class="dl">'</span><span class="p">),</span>
+        <span class="dl">'</span><span class="s1">__APP_KEY__</span><span class="dl">'</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">replaceParams</span><span class="p">.</span><span class="nx">appKey</span><span class="p">)</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">input</span><span class="p">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">input</span><span class="p">,</span>
+        <span class="na">output</span><span class="p">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">output</span><span class="p">,</span>
+        <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">...</span><span class="nx">config</span><span class="p">.</span><span class="nx">plugins</span><span class="p">,</span>
+            <span class="nx">replacePlugin</span>
+        <span class="p">]</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="k">async</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">getRollupConfig</span><span class="p">({</span>
+        <span class="na">supplyId</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">supplyId</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">7102</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">appKey</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">appKey</span>
+    <span class="p">});</span>
+    <span class="kd">const</span> <span class="p">{</span>
+        <span class="nx">input</span><span class="p">,</span>
+        <span class="nx">plugins</span>
+    <span class="p">}</span> <span class="o">=</span> <span class="nx">config</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">bundle</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">rollup</span><span class="p">.</span><span class="nx">rollup</span><span class="p">({</span>
+        <span class="nx">input</span><span class="p">,</span>
+        <span class="nx">plugins</span>
+    <span class="p">});</span>
+    <span class="kd">const</span> <span class="nx">compiler</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="k">async</span> <span class="nx">write</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">await</span> <span class="nx">bundle</span><span class="p">.</span><span class="nx">write</span><span class="p">({</span>
+                <span class="nx">file</span><span class="p">,</span>
+                <span class="na">format</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iife</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">sourcemap</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+                <span class="na">strict</span><span class="p">:</span> <span class="kc">false</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="nx">compiler</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>在自动化部署平台中，使用<code class="language-plaintext highlighter-rouge">shelljs</code>安装JSSDK包：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">route</span><span class="p">,</span> <span class="nx">POST</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">awilix-express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">Api</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../framework/Api</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">shell</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">shell</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">path</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">route</span><span class="p">(</span><span class="dl">'</span><span class="s1">/supply</span><span class="dl">'</span><span class="p">)</span>
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyAPI</span> <span class="kd">extends</span> <span class="nx">Api</span> <span class="p">{</span>
+    <span class="c1">// some code</span>
+
+    <span class="p">@</span><span class="nd">route</span><span class="p">(</span><span class="dl">'</span><span class="s1">/installSdkVersion</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">@</span><span class="nd">POST</span><span class="p">()</span>
+    <span class="k">async</span> <span class="nx">installSdkVersion</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="p">{</span><span class="nx">version</span><span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+        <span class="kd">const</span> <span class="nx">pkg</span> <span class="o">=</span> <span class="s2">`@baidu/xxx-js-sdk@</span><span class="p">${</span><span class="nx">version</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+        <span class="kd">const</span> <span class="nx">registry</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://registry.npm.baidu-int.com</span><span class="dl">'</span><span class="p">;</span>
+        <span class="nx">shell</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="s2">`npm i </span><span class="p">${</span><span class="nx">pkg</span><span class="p">}</span><span class="s2"> --registry=</span><span class="p">${</span><span class="nx">registry</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span> <span class="p">(</span><span class="nx">code</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span><span class="p">)</span>  <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">code</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">stderr</span><span class="p">);</span>
+                <span class="nx">res</span><span class="p">.</span><span class="nx">failPrint</span><span class="p">(</span><span class="dl">'</span><span class="s1">npm install fail</span><span class="dl">'</span><span class="p">);</span>
+                <span class="k">return</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="c1">// sdk包备份路径</span>
+            <span class="kd">const</span> <span class="nx">sdkBackupPath</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">sdkBackupPath</span><span class="p">;</span>
+            <span class="kd">const</span> <span class="nx">sdkPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sdkBackupPath</span><span class="p">,</span> <span class="nx">version</span><span class="p">);</span>
+            <span class="nx">shell</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="dl">'</span><span class="s1">-p</span><span class="dl">'</span><span class="p">,</span> <span class="nx">sdkPath</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">code</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">code</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">stderr</span><span class="p">);</span>
+                    <span class="nx">res</span><span class="p">.</span><span class="nx">failPrint</span><span class="p">(</span><span class="s2">`mkdir \`</span><span class="p">${</span><span class="nx">sdkPath</span><span class="p">}</span><span class="s2">\` error.`</span><span class="p">);</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="kd">const</span> <span class="nx">modulePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span> <span class="dl">'</span><span class="s1">node_modules</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">@baidu</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">xxx-js-sdk</span><span class="dl">'</span><span class="p">);</span>
+                <span class="c1">// 拷贝安装后的文件，方便后续使用</span>
+                <span class="nx">shell</span><span class="p">.</span><span class="nx">cp</span><span class="p">(</span><span class="dl">'</span><span class="s1">-rf</span><span class="dl">'</span><span class="p">,</span> <span class="nx">modulePath</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">/.</span><span class="dl">'</span><span class="p">,</span> <span class="nx">sdkPath</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">code</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">code</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">stderr</span><span class="p">);</span>
+                        <span class="nx">res</span><span class="p">.</span><span class="nx">failPrint</span><span class="p">(</span><span class="s2">`backup sdk error.`</span><span class="p">);</span>
+                        <span class="k">return</span><span class="p">;</span>
+                    <span class="p">}</span>
+                    <span class="nx">res</span><span class="p">.</span><span class="nx">successPrint</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">pkg</span><span class="p">}</span><span class="s2"> install success.`</span><span class="p">);</span>
+                <span class="p">});</span>
+            <span class="p">})</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="release包">Release包</h3>
+
+<p>Release包就是我们在上传到CDN之前需要准备的压缩包。因此，打包JSSDK之后，我们需要生成的文件有，接入文档、JSSDK DEMO预览页面、JSSDK编译结果、描述文件。</p>
+
+<p>首先，打包函数如下：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">Service</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../framework</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">fs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">path</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">_</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">lodash</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+    <span class="k">async</span> <span class="nx">generateFile</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 数据库查询对应的业务方的CDN文件名</span>
+        <span class="kd">const</span> <span class="p">[</span><span class="nx">sdkInfoErr</span><span class="p">,</span> <span class="nx">sdkInfo</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">supplyDao</span><span class="p">.</span><span class="nx">getSupplyInfo</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">sdkInfoErr</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="dl">'</span><span class="s1">服务器错误</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">sdkInfoErr</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kd">const</span> <span class="p">{</span><span class="nx">appKey</span><span class="p">,</span> <span class="nx">cdnFilename</span><span class="p">,</span> <span class="nx">name</span><span class="p">}</span> <span class="o">=</span> <span class="nx">sdkInfo</span><span class="p">;</span>
+        <span class="c1">// 需要替换的数据</span>
+        <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">name</span><span class="p">,</span>
+            <span class="nx">supplyId</span><span class="p">,</span>
+            <span class="nx">appKey</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">sdk_url</span><span class="dl">'</span><span class="p">:</span> <span class="s2">`https://***.com/sdk/</span><span class="p">${</span><span class="nx">cdnFilename</span><span class="p">}</span><span class="s2">`</span>
+        <span class="p">};</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="c1">// 编译JSSDK</span>
+            <span class="kd">const</span> <span class="nx">sdkResult</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">buildSdk</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">appKey</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">);</span>
+            <span class="c1">// 生成接入文档</span>
+            <span class="kd">const</span> <span class="nx">docResult</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">generateDocs</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+            <span class="c1">// 生成预览DEMO html文件</span>
+            <span class="kd">const</span> <span class="nx">demoHtmlResult</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">generateDemoHtml</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="dl">'</span><span class="s1">sdk-demo.html</span><span class="dl">'</span><span class="p">,</span> <span class="s2">`JSSDK-接入页面-</span><span class="p">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="s2">.html`</span><span class="p">);</span>
+            <span class="c1">// 生成release包描述文件</span>
+            <span class="kd">const</span> <span class="nx">sdkInfoFileResult</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">writeSdkVersionFile</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">appKey</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">);</span>
+            
+            <span class="kd">const</span> <span class="nx">success</span> <span class="o">=</span> <span class="nx">docResult</span> <span class="o">&amp;&amp;</span> <span class="nx">demoHtmlResult</span> <span class="o">&amp;&amp;</span> <span class="nx">sdkInfoFileResult</span> <span class="o">&amp;&amp;</span> <span class="nx">sdkResult</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// release目标目录</span>
+                <span class="kd">const</span> <span class="nx">dir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="nx">supplyId</span> <span class="o">+</span> <span class="dl">''</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">fileName</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">supplyId</span><span class="p">}</span><span class="s2">-</span><span class="p">${</span><span class="nx">sdkVersion</span><span class="p">}</span><span class="s2">.zip`</span><span class="p">;</span>
+                <span class="kd">const</span> <span class="nx">zipFileName</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">dir</span><span class="p">,</span> <span class="nx">fileName</span><span class="p">);</span>
+                <span class="c1">// 压缩所有结果文件</span>
+                <span class="kd">const</span> <span class="nx">zipResult</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">zipDirFile</span><span class="p">(</span><span class="nx">dir</span><span class="p">,</span> <span class="nx">zipFileName</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">zipResult</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="dl">'</span><span class="s1">打包失败</span><span class="dl">'</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="c1">// 返回压缩包提供下载</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">success</span><span class="p">(</span><span class="dl">'</span><span class="s1">打包成功</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="na">url</span><span class="p">:</span> <span class="s2">`/</span><span class="p">${</span><span class="nx">supplyId</span><span class="p">}</span><span class="s2">/</span><span class="p">${</span><span class="nx">fileName</span><span class="p">}</span><span class="s2">`</span>
+                <span class="p">});</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="dl">'</span><span class="s1">打包失败</span><span class="dl">'</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="dl">'</span><span class="s1">打包失败</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">e</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="编译jssdk">编译JSSDK</h4>
+
+<p>JSSDK的编译很简单，只需要加载对应版本的JSSDK的编译函数，然后将对应的参数传入编译函数得到一个Rollup Compiler，然后将 Compiler 结果写入Release路径即可。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+    <span class="k">async</span> <span class="nx">buildSdk</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">appKey</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">sdkBackupPath</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">sdkBackupPath</span><span class="p">;</span>
+            <span class="c1">// 加载对应版本的备份的JSSDK包的Rollup编译函数</span>
+            <span class="kd">const</span> <span class="nx">compileSdk</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sdkBackupPath</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">,</span> <span class="dl">'</span><span class="s1">lib</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">build.js</span><span class="dl">'</span><span class="p">));</span>
+            <span class="kd">const</span> <span class="nx">bundle</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">compileSdk</span><span class="p">({</span>
+                <span class="nx">supplyId</span><span class="p">,</span>
+                <span class="na">appKey</span><span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">sdkInfo</span><span class="p">.</span><span class="nx">appKey</span><span class="p">)</span>
+            <span class="p">});</span>
+            <span class="kd">const</span> <span class="nx">releasePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="nx">supplyId</span><span class="p">,</span> <span class="s2">`</span><span class="p">${</span><span class="nx">supplyId</span><span class="p">}</span><span class="s2">-sdk.js`</span><span class="p">);</span>
+            <span class="c1">// Rollup Compiler 编译结果至release目录</span>
+            <span class="k">await</span> <span class="nx">bundle</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">releasePath</span><span class="p">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="生成接入文档">生成接入文档</h4>
+
+<p>原理很简单，使用<code class="language-plaintext highlighter-rouge">JSZip</code>，打开接入文档模板，然后使用<code class="language-plaintext highlighter-rouge">Docxtemplater</code>替换模板里的特殊字符，然后重新生成DOC文件：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">Docxtemplater</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">docxtemplater</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">JSZip</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">JSZip</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+
+    <span class="k">async</span> <span class="nx">generateDocs</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 读取接入文档，替换appKey，cdn路径</span>
+                <span class="kd">const</span> <span class="nx">supplyId</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">supplyId</span><span class="p">;</span>
+                <span class="kd">const</span> <span class="nx">docsFileName</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">sdk-doc.docx</span><span class="dl">'</span><span class="p">;</span>
+                <span class="kd">const</span> <span class="nx">supplyFilesPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span> <span class="dl">'</span><span class="s1">src/server/files</span><span class="dl">'</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">supplyFilesPath</span><span class="p">,</span> <span class="nx">docsFileName</span><span class="p">),</span> <span class="dl">'</span><span class="s1">binary</span><span class="dl">'</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">zip</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSZip</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">doc</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Docxtemplater</span><span class="p">();</span>
+                <span class="c1">// 替换`[[`前缀和`]]`后缀的内容</span>
+                <span class="nx">doc</span><span class="p">.</span><span class="nx">loadZip</span><span class="p">(</span><span class="nx">zip</span><span class="p">).</span><span class="nx">setOptions</span><span class="p">({</span><span class="na">delimiters</span><span class="p">:</span> <span class="p">{</span><span class="na">start</span><span class="p">:</span> <span class="dl">'</span><span class="s1">[[</span><span class="dl">'</span><span class="p">,</span> <span class="na">end</span><span class="p">:</span> <span class="dl">'</span><span class="s1">]]</span><span class="dl">'</span><span class="p">}});</span>
+                <span class="nx">doc</span><span class="p">.</span><span class="nx">setData</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+                <span class="k">try</span> <span class="p">{</span>
+                    <span class="nx">doc</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+                    <span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="c1">// 生成DOC的buffer</span>
+                <span class="kd">const</span> <span class="nx">buf</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getZip</span><span class="p">().</span><span class="nx">generate</span><span class="p">({</span><span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">nodebuffer</span><span class="dl">'</span><span class="p">});</span>
+                <span class="kd">const</span> <span class="nx">releasePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="nx">supplyId</span><span class="p">);</span>
+                <span class="c1">// 创建目标目录</span>
+                <span class="nx">shell</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="nx">releasePath</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">code</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">code</span> <span class="o">!==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">resolve</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+                        <span class="k">return</span><span class="p">;</span>
+                    <span class="p">}</span>
+                    <span class="c1">// 将替换后的结果写入release路径</span>
+                    <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">releasePath</span><span class="p">,</span> <span class="s2">`JSSDK-文档-</span><span class="p">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="s2">.docx`</span><span class="p">),</span> <span class="nx">buf</span><span class="p">);</span>
+                    <span class="nx">resolve</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+                <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+                    <span class="nx">resolve</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="生成预览demo页面">生成预览DEMO页面</h4>
+
+<p>与接入文档生成原理类似，打开一个DEMO模板HTML文件，替换内部字符，重新生成文件：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+    <span class="nx">generateDemoHtml</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">toFile</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">supplyId</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">supplyId</span><span class="p">;</span>
+            <span class="c1">// 需要替换的数据</span>
+            <span class="kd">const</span> <span class="nx">replaceData</span> <span class="o">=</span> <span class="nx">data</span><span class="p">;</span>
+            <span class="c1">// 打开文件</span>
+            <span class="kd">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">supplyFilesPath</span><span class="p">,</span> <span class="nx">file</span><span class="p">),</span> <span class="dl">'</span><span class="s1">utf-8</span><span class="dl">'</span><span class="p">);</span>
+            <span class="c1">// 字符串替换``后缀的内容</span>
+            <span class="kd">const</span> <span class="nx">replaceContent</span> <span class="o">=</span> <span class="nx">content</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="c1">//g, (match, key) =&gt; {</span>
+                <span class="k">return</span> <span class="nx">replaceData</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">||</span> <span class="nx">match</span><span class="p">;</span>
+            <span class="p">});</span>
+            <span class="kd">const</span> <span class="nx">releasePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="nx">supplyId</span><span class="p">);</span>
+            <span class="c1">// 写入文件</span>
+            <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">releasePath</span><span class="p">,</span> <span class="nx">toFile</span><span class="p">),</span> <span class="nx">replaceContent</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+                    <span class="nx">resolve</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">resolve</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="生成release包描述文件">生成Release包描述文件</h4>
+
+<p>将当前打包的一些参数存在一个文件中的，一并打包到Release包中，作用很简单，用来描述当前打包的一些参数，方便上线CDN的时候记录当前上线的是哪个SDK版本等</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+    <span class="k">async</span> <span class="nx">writeSdkVersionFile</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">appKey</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">writePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="nx">supplyId</span><span class="p">,</span> <span class="dl">'</span><span class="s1">version.json</span><span class="dl">'</span><span class="p">);</span>
+            <span class="c1">// Release描述数据</span>
+            <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span><span class="na">version</span><span class="p">:</span> <span class="nx">sdkVersion</span><span class="p">,</span> <span class="nx">appKey</span><span class="p">,</span> <span class="nx">supplyId</span><span class="p">};</span>
+            <span class="k">try</span> <span class="p">{</span>
+                <span class="c1">// 写入release目录</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="nx">writePath</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+                <span class="nx">resolve</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+                <span class="nx">resolve</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="打包所有文件结果">打包所有文件结果</h4>
+
+<p>将之前生成的JSSDK编译结果、接入文档、预览DEMO页面文件，描述文件使用<code class="language-plaintext highlighter-rouge">archive</code>打包起来:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+    <span class="nx">zipDirFile</span><span class="p">(</span><span class="nx">dir</span><span class="p">,</span> <span class="nx">to</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">to</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">archive</span> <span class="o">=</span> <span class="nx">archiver</span><span class="p">(</span><span class="dl">'</span><span class="s1">zip</span><span class="dl">'</span><span class="p">);</span>
+            <span class="nx">archive</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+            <span class="nx">archive</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">output</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">files</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readdirSync</span><span class="p">(</span><span class="nx">dir</span><span class="p">);</span>
+            <span class="nx">files</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="kd">const</span> <span class="nx">filePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">dir</span><span class="p">,</span> <span class="nx">file</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">info</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">statSync</span><span class="p">(</span><span class="nx">filePath</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">info</span><span class="p">.</span><span class="nx">isDirectory</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="nx">archive</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="nx">filePath</span><span class="p">),</span> <span class="p">{</span>
+                        <span class="dl">'</span><span class="s1">name</span><span class="dl">'</span><span class="p">:</span> <span class="nx">file</span>
+                    <span class="p">});</span>
+                <span class="p">}</span>
+            <span class="p">});</span>
+            <span class="nx">archive</span><span class="p">.</span><span class="nx">finalize</span><span class="p">();</span>
+            <span class="nx">resolve</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="cdn部署">CDN部署</h3>
+
+<p>大部分上传到CDN都为像CDN源站push文件，而正好我们运维在我的自动化部署平台的机器上挂载了NFS，即我只需要本地将JSSDK文件拷贝到共享目录，就实现了CDN文件上传。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+    <span class="k">async</span> <span class="nx">cp2CDN</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">fileName</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 读取描述文件</span>
+        <span class="kd">const</span> <span class="nx">sdkInfoPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="dl">''</span> <span class="o">+</span> <span class="nx">supplyId</span><span class="p">,</span> <span class="dl">'</span><span class="s1">version.json</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">sdkInfoPath</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="dl">'</span><span class="s1">Release描述文件丢失，请重新打包</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kd">const</span> <span class="nx">sdkInfo</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">sdkInfoPath</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf-8</span><span class="dl">'</span><span class="p">));</span>
+        <span class="nx">sdkInfo</span><span class="p">.</span><span class="nx">cdnFilename</span> <span class="o">=</span> <span class="nx">fileName</span><span class="p">;</span>
+        <span class="c1">// 将文件拷贝至文件共享目录</span>
+        <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">cpFile</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">fileName</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="c1">// 上传成功</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 将Release包描述文件的数据同步到MYSQL</span>
+            <span class="kd">const</span> <span class="p">[</span><span class="nx">sdkInfoErr</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">supplyDao</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">sdkInfo</span><span class="p">,</span> <span class="p">{</span><span class="na">where</span><span class="p">:</span> <span class="p">{</span><span class="nx">supplyId</span><span class="p">}});</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">sdkInfoErr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="dl">'</span><span class="s1">JSSDK信息记录失败，请重试</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">jssdkInfoResult</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">success</span><span class="p">(</span><span class="dl">'</span><span class="s1">上传成功</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span><span class="nx">url</span><span class="p">})</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="dl">'</span><span class="s1">上传失败</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="项目成效">项目成效</h2>
+
+<p>项目效益还是很明显，从本质上解决了我们需要解决的问题：</p>
+
+<ul>
+  <li>完成了项目的工程化，自动化生成JSSDK和接入文档。</li>
+  <li>编译过程中自动化进行混淆，并实现了一键上传至CDN。</li>
+</ul>
+
+<p>节省了人工上传粘贴代码的时间，大大地提高了工作效率。</p>
+
+<p>这个项目还是19年前半年个人花业余时间完成的工具项目，后来得到了Leader的重视，将工具正式升级为平台，集成了很多业务相关的配置在平台，我19年的前半年KPI就这么来的，哈~~~</p>
+
+<h2 id="总结">总结</h2>
+
+<p>或者这一套思路对每个业务都比较适用</p>
+
+<ol>
+  <li>了解业务的背景</li>
+  <li>发现业务的痛点</li>
+  <li>寻找解决方案并主动推进实现</li>
+  <li>解决问题</li>
+</ol>
+
+<p>其实每个项目中的痛点都一般都是XX的性能低下、XX非常低效，还是比较容易发现的，这个时候只需要主动的寻找方案并推进实现就OK了。</p>
+
+<p>前端技术离不开业务，技术永远服务于业务，离开了业务的技术，那是完全没有落脚点的技术，完全没有意义的技术。所以，除了写写页面，利用前端页面实现工具化、自动化，从而推进到平台化也是一个不错的落脚点选择。</p>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息</h3>
+  <ul>
+    
+    <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
+    <li>本文链接：<a href="http://localhost:4000/2020/07/11/automated-deployment/" target="_blank">http://localhost:4000/2020/07/11/automated-deployment/</a></li>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>    
+    
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/07/11/automated-deployment/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">前端赋能业务 - Node实现自动化部署平台</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>

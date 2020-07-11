@@ -167,6 +167,13 @@
       "category" : "Cache",
       
       "url"      : "http://localhost:4000/2020/07/05/http-cache/"
+    } ,
+  
+    {
+      "title"    : "前端赋能业务 - Node实现自动化部署平台",
+      "category" : "Node",
+      
+      "url"      : "http://localhost:4000/2020/07/11/automated-deployment/"
     } 
   
 ]
