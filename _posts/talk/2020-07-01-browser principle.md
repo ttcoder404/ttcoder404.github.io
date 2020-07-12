@@ -3,7 +3,7 @@ layout: post
 title: 浏览器工作原理
 excerpt: 在我们面试过程中，面试官经常会问到这么一个问题，那就是从在浏览器地址栏中输入URL到页面显示，浏览器到底发生了什么？这个问题看起来是老生常谈，但是这个问题回答的好坏，确实可以很好的反映出面试者知识的广度和深度。
 keywords: 浏览器, 原理
-categories: principle
+categories: [Browser, Principle]
 word_count: true
 ---
 

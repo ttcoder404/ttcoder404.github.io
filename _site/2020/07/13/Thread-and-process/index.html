@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>浅谈浏览器多进程与JS线程 &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="一直对浏览器的进程、线程的运行一无所知，经过一次的刷刷刷相关的博客之后，对其有了初步的了解，是时候该总结一波了。">
+
+    <link rel="canonical" href="http://localhost:4000/2020/07/13/Thread-and-process/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="浅谈浏览器多进程与JS线程">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>浅谈浏览器多进程与JS线程</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/07/13
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#Browser" title="Browser">Browser</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 4867 字，约 14 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="引言">引言</h2>
+<p>一直对浏览器的进程、线程的运行一无所知，经过一次的刷刷刷相关的博客之后，对其有了初步的了解，是时候该总结一波了。</p>
+
+<h2 id="进程线程之间的关系">进程、线程之间的关系</h2>
+<p>一个进程有一个或多个线程，线程之间共同完成进程分配下来的任务。打个比方：</p>
+<ul>
+  <li>假如进程是一个工厂，工厂有它的独立的资源</li>
+  <li>工厂之间相互独立</li>
+  <li>线程是工厂中的工人，多个工人协作完成任务</li>
+  <li>工厂内有一个或多个工人</li>
+  <li>工人之间共享空间</li>
+</ul>
+
+<p>再完善完善概念：</p>
+<ul>
+  <li>工厂的资源 -&gt; 系统分配的内存（独立的一块内存）</li>
+  <li>工厂之间的相互独立 -&gt; 进程之间相互独立</li>
+  <li>多个工人协作完成任务 -&gt; 多个线程在进程中协作完成任务</li>
+  <li>工厂内有一个或多个工人 -&gt; 一个进程由一个或多个线程组成</li>
+  <li>工人之间共享空间 -&gt; 同一进程下的各个线程之间共享程序的内存空间（包括代码段、数据集、堆等）</li>
+</ul>
+
+<p>进程是cpu资源分配的最小单位（是能拥有资源和独立运行的最小单位），线程是cpu调度的最小单位（线程是建立在进程的基础上的一次程序运行单位）。</p>
+
+<h2 id="浏览器内的进程">浏览器内的进程</h2>
+<p>知道了进程与线程之间的关系之后，下面是浏览器与进程的关系了。首先，浏览器是多进程的，之所以浏览器能够运行，是因为系统给浏览器分配了资源，如cpu、内存，简单的说就是，浏览器每打开一个标签页，就相当于创建了一个独立的浏览器进程。例如我们查看chrome里面的任务管理器。</p>
+
+<p>** 注意：** 在这里浏览器应该也有自己的优化机制，有时候打开多个tab页后，可以在Chrome任务管理器中看到，有些进程被合并了（譬如打开多个空白标签页后，会发现多个空白标签页被合并成了一个进程），所以每一个Tab标签对应一个进程并不一定是绝对的。</p>
+
+<p>除了浏览器的标签页进程之外，浏览器还有一些其他进程来辅助支撑标签页的进程，如下：
+① Browser进程：浏览器的主进程（负责协调、主控），只有一个。作用有</p>
+<ul>
+  <li>负责浏览器界面显示，与用户交互。如前进，后退等</li>
+  <li>负责各个页面的管理，创建和销毁其他进程</li>
+  <li>网络资源的管理，下载等</li>
+</ul>
+
+<p>② 第三方插件进程：每种类型的插件对应一个进程，仅当使用该插件时才创建
+③ GPU进程：最多一个，用于3D绘制等
+④ 浏览器渲染进程（浏览器内核），Renderer进程，内部是多线程的，也就是我们每个标签页所拥有的进程，互不影响，负责页面渲染，脚本执行，事件处理等</p>
+
+<p>如下图:</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/thread/browse-process1.jpg" alt="browse-process1" /></p>
+
+<h2 id="浏览器内核">浏览器内核</h2>
+<p>浏览器内核，即我们的渲染进程，有名Renderer进程，我们页面的渲染，js的执行，事件的循环都在这一进程内进行，也就是说，该进程下面拥有着多个线程，靠着这些现成共同完成渲染任务。那么这些线程是什么呢，如下：</p>
+
+<p>① 图形用户界面GUI渲染线程</p>
+<ul>
+  <li>负责渲染浏览器界面，包括解析HTML、CSS、构建DOM树、Render树、布局与绘制等</li>
+  <li>当界面需要重绘（Repaint）或由于某种操作引发回流(reflow)时，该线程就会执行</li>
+</ul>
+
+<p>② JS引擎线程</p>
+<ul>
+  <li>JS内核，也称JS引擎，负责处理执行javascript脚本</li>
+  <li>等待任务队列的任务的到来，然后加以处理，浏览器无论什么时候都只有一个JS引擎在运行JS程序</li>
+</ul>
+
+<p>③ 事件触发线程</p>
+<ul>
+  <li>听起来像JS的执行，但是其实归属于浏览器，而不是JS引擎，用来控制时间循环（可以理解，JS引擎自己都忙不过来，需要浏览器另开线程协助）</li>
+  <li>当JS引擎执行代码块如setTimeout时（也可来自浏览器内核的其他线程,如鼠标点击、AJAX异步请求等），会将对应任务添加到事件线程中</li>
+  <li>当对应的事件符合触发条件被触发时，该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理</li>
+  <li>注意：由于JS的单线程关系，所以这些待处理队列中的事件都得排队等待JS引擎处理（当JS引擎空闲时才会去执行）</li>
+</ul>
+
+<p>④ 定时触发器线程</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">setInterval</code>与<code class="language-plaintext highlighter-rouge">setTimeout</code>所在线程</li>
+  <li>定时计时器并不是由JS引擎计时的，因为如果JS引擎是单线程的，如果JS引擎处于堵塞状态，那会影响到计时的准确</li>
+  <li>当计时完成被触发，事件会被添加到事件队列，等待JS引擎空闲了执行</li>
+  <li>注意：W3C的HTML标准中规定，setTimeout中低与<code class="language-plaintext highlighter-rouge">4ms</code>的时间间隔算为<code class="language-plaintext highlighter-rouge">4ms</code></li>
+</ul>
+
+<p>⑤ 异步HTTP请求线程</p>
+<ul>
+  <li>在XMLHttpRequest在连接后新启动的一个线程</li>
+  <li>线程如果检测到请求的状态变更，如果设置有回调函数，该线程会把回调函数添加到事件队列，同理，等待JS引擎空闲了执行</li>
+</ul>
+
+<p>浏览器内核，放图加强记忆：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/thread/browse-process2.jpg" alt="browse-process2" /></p>
+
+<h2 id="为什么js引擎是单线程的">为什么JS引擎是单线程的</h2>
+<p>JavaScript作为一门客户端的脚本语言，主要的任务是处理用户的交互，而用户的交互无非就是响应DOM的增删改，使用事件队列的形式，一次事件循环只处理一个事件响应，使得脚本执行相对连续。如果JS引擎被设计为多线程的，那么DOM之间必然会存在资源竞争，那么语言的实现会变得非常臃肿，在客户端跑起来，资源的消耗和性能将会是不太乐观的，故设计为单线程的形式，并附加一些其他的线程来实现异步的形式，这样运行成本相对于使用JS多线程来说降低了很多。</p>
+
+<h2 id="浏览器内核中线程之间的关系">浏览器内核中线程之间的关系</h2>
+
+<h3 id="gui渲染线程与js引擎线程互斥">GUI渲染线程与JS引擎线程互斥</h3>
+<p>因为JS引擎可以修改DOM树，那么如果JS引擎在执行修改了DOM结构的同事，GUI线程也在渲染页面，那么这样就会导致渲染线程获取的DOM的元素信息可能与JS引擎操作DOM后的结果不一致。为了防止这种现象，GUI线程与JS线程需要设计为互斥关系，当JS引擎执行的时候，GUI线程需要被冻结，但是GUI的渲染会被保存在一个队列当中，等待JS引擎空闲的时候执行渲染。
+由此也可以推出，如果JS引擎正在进行CPU密集型计算，那么JS引擎将会阻塞，长时间不空闲，导致渲染进程一直不能执行渲染，页面就会看起来卡顿卡顿的，渲染不连贯，所以，要尽量避免JS执行时间过长。</p>
+
+<h3 id="js引擎线程与事件触发线程定时触发器线程异步http请求线程">JS引擎线程与事件触发线程、定时触发器线程、异步HTTP请求线程</h3>
+<p>事件触发线程、定时触发器线程、异步HTTP请求线程三个线程有一个共同点，那就是使用回调函数的形式，当满足了特定的条件，这些回调函数会被执行。这些回调函数被浏览器内核理解成事件，在浏览器内核中拥有一个事件队列，这三个线程当满足了内部特定的条件，会将这些回调函数添加到事件队列中，等待JS引擎空闲执行。例如异步HTTP请求线程，线程如果检测到请求的状态变更，如果设置有回调函数，回调函数会被添加事件队列中，等待JS引擎空闲了执行。
+但是，JS引擎对事件队列（宏任务）与JS引擎内的任务（微任务）执行存在着先后循序，当每执行完一个事件队列的时间，JS引擎会检测内部是否有未执行的任务，如果有，将会优先执行（微任务）。</p>
+
+<h2 id="webworker">WebWorker</h2>
+<p>因为JS引擎是单线程的，当JS执行时间过长会页面阻塞，那么JS就真的对CPU密集型计算无能为力么？</p>
+
+<p>所以，后来HTML5中支持了 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API">Web Worker</a>。</p>
+
+<p>来自MDN的官方解释</p>
+<blockquote>
+  <p>Web Workers 使得一个Web应用程序可以在与主执行线程分离的后台线程中运行一个脚本操作。这样做的好处是可以在一个单独的线程中执行费时的处理任务，从而允许主（通常是UI）线程运行而不被阻塞/放慢。</p>
+</blockquote>
+
+<p>注意点：</p>
+<ul>
+  <li>WebWorker可以想浏览器申请一个子线程，该子线程服务于主线程，完全受主线程控制。</li>
+  <li>JS引擎线程与worker线程间通过特定的方式通信（postMessage API，需要通过序列化对象来与线程交互特定的数据）</li>
+</ul>
+
+<p>所以，如果需要进行一些高耗时的计算时，可以单独开启一个WebWorker线程，这样不管这个WebWorker子线程怎么密集计算、怎么阻塞，都不会影响JS引擎主线程，只需要等计算结束，将结果通过postMessage传输给主线程就可以了。</p>
+
+<p>另外，还有个东西叫 <code class="language-plaintext highlighter-rouge">SharedWorker</code>，与WebWorker在概念上所不同。</p>
+<ul>
+  <li>WebWorker 只属于某一个页面，不会和其他标签页的Renderer进程共享，WebWorker是属于Renderer进程创建的进程。</li>
+  <li>SharedWorker 是由浏览器单独创建的进程来运行的JS程序，它被所有的Renderer进程所共享，在浏览器中，最多只能存在一个SharedWorker进程。</li>
+</ul>
+
+<p>SharedWorker由进程管理，WebWorker是某一个Renderer进程下的线程。</p>
+
+<h2 id="浏览器的渲染流程">浏览器的渲染流程</h2>
+<p>每个浏览器内核的渲染流程不一样，下面我们主要以<code class="language-plaintext highlighter-rouge">webkit</code>为主。
+首先是渲染的前奏：</p>
+<ol>
+  <li>浏览器输入url，浏览器主进程接管，开了一个下载线程</li>
+  <li>然后进行HTTP请求（DNS查询、IP寻址等等），等待响应，开始下载响应报文。</li>
+  <li>将下载完的内容转交给Renderer进程管理</li>
+  <li>开始渲染…</li>
+</ol>
+
+<p>在说渲染之前，需要理解一些概念：</p>
+<ul>
+  <li>DOM Tree： 浏览器讲HTML解析成树形的数据结构。</li>
+  <li>CSS Rule Tree：浏览器将CSS解析成树形的数据结构。</li>
+  <li>Render Tree：DOM树和CSS规则树合并后生产Render树。</li>
+  <li>layout：有了Render Tree，浏览器已经能知道网页中有哪些节点、各个节点的CSS定义以及他们的从属关系，从而去计算出每个节点在屏幕中的位置。</li>
+  <li>painting: 按照算出来的规则，通过显卡，把内容画到屏幕上。</li>
+  <li>reflow（回流）：当浏览器发现某个部分发生了点变化影响了布局，需要倒回去重新渲染，内行称这个回退的过程叫 <code class="language-plaintext highlighter-rouge">reflow</code>。reflow 会从 &lt;html&gt; 这个 root frame 开始递归往下，依次计算所有的结点几何尺寸和位置。reflow 几乎是无法避免的。现在界面上流行的一些效果，比如树状目录的折叠、展开（实质上是元素的显 示与隐藏）等，都将引起浏览器的 reflow。鼠标滑过、点击……只要这些行为引起了页面上某些元素的占位面积、定位方式、边距等属性的变化，都会引起它内部、周围甚至整个页面的重新渲 染。通常我们都无法预估浏览器到底会 reflow 哪一部分的代码，它们都彼此相互影响着。</li>
+  <li>repaint（重绘）：改变某个元素的背景色、文字颜色、边框颜色等等不影响它周围或内部布局的属性时，屏幕的一部分要重画，但是元素的几何尺寸没有变。
+注意：<code class="language-plaintext highlighter-rouge">display:none</code>的节点不会被加入Render Tree，而<code class="language-plaintext highlighter-rouge">visibility: hidden</code>则会，所以<code class="language-plaintext highlighter-rouge">display:none</code>会触发<code class="language-plaintext highlighter-rouge">reflow</code>，<code class="language-plaintext highlighter-rouge">visibility: hidden</code>会触发<code class="language-plaintext highlighter-rouge">repaint</code>。</li>
+</ul>
+
+<p>浏览器内核拿到响应报文之后，渲染大概分为以下步骤</p>
+<ol>
+  <li>解析html生产DOM树。</li>
+  <li>解析CSS规则。</li>
+  <li>根据DOM Tree和CSS Tree生成Render Tree。</li>
+  <li>根据Render树进行layout，负责各个元素节点的尺寸、位置计算。</li>
+  <li>绘制Render树(painting)，绘制页面像素信息。</li>
+  <li>浏览器会将各层的信息发送给GPU，GPU会将各层合成（composite），显示在屏幕上。
+详细步骤略去，大概步骤如下，渲染完毕后JS引擎开始执行<code class="language-plaintext highlighter-rouge">load</code>事件，绘制流程见下图。</li>
+</ol>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/thread/browse-process3.jpg" alt="browse-process3" /></p>
+
+<p>由图中可以看出，css在加载过程中不会影响到DOM树的生成，但是会影响到Render树的生成，进而影响到layout，所以一般来说，style的link标签需要尽量放在head里面，因为在解析DOM树的时候是自上而下的，而css样式又是通过异步加载的，这样的话，解析DOM树下的body节点和加载css样式能尽可能的并行，加快Render树的生成的速度，当然，如果css是通过js动态添加进来的，会引起页面的重绘或重新布局。
+从有html标准以来到目前为止（2017年5月），标准一直是规定style元素不应出现在body元素中。</p>
+
+<p>前面提到了<code class="language-plaintext highlighter-rouge">load</code>事件，那么与<code class="language-plaintext highlighter-rouge">DOMContentLoaded</code>事件有什么分别。</p>
+<ul>
+  <li>当 DOMContentLoaded 事件触发时，仅当DOM加载完成，不包括样式表，图片。 (譬如如果有async加载的脚本就不一定完成)</li>
+  <li>当 onLoad 事件触发时，页面上所有的DOM，样式表，脚本，图片都已经加载完成了。 （渲染完毕了）
+顺序是：<code class="language-plaintext highlighter-rouge">DOMContentLoaded -&gt; load</code></li>
+</ul>
+
+<h2 id="最后">最后</h2>
+<p>写到这里，总结了也有不少的内容，也对浏览器多线程、JS引擎有所了解，后面打算在看看JS的运行机制。前端知识也是无穷无尽，数不清的概念与无数个易忘的知识、各种框架原理，学来学去，还是发现自己知道得太少了。</p>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息</h3>
+  <ul>
+    
+    <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
+    <li>本文链接：<a href="http://localhost:4000/2020/07/13/Thread-and-process/" target="_blank">http://localhost:4000/2020/07/13/Thread-and-process/</a></li>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>    
+    
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/07/13/Thread-and-process/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">浅谈浏览器多进程与JS线程</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>

@@ -3,7 +3,7 @@ layout: post
 title: 聊聊对Vue.js框架的理解
 excerpt: 今年OKR定了一条KR是每一个季度进行一次前端相关技术的分享，还有十几天就到2020年了，一直忙于业务开发，没有时间准备和学习高端话题，迫于无奈，那就讲讲平时使用频率较高，却没有真正认真的了解其内部原理的 Vue.js 吧。
 keywords: Vue, 原理
-categories: Vue, Principle
+categories: [Vue, Principle]
 word_count: true
 ---
 
