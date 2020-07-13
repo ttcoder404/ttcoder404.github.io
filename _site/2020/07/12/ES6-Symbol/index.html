@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>理解和使用ES6中的Symbol &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="ES6中引入了一种新的基础数据类型：Symbol，不过很多开发者可能都不怎么了解它，或者觉得在实际的开发工作中并没有什么场景应用到它，那么今天我们来讲讲这个数据类型，并看看我们怎么来利用它来改进一下我们的代码。">
+
+    <link rel="canonical" href="http://localhost:4000/2020/07/12/ES6-Symbol/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="理解和使用ES6中的Symbol">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>理解和使用ES6中的Symbol</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/07/12
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#ES6" title="ES6">ES6</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 3730 字，约 11 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="引言">引言</h2>
+
+<p>ES6中引入了一种新的基础数据类型：Symbol，不过很多开发者可能都不怎么了解它，或者觉得在实际的开发工作中并没有什么场景应用到它，那么今天我们来讲讲这个数据类型，并看看我们怎么来利用它来改进一下我们的代码。</p>
+
+<h2 id="这是一种新的基础数据类型primitive-type">这是一种新的基础数据类型（primitive type）</h2>
+<p><code class="language-plaintext highlighter-rouge">Symbol</code>是由ES6规范引入的一项新特性，它的功能类似于一种标识唯一性的ID。通常情况下，我们可以通过调用<code class="language-plaintext highlighter-rouge">Symbol()</code>函数来创建一个Symbol实例：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">()</span>
+</code></pre></div></div>
+<p>或者，你也可以在调用<code class="language-plaintext highlighter-rouge">Symbol()</code>函数时传入一个可选的字符串参数，相当于给你创建的Symbol实例一个描述信息：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">another symbol</span><span class="dl">'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>如果用当下比较流行的TypeScript的方式来描述这个<code class="language-plaintext highlighter-rouge">Symbol()</code>函数的话，可以表示成：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * @param  {any} description 描述信息。可以是任何可以被转型成字符串的值，如：字符串、数字、对象、数组等
+ */</span>
+<span class="kd">function</span> <span class="nb">Symbol</span><span class="p">(</span><span class="nx">description</span><span class="p">?:</span> <span class="nx">any</span><span class="p">):</span> <span class="nx">symbol</span>
+</code></pre></div></div>
+<p>由于<code class="language-plaintext highlighter-rouge">Symbol</code>是一种基础数据类型，所以当我们使用<code class="language-plaintext highlighter-rouge">typeof</code>去检查它的类型的时候，它会返回一个属于自己的类型<code class="language-plaintext highlighter-rouge">symbol</code>，而不是什么<code class="language-plaintext highlighter-rouge">string</code>、<code class="language-plaintext highlighter-rouge">object</code>之类的：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typeof</span> <span class="nx">s1</span>  <span class="c1">// 'symbol'</span>
+</code></pre></div></div>
+<p>另外，我们需要重点记住的一点是：每个<code class="language-plaintext highlighter-rouge">Symbol</code>实例都是唯一的。因此，当你比较两个<code class="language-plaintext highlighter-rouge">Symbol</code>实例的时候，将总会返回<code class="language-plaintext highlighter-rouge">false</code>：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">()</span>
+<span class="kd">let</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">another symbol</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nx">s3</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">another symbol</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="nx">s1</span> <span class="o">===</span> <span class="nx">s2</span> <span class="c1">// false</span>
+<span class="nx">s2</span> <span class="o">===</span> <span class="nx">s3</span> <span class="c1">// false</span>
+</code></pre></div></div>
+<h2 id="应用场景1使用symbol来作为对象属性名key">应用场景1：使用Symbol来作为对象属性名(key)</h2>
+<p>在这之前，我们通常定义或访问对象的属性时都是使用字符串，比如下面的代码：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">abc</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">world</span><span class="dl">"</span>
+<span class="p">}</span>
+
+<span class="nx">obj</span><span class="p">[</span><span class="dl">"</span><span class="s2">abc</span><span class="dl">"</span><span class="p">]</span> <span class="c1">// 123</span>
+<span class="nx">obj</span><span class="p">[</span><span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">]</span> <span class="c1">// 'world'</span>
+</code></pre></div></div>
+<p>而现在，<code class="language-plaintext highlighter-rouge">Symbol</code>可同样用于对象属性的定义和访问：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">PROP_NAME</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">()</span>
+<span class="kd">const</span> <span class="nx">PROP_AGE</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">()</span>
+
+<span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">[</span><span class="nx">PROP_NAME</span><span class="p">]:</span> <span class="dl">"</span><span class="s2">一斤代码</span><span class="dl">"</span>
+<span class="p">}</span>
+<span class="nx">obj</span><span class="p">[</span><span class="nx">PROP_AGE</span><span class="p">]</span> <span class="o">=</span> <span class="mi">18</span>
+
+<span class="nx">obj</span><span class="p">[</span><span class="nx">PROP_NAME</span><span class="p">]</span> <span class="c1">// '一斤代码'</span>
+<span class="nx">obj</span><span class="p">[</span><span class="nx">PROP_AGE</span><span class="p">]</span> <span class="c1">// 18</span>
+</code></pre></div></div>
+<p>随之而来的是另一个非常值得注意的问题：就是当使用了<code class="language-plaintext highlighter-rouge">Symbol</code>作为对象的属性<code class="language-plaintext highlighter-rouge">key</code>后，在对该对象进行<code class="language-plaintext highlighter-rouge">key</code>的枚举时，会有什么不同？在实际应用中，我们经常会需要使用<code class="language-plaintext highlighter-rouge">Object.keys()</code>或者<code class="language-plaintext highlighter-rouge">for...in</code>来枚举对象的属性名，那在这方面，<code class="language-plaintext highlighter-rouge">Symbol</code>类型的<code class="language-plaintext highlighter-rouge">key</code>表现的会有什么不同之处呢？来看以下示例代码：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="p">[</span><span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">name</span><span class="dl">'</span><span class="p">)]:</span> <span class="dl">'</span><span class="s1">一斤代码</span><span class="dl">'</span><span class="p">,</span>
+   <span class="na">age</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+   <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Engineer</span><span class="dl">'</span>
+<span class="p">}</span>
+
+<span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>   <span class="c1">// ['age', 'title']</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>   <span class="c1">// 分别会输出：'age' 和 'title'</span>
+<span class="p">}</span>
+
+<span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyNames</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>   <span class="c1">// ['age', 'title']</span>
+</code></pre></div></div>
+<p>由上代码可知，<code class="language-plaintext highlighter-rouge">Symbol</code>类型的<code class="language-plaintext highlighter-rouge">key</code>是不能通过<code class="language-plaintext highlighter-rouge">Object.keys()</code>或者<code class="language-plaintext highlighter-rouge">for...in</code>来枚举的，它未被包含在对象自身的属性名集合<code class="language-plaintext highlighter-rouge">(property names)</code>之中。所以，利用该特性，我们可以把一些不需要对外操作和访问的属性使用<code class="language-plaintext highlighter-rouge">Symbol</code>来定义。</p>
+
+<p>也正因为这样一个特性，当使用<code class="language-plaintext highlighter-rouge">JSON.stringify()</code>将对象转换成JSON字符串的时候，<code class="language-plaintext highlighter-rouge">Symbol</code>属性也会被排除在输出内容之外：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>  <span class="c1">// {"age":18,"title":"Engineer"}</span>
+</code></pre></div></div>
+<p>我们可以利用这一特点来更好的设计我们的数据对象，让“对内操作”和“对外选择性输出”变得更加优雅。</p>
+
+<p>然而，这样的话，我们就没办法获取以<code class="language-plaintext highlighter-rouge">Symbol</code>方式定义的对象属性了么？非也。还是会有一些专门针对<code class="language-plaintext highlighter-rouge">Symbol</code>的API，比如：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 使用Object的API</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertySymbols</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="c1">// [Symbol(name)]</span>
+
+<span class="c1">// 使用新增的反射API</span>
+<span class="nb">Reflect</span><span class="p">.</span><span class="nx">ownKeys</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="c1">// [Symbol(name), 'age', 'title']</span>
+</code></pre></div></div>
+<h2 id="应用场景2使用symbol来替代常量">应用场景2：使用<code class="language-plaintext highlighter-rouge">Symbol</code>来替代常量</h2>
+<p>先来看一下下面的代码，是不是在你的代码里经常会出现？</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">TYPE_AUDIO</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">AUDIO</span><span class="dl">'</span>
+<span class="kd">const</span> <span class="nx">TYPE_VIDEO</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">VIDEO</span><span class="dl">'</span>
+<span class="kd">const</span> <span class="nx">TYPE_IMAGE</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">IMAGE</span><span class="dl">'</span>
+
+<span class="kd">function</span> <span class="nx">handleFileResource</span><span class="p">(</span><span class="nx">resource</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">switch</span><span class="p">(</span><span class="nx">resource</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">TYPE_AUDIO</span><span class="p">:</span>
+      <span class="nx">playAudio</span><span class="p">(</span><span class="nx">resource</span><span class="p">)</span>
+      <span class="k">break</span>
+    <span class="k">case</span> <span class="nx">TYPE_VIDEO</span><span class="p">:</span>
+      <span class="nx">playVideo</span><span class="p">(</span><span class="nx">resource</span><span class="p">)</span>
+      <span class="k">break</span>
+    <span class="k">case</span> <span class="nx">TYPE_IMAGE</span><span class="p">:</span>
+      <span class="nx">previewImage</span><span class="p">(</span><span class="nx">resource</span><span class="p">)</span>
+      <span class="k">break</span>
+    <span class="k">default</span><span class="p">:</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Unknown type of resource</span><span class="dl">'</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>如上面的代码中那样，我们经常定义一组常量来代表一种业务逻辑下的几个不同类型，我们通常希望这几个常量之间是唯一的关系，为了保证这一点，我们需要为常量赋一个唯一的值（比如这里的’AUDIO’、’VIDEO’、 ‘IMAGE’），常量少的时候还算好，但是常量一多，你可能还得花点脑子好好为他们取个好点的名字。</p>
+
+<p>现在有了<code class="language-plaintext highlighter-rouge">Symbol</code>，我们大可不必这么麻烦了：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">TYPE_AUDIO</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">()</span>
+<span class="kd">const</span> <span class="nx">TYPE_VIDEO</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">()</span>
+<span class="kd">const</span> <span class="nx">TYPE_IMAGE</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">()</span>
+</code></pre></div></div>
+<p>这样定义，直接就保证了三个常量的值是唯一的了！是不是挺方便的呢。</p>
+
+<h2 id="应用场景3使用symbol定义类的私有属性方法">应用场景3：使用Symbol定义类的私有属性/方法</h2>
+<p>我们知道在JavaScript中，是没有如Java等面向对象语言的访问控制关键字<code class="language-plaintext highlighter-rouge">private</code>的，类上所有定义的属性或方法都是可公开访问的。因此这对我们进行API的设计时造成了一些困扰。</p>
+
+<p>而有了<code class="language-plaintext highlighter-rouge">Symbol</code>以及<code class="language-plaintext highlighter-rouge">模块化机制</code>，类的私有属性和方法才变成可能。例如：</p>
+
+<ul>
+  <li>在文件 a.js中
+```javascript
+const PASSWORD = Symbol()</li>
+</ul>
+
+<p>class Login {
+  constructor(username, password) {
+    this.username = username
+    this[PASSWORD] = password
+  }</p>
+
+<p>checkPassword(pwd) {
+      return this[PASSWORD] === pwd
+  }
+}</p>
+
+<p>export default Login</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 在文件 b.js 中
+```javascript
+import Login from './a'
+
+const login = new Login('admin', '123456')
+
+login.checkPassword('123456')  // true
+
+login.PASSWORD  // oh!no!
+login[PASSWORD] // oh!no!
+login["PASSWORD"] // oh!no!
+</code></pre></div></div>
+<p>由于<code class="language-plaintext highlighter-rouge">Symbol</code>常量<code class="language-plaintext highlighter-rouge">PASSWORD</code>被定义在a.js所在的模块中，外面的模块获取不到这个<code class="language-plaintext highlighter-rouge">Symbol</code>，也不可能再创建一个一模一样的<code class="language-plaintext highlighter-rouge">Symbol</code>出来（因为Symbol是唯一的），因此这个<code class="language-plaintext highlighter-rouge">PASSWORD</code>的<code class="language-plaintext highlighter-rouge">Symbol</code>只能被限制在a.js内部使用，所以使用它来定义的类属性是没有办法被模块外访问到的，达到了一个私有化的效果。</p>
+
+<h2 id="注册和获取全局symbol">注册和获取全局Symbol</h2>
+<p>通常情况下，我们在一个浏览器窗口中（window），使用<code class="language-plaintext highlighter-rouge">Symbol()</code>函数来定义和Symbol实例就足够了。但是，如果你的应用涉及到多个window（最典型的就是页面中使用了<code class="language-plaintext highlighter-rouge">&lt;iframe&gt;</code>），并需要这些window中使用的某些Symbol是同一个，那就不能使用<code class="language-plaintext highlighter-rouge">Symbol()</code>函数了，因为用它在不同window中创建的Symbol实例总是唯一的，而我们需要的是在所有这些window环境下保持一个共享的Symbol。这种情况下，我们就需要使用另一个API来创建或获取Symbol，那就是<code class="language-plaintext highlighter-rouge">Symbol.for()</code>，它可以注册或获取一个window间全局的Symbol实例：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">gs1</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="dl">'</span><span class="s1">global_symbol_1</span><span class="dl">'</span><span class="p">)</span>  <span class="c1">//注册一个全局Symbol</span>
+<span class="kd">let</span> <span class="nx">gs2</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="dl">'</span><span class="s1">global_symbol_1</span><span class="dl">'</span><span class="p">)</span>  <span class="c1">//获取全局Symbol</span>
+
+<span class="nx">gs1</span> <span class="o">===</span> <span class="nx">gs2</span>  <span class="c1">// true</span>
+</code></pre></div></div>
+<p>这样一个<code class="language-plaintext highlighter-rouge">Symbol</code>不光在单个window中是唯一的，在多个相关window间也是唯一的了。</p>
+
+<p>好了，通过以上这些例子，你现在是不是开始对ES6的这个<code class="language-plaintext highlighter-rouge">Symbol</code>功能有点了解了呢？<code class="language-plaintext highlighter-rouge">Symbol</code>在JS内部也有很多应用，比如迭代器(Iterator)等，大家可以以此为出发点，发掘出更多相关知识点，深入的理解Symbol的用法和使用场景。</p>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息 - 转载自</h3>
+  <ul>
+    
+    <li>原文作者：<a href="https://www.jianshu.com/p/f40a77bbd74e" target="_blank">一斤代码</a></li>
+    <li>原文链接：<a href="https://www.jianshu.com/p/f40a77bbd74e" target="_blank">https://www.jianshu.com/p/f40a77bbd74e</a></li>
+    
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/07/12/ES6-Symbol/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">理解和使用ES6中的Symbol</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>

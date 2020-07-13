@@ -82,7 +82,7 @@ SDK自动化部署平台主要实现了JSSDK的编译，发布测试（在线预
 
 `lib/build.js`，JSSDK中发包的入口文件，提供给SDK编译时使用
 
-```js
+```javascript
 import * as rollup from 'rollup';
 const replace = require('rollup-plugin-replace');
 const path = require('path');
@@ -137,7 +137,7 @@ module.exports = async function (params) {
 
 在自动化部署平台中，使用`shelljs`安装JSSDK包：
 
-```js
+```javascript
 import {route, POST} from 'awilix-express';
 import {Api} from '../framework/Api';
 import * as shell from 'shell';
@@ -190,7 +190,7 @@ Release包就是我们在上传到CDN之前需要准备的压缩包。因此，�
 
 首先，打包函数如下：
 
-```js
+```javascript
 import {Service} from '../framework';
 import * as fs from 'fs';
 import path from 'path';
@@ -250,7 +250,7 @@ export default class SupplyService extends Service {
 
 JSSDK的编译很简单，只需要加载对应版本的JSSDK的编译函数，然后将对应的参数传入编译函数得到一个Rollup Compiler，然后将 Compiler 结果写入Release路径即可。
 
-```js
+```javascript
 export default class SupplyService extends Service {
     async buildSdk(supplyId, appKey, sdkVersion) {
         try {
@@ -277,7 +277,7 @@ export default class SupplyService extends Service {
 
 原理很简单，使用`JSZip`，打开接入文档模板，然后使用`Docxtemplater`替换模板里的特殊字符，然后重新生成DOC文件：
 
-```js
+```javascript
 import Docxtemplater from 'docxtemplater';
 import JSZip from 'JSZip';
 
@@ -328,7 +328,7 @@ export default class SupplyService extends Service {
 
 与接入文档生成原理类似，打开一个DEMO模板HTML文件，替换内部字符，重新生成文件：
 
-```js
+```javascript
 export default class SupplyService extends Service {
     generateDemoHtml(data, file, toFile) {
         return new Promise((resolve, reject) => {
@@ -360,7 +360,7 @@ export default class SupplyService extends Service {
 
 将当前打包的一些参数存在一个文件中的，一并打包到Release包中，作用很简单，用来描述当前打包的一些参数，方便上线CDN的时候记录当前上线的是哪个SDK版本等
 
-```js
+```javascript
 export default class SupplyService extends Service {
     async writeSdkVersionFile(supplyId, appKey, sdkVersion) {
         return new Promise(resolve => {
@@ -384,7 +384,7 @@ export default class SupplyService extends Service {
 
 将之前生成的JSSDK编译结果、接入文档、预览DEMO页面文件，描述文件使用`archive`打包起来:
 
-```js
+```javascript
 export default class SupplyService extends Service {
     zipDirFile(dir, to) {
         return new Promise(async (resolve, reject) => {
@@ -413,7 +413,7 @@ export default class SupplyService extends Service {
 
 大部分上传到CDN都为像CDN源站push文件，而正好我们运维在我的自动化部署平台的机器上挂载了NFS，即我只需要本地将JSSDK文件拷贝到共享目录，就实现了CDN文件上传。
 
-```js
+```javascript
 export default class SupplyService extends Service {
     async cp2CDN(supplyId, fileName) {
         // 读取描述文件

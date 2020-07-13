@@ -5,7 +5,7 @@ excerpt: 挺久以前就有网友给我的 GitHub Pages 博客模板提Issue，�
 keywords: GitHub, CDN, jsdelivr
 categories: GitHub
 word_count: true
-topmost: true
+topmost: false
 owner: Zhuang Ma
 aurl: https://mazhuang.org/2020/05/01/cdn-for-github-pages/
 ---

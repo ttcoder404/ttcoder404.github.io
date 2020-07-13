@@ -256,7 +256,7 @@
 
 <p><code class="language-plaintext highlighter-rouge">lib/build.js</code>，JSSDK中发包的入口文件，提供给SDK编译时使用</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">rollup</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">rollup</span><span class="dl">'</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">rollup</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">rollup</span><span class="dl">'</span><span class="p">;</span>
 <span class="kd">const</span> <span class="nx">replace</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">rollup-plugin-replace</span><span class="dl">'</span><span class="p">);</span>
 <span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
 <span class="kd">const</span> <span class="nx">pkgPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">..</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">package.json</span><span class="dl">'</span><span class="p">);</span>
@@ -310,7 +310,7 @@
 
 <p>在自动化部署平台中，使用<code class="language-plaintext highlighter-rouge">shelljs</code>安装JSSDK包：</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">route</span><span class="p">,</span> <span class="nx">POST</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">awilix-express</span><span class="dl">'</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">route</span><span class="p">,</span> <span class="nx">POST</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">awilix-express</span><span class="dl">'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span><span class="nx">Api</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../framework/Api</span><span class="dl">'</span><span class="p">;</span>
 <span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">shell</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">shell</span><span class="dl">'</span><span class="p">;</span>
 <span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">path</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">;</span>
@@ -362,7 +362,7 @@
 
 <p>首先，打包函数如下：</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">Service</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../framework</span><span class="dl">'</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">Service</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../framework</span><span class="dl">'</span><span class="p">;</span>
 <span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">fs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">path</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">_</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">lodash</span><span class="dl">'</span><span class="p">;</span>
@@ -421,7 +421,7 @@
 
 <p>JSSDK的编译很简单，只需要加载对应版本的JSSDK的编译函数，然后将对应的参数传入编译函数得到一个Rollup Compiler，然后将 Compiler 结果写入Release路径即可。</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
     <span class="k">async</span> <span class="nx">buildSdk</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">appKey</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">try</span> <span class="p">{</span>
             <span class="kd">const</span> <span class="nx">sdkBackupPath</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">sdkBackupPath</span><span class="p">;</span>
@@ -447,7 +447,7 @@
 
 <p>原理很简单，使用<code class="language-plaintext highlighter-rouge">JSZip</code>，打开接入文档模板，然后使用<code class="language-plaintext highlighter-rouge">Docxtemplater</code>替换模板里的特殊字符，然后重新生成DOC文件：</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">Docxtemplater</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">docxtemplater</span><span class="dl">'</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">Docxtemplater</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">docxtemplater</span><span class="dl">'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">JSZip</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">JSZip</span><span class="dl">'</span><span class="p">;</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
@@ -497,7 +497,7 @@
 
 <p>与接入文档生成原理类似，打开一个DEMO模板HTML文件，替换内部字符，重新生成文件：</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
     <span class="nx">generateDemoHtml</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">toFile</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
             <span class="kd">const</span> <span class="nx">supplyId</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">supplyId</span><span class="p">;</span>
@@ -528,7 +528,7 @@
 
 <p>将当前打包的一些参数存在一个文件中的，一并打包到Release包中，作用很简单，用来描述当前打包的一些参数，方便上线CDN的时候记录当前上线的是哪个SDK版本等</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
     <span class="k">async</span> <span class="nx">writeSdkVersionFile</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">appKey</span><span class="p">,</span> <span class="nx">sdkVersion</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
             <span class="kd">const</span> <span class="nx">writePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="nx">supplyId</span><span class="p">,</span> <span class="dl">'</span><span class="s1">version.json</span><span class="dl">'</span><span class="p">);</span>
@@ -551,7 +551,7 @@
 
 <p>将之前生成的JSSDK编译结果、接入文档、预览DEMO页面文件，描述文件使用<code class="language-plaintext highlighter-rouge">archive</code>打包起来:</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
     <span class="nx">zipDirFile</span><span class="p">(</span><span class="nx">dir</span><span class="p">,</span> <span class="nx">to</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
             <span class="kd">const</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">to</span><span class="p">);</span>
@@ -579,7 +579,7 @@
 
 <p>大部分上传到CDN都为像CDN源站push文件，而正好我们运维在我的自动化部署平台的机器上挂载了NFS，即我只需要本地将JSSDK文件拷贝到共享目录，就实现了CDN文件上传。</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">SupplyService</span> <span class="kd">extends</span> <span class="nx">Service</span> <span class="p">{</span>
     <span class="k">async</span> <span class="nx">cp2CDN</span><span class="p">(</span><span class="nx">supplyId</span><span class="p">,</span> <span class="nx">fileName</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// 读取描述文件</span>
         <span class="kd">const</span> <span class="nx">sdkInfoPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">releasePath</span><span class="p">,</span> <span class="dl">''</span> <span class="o">+</span> <span class="nx">supplyId</span><span class="p">,</span> <span class="dl">'</span><span class="s1">version.json</span><span class="dl">'</span><span class="p">);</span>
