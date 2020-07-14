@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>Vue优化：常见会导致内存泄漏问题及优化 &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="在 SPA 的设计中，用户使用它时是不需要刷新浏览器的，所以 JavaScript 应用需要自行清理组件来确保垃圾回收以预期的方式生效。因此在vue开发过程中，你需要时刻警惕内存泄漏的问题。">
+
+    <link rel="canonical" href="http://localhost:4000/2020/07/15/Vue-Problem/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="Vue优化：常见会导致内存泄漏问题及优化">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>Vue优化：常见会导致内存泄漏问题及优化</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/07/15
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#Vue" title="Vue">Vue</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 3826 字，约 11 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="前言">前言</h2>
+
+<blockquote>
+  <p>如果你在用 Vue 开发应用，那么就要当心内存泄漏的问题。这个问题在单页应用 (SPA) 中尤为重要，因为在 SPA 的设计中，用户使用它时是不需要刷新浏览器的，所以 JavaScript 应用需要自行清理组件来确保垃圾回收以预期的方式生效。因此在vue开发过程中，你需要时刻警惕内存泄漏的问题，这些内存泄漏往往会发生在使用 Vue 之外的其它进行 DOM 操作的三方库时，请确保测试应用的内存泄漏问题并在适当的时机做必要的组件清理。</p>
+</blockquote>
+
+<ol>
+  <li>主要是在单页应用中，用户不会刷新浏览器，所以js应用需要自己清理组件来确保垃圾回收以预期的方式生效</li>
+  <li>使用其他第三方可能会创建DOM的插件的时候，在清除DOM的时候一定要保证完全清除dom片段，不要造成残留。</li>
+  <li>频繁调用创建的代码，但是一直没有清除的话就会造成内存飙升，而且一直不会释放.一定要destory掉，比如echarts那个插件，切换到其他界面，不需要改组件的时候一定要destory掉</li>
+  <li>尤其是手机或者其他性能不是特别好的设备尤为重要，或者应用内有很多应用内的导航么？这都需要良好的内存管理</li>
+</ol>
+
+<h2 id="v-if指令产生的内存泄露">v-if指令产生的内存泄露</h2>
+
+<p>v-if绑定到false的值，但是实际上dom元素在隐藏的时候没有被真实的释放掉</p>
+
+<h2 id="vue-router">Vue router</h2>
+
+<p>当用户在你的应用中导航的时候，vue router从虚拟dom中移除了元素，并替换为了新的元素，Vue的beforeDestory（）钩子函数就是一个解决清理工作的好地方，我们可以将清理dom的操作都放到这个里面</p>
+
+<h2 id="替代方法">替代方法</h2>
+
+<ol>
+  <li>在移除元素的时候的内存管理如上</li>
+  <li>如果有需要在内存中保留状态和元素的时候，使用内建的keep-alive组件
+    <ul>
+      <li>keep-alive包裹的组件，状态会被保留在内存里面</li>
+      <li>可以用来提升用户体验，当一个用户在文本框中输入了文本，再一次导航回来，文本还在，岂不美滋滋</li>
+      <li>这个时候移除的时候就要选取 deactivated钩子来移除元素了</li>
+    </ul>
+  </li>
+  <li>Vue中的内存泄露往往会发生在Vue之外其他DOM操作的第三方库，一定要确保测试应用的内存泄露问题并在适当的时候做组件清理</li>
+</ol>
+
+<blockquote>
+  <p>下面是我开发过程中遇到，并查资料总结的内存泄漏问题，会持续更新中</p>
+</blockquote>
+
+<h2 id="一vue自定义指令给元素绑定事件却没有解绑事件">一、vue自定义指令给元素绑定事件，却没有解绑事件</h2>
+
+<p>这个问题见上篇博客，<a href="https://www.cnblogs.com/goloving/p/11266974.html">vue自定义指令导致的内存泄漏问题解决</a></p>
+
+<h2 id="二v-if指令产生的内存泄露">二、v-if指令产生的内存泄露</h2>
+
+<p>v-if也是一个容易产生内存泄漏的地方。因为：</p>
+
+<ol>
+  <li>
+    <p>v-if绑定到false的值，但是实际上dom元素在隐藏的时候没有被真实的释放掉</p>
+  </li>
+  <li>
+    <p>就是非常常见的比如我们通过v-if删除了父级元素，但是并没有移除父级元素里的dom片段。通常产生于使用第三方库的时候，比如下面的示例中，我们加载了一个带有非常多选项的选择框，然后我们用到了一个显示/隐藏按钮，通过一个 v-if 指令从虚拟 DOM 中添加或移除它。这个示例的问题在于这个 <a href="https://cn.vuejs.org/v2/guide/conditional.html">v-if</a> 指令会从 DOM 中移除父级元素，但是我们并没有清除由 Choices.js 新添加的 DOM 片段，从而导致了内存泄漏。</p>
+  </li>
+</ol>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">link</span> <span class="nx">rel</span><span class="o">=</span><span class="dl">"</span><span class="s2">stylesheet prefetch</span><span class="dl">"</span> <span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://joshuajohnson.co.uk/Choices/assets/styles/css/choices.min.css?version=3.0.3</span><span class="dl">"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://joshuajohnson.co.uk/Choices/assets/scripts/dist/choices.min.js?version=3.0.3</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="dl">"</span><span class="s2">app</span><span class="dl">"</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">v</span><span class="o">-</span><span class="k">if</span><span class="o">=</span><span class="dl">"</span><span class="s2">showChoices</span><span class="dl">"</span> <span class="p">@</span><span class="nd">click</span><span class="o">=</span><span class="dl">"</span><span class="s2">hide</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">Hide</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">v</span><span class="o">-</span><span class="k">if</span><span class="o">=</span><span class="dl">"</span><span class="s2">!showChoices</span><span class="dl">"</span> <span class="p">@</span><span class="nd">click</span><span class="o">=</span><span class="dl">"</span><span class="s2">show</span><span class="dl">"</span> <span class="o">&gt;</span><span class="nx">Show</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">v</span><span class="o">-</span><span class="k">if</span><span class="o">=</span><span class="dl">"</span><span class="s2">showChoices</span><span class="dl">"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">select</span> <span class="nx">id</span><span class="o">=</span><span class="dl">"</span><span class="s2">choices-single-default</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/select</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#app</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">data</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">showChoices</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">mounted</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">initializeChoices</span><span class="p">()</span>
+  <span class="p">},</span>
+  <span class="na">methods</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">initializeChoices</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">list</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="c1">// 我们来为选择框载入很多选项</span>
+      <span class="c1">// 这样的话它会占用大量的内存</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">list</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+          <span class="na">label</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Item </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">i</span><span class="p">,</span>
+          <span class="na">value</span><span class="p">:</span> <span class="nx">i</span>
+        <span class="p">})</span>
+      <span class="p">}</span>
+      <span class="k">new</span> <span class="nx">Choices</span><span class="p">(</span><span class="dl">"</span><span class="s2">#choices-single-default</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">searchEnabled</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">removeItemButton</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">choices</span><span class="p">:</span> <span class="nx">list</span>
+      <span class="p">})</span>
+    <span class="p">},</span>
+    <span class="na">show</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">showChoices</span> <span class="o">=</span> <span class="kc">true</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$nextTick</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">initializeChoices</span><span class="p">()</span>
+      <span class="p">})</span>
+    <span class="p">},</span>
+    <span class="na">hide</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">showChoices</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>解决实例：在上述的示例中，我们可以用 hide() 方法在将选择框从 DOM 中移除之前做一些清理工作，来解决内存泄露问题。为了做到这一点，我们会在 Vue 实例的数据对象中保留一个属性，并会使用 <a href="https://github.com/jshjohnson/Choices">Choices API</a> 中的 destroy() 方法将其清除。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#app</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">data</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">showChoices</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">choicesSelect</span><span class="p">:</span> <span class="kc">null</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">mounted</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">initializeChoices</span><span class="p">()</span>
+  <span class="p">},</span>
+  <span class="na">methods</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">initializeChoices</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">list</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">list</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+          <span class="na">label</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Item </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">i</span><span class="p">,</span>
+          <span class="na">value</span><span class="p">:</span> <span class="nx">i</span>
+        <span class="p">})</span>
+      <span class="p">}</span>
+      <span class="c1">// 在我们的 Vue 实例的数据对象中设置一个 `choicesSelect` 的引用</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">choicesSelect</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Choices</span><span class="p">(</span><span class="dl">"</span><span class="s2">#choices-single-default</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">searchEnabled</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">removeItemButton</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">choices</span><span class="p">:</span> <span class="nx">list</span>
+      <span class="p">})</span>
+    <span class="p">},</span>
+    <span class="na">show</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">showChoices</span> <span class="o">=</span> <span class="kc">true</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$nextTick</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">initializeChoices</span><span class="p">()</span>
+      <span class="p">})</span>
+    <span class="p">},</span>
+    <span class="na">hide</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// 现在我们可以让 Choices 使用这个引用</span>
+      <span class="c1">// 在从 DOM 中移除这些元素之前进行清理工作</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">choicesSelect</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">showChoices</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div></div>
+<h2 id="三vue-router跳转到别的组件导致的内容泄漏">三、vue-router跳转到别的组件导致的内容泄漏</h2>
+
+<p>在上述示例中，我们使用了一个 v-if 指令产生内存泄漏，但是一个更常见的实际的场景是使用 Vue Router 在一个单页应用中路由到不同的组件。</p>
+
+<p>就像这个 v-if 指令一样，当一个用户在你的应用中导航时，Vue Router 从虚拟 DOM 中移除了元素，并替换为了新的元素。但是其子元素dom片段也并没有销毁。</p>
+
+<p>Vue 的 beforeDestroy() <a href="https://cn.vuejs.org/v2/guide/instance.html#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%9B%BE%E7%A4%BA">生命周期钩子</a>是一个解决基于 Vue Router 的应用中的这类问题的好方法。我们可以将清理工作放入 beforeDestroy() 钩子，像这样：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">beforeDestroy</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">choicesSelect</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>所以最正确的解决方案就是：首先，v-if置为false前先删除创建的dom片段；其次，路由跳出吃，在beforeDestroy钩子函数里面判断choicesSelect是否销毁，没销毁则销毁。</p>
+
+<p>还有一个替代方案：</p>
+
+<p>我们已经讨论了移除元素时的内存管理，但是如果你打算在内存中保留状态和元素该怎么做呢？这种情况下，你可以使用内建的 <a href="https://cn.vuejs.org/v2/api/#keep-alive">keep-alive</a> 组件。</p>
+
+<p>当你用 keep-alive 包裹一个组件后，它的状态就会保留，因此就留在了内存里。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">button</span> <span class="p">@</span><span class="nd">click</span><span class="o">=</span><span class="dl">"</span><span class="s2">show = false</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">Hide</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">keep</span><span class="o">-</span><span class="nx">alive</span><span class="o">&gt;</span>
+    <span class="c1">// &lt;my-component&gt; 即便被删除仍会刻意保留在内存里</span>
+    <span class="o">&lt;</span><span class="nx">my</span><span class="o">-</span><span class="nx">component</span> <span class="nx">v</span><span class="o">-</span><span class="k">if</span><span class="o">=</span><span class="dl">"</span><span class="s2">show</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/my-component</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/keep-alive</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p>这个技巧可以用来提升用户体验。例如，设想一个用户在一个文本框中输入了评论，之后决定导航离开。如果这个用户之后导航回来，那些评论应该还保留着。</p>
+
+<p>一旦你使用了 keep-alive，那么你就可以访问另外两个生命周期钩子：<code class="language-plaintext highlighter-rouge">activated</code>和 <code class="language-plaintext highlighter-rouge">deactivated</code>。如果你想要在一个 <code class="language-plaintext highlighter-rouge">keep-alive</code> 组件被移除的时候进行清理或改变数据，可以使用 <code class="language-plaintext highlighter-rouge">deactivated</code> 钩子。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">deactivated</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// 移除任何你不想保留的数据，或者销毁可能产生内存泄漏的地方</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息 - 转载自</h3>
+  <ul>
+    
+    <li>原文作者：<a href="https://www.cnblogs.com/goloving/p/11267124.html" target="_blank">古兰精</a></li>
+    <li>原文链接：<a href="https://www.cnblogs.com/goloving/p/11267124.html" target="_blank">https://www.cnblogs.com/goloving/p/11267124.html</a></li>
+    
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/07/15/Vue-Problem/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">Vue优化：常见会导致内存泄漏问题及优化</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>

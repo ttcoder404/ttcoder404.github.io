@@ -190,6 +190,13 @@
       "category" : "Browser",
       
       "url"      : "http://localhost:4000/2020/07/13/Thread-and-process/"
+    } ,
+  
+    {
+      "title"    : "Vue优化：常见会导致内存泄漏问题及优化",
+      "category" : "Vue",
+      
+      "url"      : "http://localhost:4000/2020/07/15/Vue-Problem/"
     } 
   
 ]
