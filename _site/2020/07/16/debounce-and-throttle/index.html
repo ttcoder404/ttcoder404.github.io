@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>函数节流与函数防抖的区别 &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="函数节流与函数防抖是我们解决频繁触发DOM事件的两种常用解决方案，但是经常傻傻分不清楚。。。这不，在项目中又用遇到了，在此处记录一下">
+
+    <link rel="canonical" href="http://localhost:4000/2020/07/16/debounce-and-throttle/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="函数节流与函数防抖的区别">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>函数节流与函数防抖的区别</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/07/16
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#javascript" title="javascript">javascript</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 4403 字，约 13 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="前言">前言</h2>
+
+<p>函数节流与函数防抖是我们解决频繁触发DOM事件的两种常用解决方案，但是经常傻傻分不清楚。。。这不，在项目中又用遇到了，在此处记录一下</p>
+
+<h2 id="函数防抖-debounce">函数防抖 debounce</h2>
+
+<p><strong>原理：</strong> 将若干函数调用合成为一次，并在给定时间过去之后，或者连续事件完全触发完成之后，调用一次(<strong>仅仅只会调用一次！！！！！！！！！！</strong>)。</p>
+
+<p><strong>举个栗子：</strong> 滚动scroll事件，不停滑动滚轮会连续触发多次滚动事件，从而调用绑定的回调函数，我们希望当我们停止滚动的时，才触发一次回调，这时可以使用函数防抖。</p>
+
+<p><strong>原理性代码及测试：</strong></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 给盒子较大的height，容易看到效果</span>
+<span class="o">&lt;</span><span class="nx">style</span><span class="o">&gt;</span>
+    <span class="o">*</span> <span class="p">{</span>
+        <span class="na">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nl">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">.</span><span class="nx">box</span> <span class="p">{</span>
+        <span class="na">width</span><span class="p">:</span> <span class="mi">800</span><span class="nx">px</span><span class="p">;</span>
+        <span class="nl">height</span><span class="p">:</span> <span class="mi">1200</span><span class="nx">px</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="o">&lt;</span><span class="sr">/style</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="kd">class</span><span class="o">=</span><span class="dl">"</span><span class="s2">container</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="kd">class</span><span class="o">=</span><span class="dl">"</span><span class="s2">box</span><span class="dl">"</span> <span class="nx">style</span><span class="o">=</span><span class="dl">"</span><span class="s2">background: tomato</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">div</span> <span class="kd">class</span><span class="o">=</span><span class="dl">"</span><span class="s2">box</span><span class="dl">"</span> <span class="nx">style</span><span class="o">=</span><span class="dl">"</span><span class="s2">background: skyblue</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">div</span> <span class="kd">class</span><span class="o">=</span><span class="dl">"</span><span class="s2">box</span><span class="dl">"</span> <span class="nx">style</span><span class="o">=</span><span class="dl">"</span><span class="s2">background: red</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">div</span> <span class="kd">class</span><span class="o">=</span><span class="dl">"</span><span class="s2">box</span><span class="dl">"</span> <span class="nx">style</span><span class="o">=</span><span class="dl">"</span><span class="s2">background: yellow</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">decounce</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">delay</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">let</span> <span class="nx">timer</span> <span class="o">=</span> <span class="kc">null</span>
+
+                <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="kd">const</span> <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span>
+                    <span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">arguments</span>
+                    <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timer</span><span class="p">)</span> <span class="c1">// 每次调用debounce函数都会将前一次的timer清空，确保只执行一次</span>
+                    <span class="nx">timer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                        <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+                    <span class="p">},</span> <span class="nx">delay</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="kd">let</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="kd">function</span> <span class="nx">scrollTap</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">num</span><span class="o">++</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`看看num吧 </span><span class="p">${</span><span class="nx">num</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="c1">// 此处的触发时间间隔设置的很小</span>
+            <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">scroll</span><span class="dl">'</span><span class="p">,</span> <span class="nx">decounce</span><span class="p">(</span><span class="nx">scrollTap</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+            <span class="c1">// document.addEventListener('scroll', scrollTap)</span>
+        <span class="p">}</span>
+    <span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/body</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p>此处的触发时间间隔设置的很小，如果匀速不间断的滚动，不断触发scroll事件，如果不用debounce处理，可以发现num改变了很多次，用了debounce函数防抖，num在一次上时间的滚动中只改变了一次。</p>
+
+<p>调用debouce使scrollTap防抖之后的结果：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/debounce/1.png" alt="img" /></p>
+
+<p>直接调用scrollTap的结果：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/debounce/2.png" alt="img" /></p>
+
+<p>补充：浏览器在处理setTimeout和setInterval时，有最小时间间隔。
+setTimeout的最短时间间隔是4毫秒；
+setInterval的最短间隔时间是10毫秒，也就是说，小于10毫秒的时间间隔会被调整到10毫秒。
+事实上，未优化时，scroll事件频繁触发的时间间隔也是这个最小时间间隔。
+也就是说，当我们在debounce函数中的间隔事件设置不恰当（小于这个最小时间间隔），会使debounce无效。</p>
+
+<h2 id="函数节流-throttle">函数节流 throttle</h2>
+
+<p><strong>原理：</strong> 当达到了一定的时间间隔就会执行一次；可以理解为是缩减执行频率</p>
+
+<p><strong>举个栗子：</strong> 还是以scroll滚动事件来说吧，滚动事件是及其消耗浏览器性能的，不停触发。以我在项目中碰到的问题，移动端通过scroll实现分页，不断滚动，我们不希望不断发送请求，只有当达到某个条件，比如，距离手机窗口底部150px才发送一个请求，接下来就是展示新页面的请求，不停滚动，如此反复；这个时候就得用到函数节流。</p>
+
+<p><strong>原理性代码及实现</strong></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 函数节流 throttle</span>
+<span class="c1">// 方法一：定时器实现</span>
+<span class="kd">const</span> <span class="nx">throttle</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span><span class="nx">delay</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">timer</span> <span class="o">=</span> <span class="kc">null</span>
+
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span>
+    <span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">arguments</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">timer</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">timer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span><span class="nx">args</span><span class="p">)</span> 
+        <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timer</span><span class="p">)</span> 
+      <span class="p">},</span><span class="nx">delay</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 方法二：时间戳</span>
+<span class="kd">const</span> <span class="nx">throttle2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">delay</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">preTime</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span>
+      <span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">arguments</span>
+      <span class="kd">let</span> <span class="nx">doTime</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">doTime</span> <span class="o">-</span> <span class="nx">preTime</span> <span class="o">&gt;=</span> <span class="nx">delay</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+          <span class="nx">preTime</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>需要注意的是定时器方法实现throttle方法和debounce方法的不同：</p>
+
+<p><strong>在debounce中：在执行setTimeout函数之前总会将timer用setTimeout清除，取消延迟代码块，确保只执行一次
+在throttle中：只要timer存在就会执行setTimeout，在setTimeout内部每次清空这个timer，但是延迟代码块已经执行啦，确保一定频率执行一次</strong></p>
+
+<p>我们依旧可以在html页面中进行测试scroll事件，html和css代码同debounce，此处不赘述，运行结果是（可以说是一场漫长的滚轮滚动了）：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/images/posts/debounce/3.png" alt="img" /></p>
+
+<p>最后再来瞅瞅项目中封装好的debounce和throttle函数，可以说是很优秀了，考虑的特别全面，希望自己以后封装的函数也能考虑的这么全面吧，加油！</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行
+ *
+ * @param  {function} func        传入函数，最后一个参数是额外增加的this对象，.apply(this, args) 这种方式，this无法传递进函数
+ * @param  {number}   wait        表示时间窗口的间隔
+ * @param  {boolean}  immediate   设置为ture时，调用触发于开始边界而不是结束边界
+ * @return {function}             返回客户调用函数
+ */</span>
+<span class="kd">const</span> <span class="nx">debounce</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">func</span><span class="p">,</span> <span class="nx">wait</span><span class="p">,</span> <span class="nx">immediate</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">timeout</span><span class="p">,</span> <span class="nx">args</span><span class="p">,</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">result</span><span class="p">;</span>
+
+    <span class="kd">const</span> <span class="nx">later</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// 据上一次触发时间间隔</span>
+        <span class="kd">let</span> <span class="nx">last</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">())</span> <span class="o">-</span> <span class="nx">timestamp</span><span class="p">;</span>
+
+        <span class="c1">// 上次被包装函数被调用时间间隔last小于设定时间间隔wait</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">last</span> <span class="o">&lt;</span> <span class="nx">wait</span> <span class="o">&amp;&amp;</span> <span class="nx">last</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">later</span><span class="p">,</span> <span class="nx">wait</span> <span class="o">-</span> <span class="nx">last</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+            <span class="c1">// 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">immediate</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(...</span><span class="nx">_args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="nx">args</span> <span class="o">=</span> <span class="nx">_args</span><span class="p">;</span>
+        <span class="nx">timestamp</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
+        <span class="kd">const</span> <span class="nx">callNow</span> <span class="o">=</span> <span class="nx">immediate</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">timeout</span><span class="p">;</span>
+        <span class="c1">// 如果延时不存在，重新设定延时</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">later</span><span class="p">,</span> <span class="nx">wait</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">callNow</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+            <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 频率控制 返回函数连续调用时，func 执行频率限定为 次 / wait
+ *
+ * @param  {function}   func      传入函数
+ * @param  {number}     wait      表示时间窗口的间隔
+ * @param  {object}     options   如果想忽略开始边界上的调用，传入{leading: false}。
+ *                                如果想忽略结尾边界上的调用，传入{trailing: false}
+ * @return {function}             返回客户调用函数
+ */</span>
+<span class="kd">const</span> <span class="nx">throttle</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">func</span><span class="p">,</span> <span class="nx">wait</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">,</span> <span class="nx">result</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="c1">// 上次执行时间点</span>
+    <span class="kd">let</span> <span class="nx">previous</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">options</span><span class="p">)</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="c1">// 延迟执行函数</span>
+    <span class="kd">let</span> <span class="nx">later</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// 若设定了开始边界不执行选项，上次执行时间始终为0</span>
+        <span class="nx">previous</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">leading</span> <span class="o">===</span> <span class="kc">false</span> <span class="p">?</span> <span class="mi">0</span> <span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
+        <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(...</span><span class="nx">_args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">now</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
+        <span class="c1">// 首次执行时，如果设定了开始边界不执行选项，将上次执行时间设定为当前时间。</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">previous</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">leading</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="nx">previous</span> <span class="o">=</span> <span class="nx">now</span><span class="p">;</span>
+        <span class="c1">// 延迟执行时间间隔</span>
+        <span class="kd">let</span> <span class="nx">remaining</span> <span class="o">=</span> <span class="nx">wait</span> <span class="o">-</span> <span class="p">(</span><span class="nx">now</span> <span class="o">-</span> <span class="nx">previous</span><span class="p">);</span>
+        <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="nx">args</span> <span class="o">=</span> <span class="nx">_args</span><span class="p">;</span>
+        <span class="c1">// 延迟时间间隔remaining小于等于0，表示上次执行至此所间隔时间已经超过一个时间窗口</span>
+        <span class="c1">// remaining大于时间窗口wait，表示客户端系统时间被调整过</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">remaining</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">remaining</span> <span class="o">&gt;</span> <span class="nx">wait</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">);</span>
+            <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+            <span class="nx">previous</span> <span class="o">=</span> <span class="nx">now</span><span class="p">;</span>
+            <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+            <span class="c1">//如果延迟执行不存在，且没有设定结尾边界不执行选项</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">trailing</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">later</span><span class="p">,</span> <span class="nx">remaining</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息 - 转载自</h3>
+  <ul>
+    
+    <li>原文作者：<a href="https://blog.csdn.net/qq_35585701/article/details/81392174" target="_blank">小bearBear</a></li>
+    <li>原文链接：<a href="https://blog.csdn.net/qq_35585701/article/details/81392174" target="_blank">https://blog.csdn.net/qq_35585701/article/details/81392174</a></li>
+    
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/07/16/debounce-and-throttle/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">函数节流与函数防抖的区别</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>
