@@ -1,0 +1,961 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png">
+
+    <title>webpack 优化打包大全 &mdash; 头秃程序猿 — 前端知识学习分享</title>
+    <meta name="description"
+          content="随着我们的项目项目越做越大，引入的第三方库会越来越多，打包的依赖也越来越多，每次 build 的时间越来越长，打包出来的文件会越来越大。最糟糕的是单页面应用首页白屏时间长，用户体验差。">
+
+    <link rel="canonical" href="http://localhost:4000/2020/07/21/webpack-optimization/">
+    <link rel="alternate" type="application/rss+xml" title="头秃程序猿 — 前端知识学习分享" href="http://localhost:4000/feed.xml">
+
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/hover/css/hover-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/posts/index.css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/css/responsive.css">
+
+    <!-- CSS set in page -->
+    
+
+    <!-- CSS set in layout -->
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+</head>
+
+
+    <body>
+    <header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="ttcoder">
+            <span class="octicon octicon-mark-github"></span> ttcoder
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            
+            <a href="/"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Home">
+                Home
+            </a>
+            
+            <a href="/open-source"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Open-Source">
+                Open-Source
+            </a>
+            
+            <a href="/talk"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Talk">
+                Talk
+            </a>
+            
+            <a href="/archives"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="Archive">
+                Archive
+            </a>
+            
+            <a href="/about"
+               class=" site-header-nav-item hvr-underline-from-center"
+               target=""
+               title="About">
+                About
+            </a>
+            
+        </nav>
+            
+        <span class="nav_menu">
+            <svg class="Zi Zi--More" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M3.5 5h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3zm0 6h16a1.5 1.5 0 0 1 0 3h-16a1.5 1.5 0 0 1 0-3z" fill-rule="evenodd"></path></svg>
+        </span>
+    </div>
+    <div id="nav">        
+		<div class="navigation-up">
+			<ul class="nav-site">            
+            
+			<li _t_nav="Home" class=" ">
+                <a href="/" target=""><span>Home</span></a>
+            </li>               
+            
+			<li _t_nav="Open-Source" class=" ">
+                <a href="/open-source" target=""><span>Open-Source</span></a>
+            </li>               
+            
+			<li _t_nav="Talk" class=" ">
+                <a href="/talk" target=""><span>Talk</span></a>
+            </li>               
+            
+			<li _t_nav="Archive" class=" ">
+                <a href="/archives" target=""><span>Archive</span></a>
+            </li>               
+            
+			<li _t_nav="About" class=" ">
+                <a href="/about" target=""><span>About</span></a>
+            </li>               
+            
+			</ul>
+        </div>
+        
+		<div class="overlay"></div>
+    </div>
+</header>
+
+    
+        <div class="content">
+            
+
+
+<section class="jumbotron geopattern" data-pattern-id="webpack 优化打包大全">
+    <div class="container">
+        <div id="jumbotron-meta-info">
+            <h1>webpack 优化打包大全</h1>
+            <div class="collection-info">
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-calendar"></span> 2020/07/21
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#webpack" title="webpack">webpack</a>
+                </span>
+                
+                <span class="meta-info">
+                <span class="octicon octicon-file-directory"></span>
+                <a href="http://localhost:4000/talk/#optimization" title="optimization">optimization</a>
+                </span>
+                
+                
+                <span class="meta-info">
+                <span class="octicon octicon-clock"></span>
+                共 10336 字，约 30 分钟
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function(){
+
+        $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+        });
+
+    });
+</script>
+
+<!-- / .banner -->
+<section class="container content" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>随着我们的项目项目越做越大，引入的第三方库会越来越多，打包的依赖也越来越多，每次 build 的时间越来越长，打包出来的文件会越来越大。最糟糕的是单页面应用首页白屏时间长，用户体验差。</p>
+
+<p>此时优化 webpack 打包方法不可回避。下面我们来整理一下常用的 webpack 打包优化方法。</p>
+
+<p><strong>我们的目的</strong></p>
+
+<ul>
+  <li>减小打包后的文件大小</li>
+  <li>首页按需引入文件，减少白屏时间</li>
+  <li>优化 webpack 打包时间</li>
+</ul>
+
+<h2 id="分析-webpack-打包性能瓶颈">分析 webpack 打包性能瓶颈</h2>
+
+<p>首先我们来分析一下 webpack 打包性能瓶颈，找出问题所在，然后才能对症下药。</p>
+
+<h4 id="1webpack-bundle-analyzer-分析体积">1、webpack-bundle-analyzer 分析体积</h4>
+
+<ul>
+  <li>vue-cli3 需要安装依赖 <code class="language-plaintext highlighter-rouge">webpack-bundle-analyzer</code></li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">npm</span> <span class="nx">install</span> <span class="nx">webpack</span><span class="o">-</span><span class="nx">bundle</span><span class="o">-</span><span class="nx">analyzer</span> <span class="o">-</span><span class="nx">D</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">BundleAnalyzerPlugin</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">webpack-bundle-analyzer</span><span class="dl">'</span><span class="p">);</span>
+<span class="nl">plugins</span><span class="p">:[</span>
+  <span class="k">new</span> <span class="nx">BundleAnalyzerPlugin</span><span class="p">(),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<ul>
+  <li>vue-cli2 直接在命令行输入 <code class="language-plaintext highlighter-rouge">npm run build --report</code>, 构建完成后会在 8888 端口展示大小</li>
+</ul>
+
+<h4 id="2测量构建时间">2、测量构建时间</h4>
+
+<p>我们可以通过 <code class="language-plaintext highlighter-rouge">speed-measure-webpack-plugin</code> 测量你的 webpack 构建期间各个阶段花费的时间。</p>
+
+<ol>
+  <li>步骤一：安装依赖包</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install speed-measure-webpack-plugin --save-dev
+</code></pre></div></div>
+
+<ol>
+  <li>配置 vue.config.js</li>
+</ol>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 分析打包时间</span>
+<span class="kd">const</span> <span class="nx">SpeedMeasurePlugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">speed-measure-webpack-plugin</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">smp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SpeedMeasurePlugin</span><span class="p">()</span>
+<span class="c1">// ...</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">configureWebpack</span><span class="p">:</span> <span class="nx">smp</span><span class="p">.</span><span class="nx">wrap</span><span class="p">({</span>
+    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span><span class="k">new</span> <span class="nx">BundleAnalyzerPlugin</span><span class="p">()],</span>
+  <span class="p">}),</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>找出问题所在后我们开始来总结一下优化方法。</strong></p>
+
+<h2 id="1-按需加载">1、 按需加载</h2>
+
+<p>1.1 路由组件按需加载</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/index</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">component</span><span class="p">:</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">require</span><span class="p">.</span><span class="nx">ensure</span><span class="p">([],</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">@/components/index</span><span class="dl">'</span><span class="p">))),</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/about</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">component</span><span class="p">:</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">require</span><span class="p">.</span><span class="nx">ensure</span><span class="p">([],</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">@/components/about</span><span class="dl">'</span><span class="p">))),</span>
+  <span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>1.2 第三方组件和插件。按需加载需引入第三方组件</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 引入全部组件</span>
+<span class="k">import</span> <span class="nx">ElementUI</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">element-ui</span><span class="dl">'</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">element-ui/lib/theme-chalk/index.css</span><span class="dl">'</span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">ElementUI</span><span class="p">)</span>
+
+<span class="c1">// 按需引入组件</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Button</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">element-ui</span><span class="dl">'</span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="nx">Button</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">Button</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>1.3 对于一些插件，如果只是在个别组件中用的到，也可以不要在 main.js 里面引入，而是在组件中按需引入</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 在main.js引入</span>
+<span class="k">import</span> <span class="nx">Vue</span> <span class="k">from</span> <span class="nx">vue</span>
+<span class="k">import</span> <span class="nx">Vuelidate</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vuelidate</span><span class="dl">'</span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">Vuelidate</span><span class="p">)</span>
+
+<span class="c1">// 按组件按需引入</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Vuelidate</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vuelidate</span><span class="dl">'</span>
+</code></pre></div></div>
+
+<p>1.4 去除打包后文件的预加载 prefetch/preload</p>
+
+<p>vuecli 3 默认开启 prefetch(预先加载模块)，提前获取用户未来可能会访问的内容，在首屏会把这十几个路由文件，都一口气下载了。所以我们要关闭这个功能</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//细节配置修改</span>
+<span class="nx">chainWebpack</span><span class="p">:</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// 移除 prefetch 插件</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="dl">'</span><span class="s1">prefetch-index</span><span class="dl">'</span><span class="p">)</span>
+  <span class="c1">// 移除 preload 插件</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="dl">'</span><span class="s1">preload-index</span><span class="dl">'</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>preload 是告诉浏览器页面必定需要的资源，浏览器一定会加载这些资源</li>
+  <li>prefetch 是告诉浏览器页面可能需要的资源，浏览器不一定会加载这些资源</li>
+</ul>
+
+<p>当 prefetch 插件被禁用时，你可以通过 webpack 的内联注释手动选定要提前获取的代码区块：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span><span class="p">(</span><span class="cm">/* webpackPrefetch: true */</span> <span class="dl">'</span><span class="s1">./someAsyncComponent.vue</span><span class="dl">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="2缩小构建目标">2、缩小构建目标</h2>
+
+<h4 id="优化-loader-配置">优化 loader 配置</h4>
+
+<p>排除 Webpack 不需要解析的模块，即使用 loader 的时候，在尽量少的模块中去使用。</p>
+
+<ul>
+  <li>优化正则匹配</li>
+  <li>通过 <code class="language-plaintext highlighter-rouge">cacheDirectory</code> 选项开启缓存</li>
+  <li>通过 <code class="language-plaintext highlighter-rouge">include、exclude</code> 来减少被处理的文件。</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nl">rules</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">js$/</span><span class="p">,</span>
+      <span class="na">loader</span><span class="p">:</span> <span class="dl">'</span><span class="s1">babel-loader?cacheDirectory</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">include</span><span class="p">:</span> <span class="p">[</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">src</span><span class="dl">'</span><span class="p">)],</span>
+    <span class="p">},</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>注意：保存和读取这些缓存文件会有一些时间开销，所以请只对性能开销较大的 loader 使用此 loader。</p>
+
+<h4 id="合理使用-resolveextensions">合理使用 resolve.extensions</h4>
+
+<p>在导入语句没带文件后缀时，Webpack 会自动带上后缀后去尝试询问文件是否存在，查询的顺序是按照我们配置 的 resolve.extensions 顺序从前到后查找，Webpack 默认支持的后缀是 js 与 json。</p>
+
+<h4 id="配置别名-alias">配置别名 alias</h4>
+
+<p>alias 的意思为 别名，能把原导入路径映射成一个新的导入路径，我们可以使用 alias 配置来减少查找过程。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">resolve</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">extensions</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">.js</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.vue</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.json</span><span class="dl">'</span><span class="p">],</span>
+    <span class="nx">alias</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">'</span><span class="s1">vue$</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">vue/dist/vue.esm.js</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">@</span><span class="dl">'</span><span class="p">:</span> <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">src</span><span class="dl">'</span><span class="p">),</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+</code></pre></div></div>
+
+<h4 id="使用-modulenoparse">使用 module.noParse:</h4>
+
+<p>让 webpack 忽略对部分没采用模块化的文件的递归解析处理，这样做的好处是能提高构建性能。 因为如 <code class="language-plaintext highlighter-rouge">jQuery</code> 、<code class="language-plaintext highlighter-rouge">echart</code> 等库庞大又没有采用模块化标准，让 webpack 去解析这些文件耗时又没有意义。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">:{</span>
+	<span class="nl">noParse</span><span class="p">:</span><span class="sr">/jquery/</span><span class="p">,</span><span class="c1">//不去解析jquery中的依赖库</span>
+  <span class="p">...</span>
+<span class="p">},</span>
+</code></pre></div></div>
+
+<h2 id="4生产环境关闭-sourcemap">4、生产环境关闭 sourceMap</h2>
+
+<p><code class="language-plaintext highlighter-rouge">sourceMap</code> 本质上是一种映射关系，打包出来的 js 文件中的代码可以映射到代码文件的具体位置,这种映射关系会帮助我们直接找到在源代码中的错误。
+在生产环境，打包速度减慢，生产文件变大，所以开发环境使用 <code class="language-plaintext highlighter-rouge">sourceMap</code>，生产环境则关闭。</p>
+
+<p>sourceMap 的种类</p>
+
+<ul>
+  <li>source-map: 会生成 map 格式的文件，里面包含映射关系的代码</li>
+  <li>inline-source-map: 不会生成 map 格式的文件，包含映射关系的代码会放在打包后生成的代码中</li>
+  <li>inline-cheap-source-map: 一是将错误只定位到行，不定位到列。二是映射业务代码，不映射 loader 和第三方库等。会提升打包构建的速度。</li>
+  <li>inline-cheap-module-source-map: module 会映射 loader 和第三方库</li>
+  <li>eval: 用 eval 的方式生成映射关系代码，效率和性能最佳。但是当代码复杂时，提示信息可能不精确。</li>
+</ul>
+
+<h2 id="5代码压缩">5、代码压缩</h2>
+
+<h4 id="uglifyjs">UglifyJS</h4>
+
+<p><code class="language-plaintext highlighter-rouge">UglifyJS</code> 是 vue-cli 默认使用的压缩代码方式，它使用的是单线程压缩代码，打包时间较慢。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">plugins</span><span class="p">:</span> <span class="p">[</span>
+  <span class="k">new</span> <span class="nx">UglifyJsPlugin</span><span class="p">({</span>
+    <span class="na">uglifyOptions</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">compress</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">warnings</span><span class="p">:</span> <span class="kc">false</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">sourceMap</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">parallel</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">})</span>
+</code></pre></div></div>
+
+<h4 id="paralleluglifyplugin">ParallelUglifyPlugin</h4>
+
+<p><code class="language-plaintext highlighter-rouge">ParallelUglifyPlugin</code> 开启多个子进程，把对多个文件压缩的工作分别给多个子进程去完成，每个子进程其实还是通过 <code class="language-plaintext highlighter-rouge">UglifyJS</code> 去压缩代码，但是变成了并行执行。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">plugins</span><span class="p">:</span> <span class="p">[</span>
+  <span class="k">new</span> <span class="nx">ParallelUglifyPlugin</span><span class="p">({</span>
+    <span class="c1">//缓存压缩后的结果，下次遇到一样的输入时直接从缓存中获取压缩后的结果并返回，</span>
+    <span class="c1">//cacheDir 用于配置缓存存放的目录路径。</span>
+    <span class="na">cacheDir</span><span class="p">:</span> <span class="dl">'</span><span class="s1">.cache/</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">sourceMap</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">uglifyJS</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">output</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">comments</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="na">compress</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">warnings</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">},</span>
+  <span class="p">}),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>打包速度和打包后的文件大小啊对比
+| 方法 | 文件大小 | 打包速度 |
+| —————— | :——- | :——- |
+| 不用插件 | 14.6M | 32s |
+| UglifyJsPlugin | 12.9M | 33s |
+| ParallelUglifyPlugi | 7.98M | 17s |</p>
+
+<h4 id="terser-webpack-plugin">terser-webpack-plugin</h4>
+
+<p>Webpack4.0 默认是使用 <code class="language-plaintext highlighter-rouge">terser-webpack-plugin</code> 这个压缩插件，在此之前是使用 <code class="language-plaintext highlighter-rouge">uglifyjs-webpack-plugin</code>，两者的区别是后者对 ES6 的压缩不是很好，同时我们可以开启 <code class="language-plaintext highlighter-rouge">parallel</code> 参数，使用多进程压缩，加快压缩。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">TerserPlugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">terser-webpack-plugin</span><span class="dl">'</span><span class="p">)</span> <span class="c1">// 压缩js代码</span>
+<span class="kd">const</span> <span class="nx">OptimizeCSSAssetsPlugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">optimize-css-assets-webpack-plugin</span><span class="dl">'</span><span class="p">)</span> <span class="c1">// 压缩css代码</span>
+
+<span class="nx">optimization</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nl">minimizer</span><span class="p">:</span> <span class="p">[</span>
+    <span class="k">new</span> <span class="nx">TerserPlugin</span><span class="p">({</span>
+      <span class="na">parallel</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="c1">// 开启几个进程来处理压缩，默认是 os.cpus().length - 1</span>
+      <span class="na">cache</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// 是否缓存</span>
+      <span class="na">sourceMap</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">}),</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="css-压缩">CSS 压缩</h4>
+
+<p>我们可以借助 optimize-css-assets-webpack-plugin 插件来压缩 css，其默认使用的压缩引擎是 cssnano</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">OptimizeCSSAssetsPlugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">optimize-css-assets-webpack-plugin</span><span class="dl">'</span><span class="p">)</span> <span class="c1">// 压缩css代码</span>
+
+<span class="nx">optimization</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nl">minimizer</span><span class="p">:</span> <span class="p">[</span>
+    <span class="c1">// 压缩css</span>
+    <span class="k">new</span> <span class="nx">OptimizeCSSAssetsPlugin</span><span class="p">({}),</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="6提取公共代码">6、提取公共代码</h2>
+
+<p>在用 webpack 打包的时候，对于一些不经常更新的第三方库，比如 <code class="language-plaintext highlighter-rouge">react，lodash，vue</code> 我们希望能和自己的代码分离开，webpack 社区有以下两种方案：</p>
+
+<h4 id="commonschunkplugin-及-splitchunks">CommonsChunkPlugin 及 splitChunks</h4>
+
+<p>通过将公共模块拆出来，最终合成的文件能够在最开始的时候加载一次，便存到缓存中供后续使用。这个带来速度上的提升，因为浏览器会迅速将公共的代码从缓存中取出来，而不是每次访问一个新页面时，再去加载一个更大的文件。</p>
+
+<p>webpack3 使用 <code class="language-plaintext highlighter-rouge">CommonsChunkPlugin</code> 的实现：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">plugins</span><span class="p">:</span> <span class="p">[</span>
+  <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">optimize</span><span class="p">.</span><span class="nx">CommonsChunkPlugin</span><span class="p">({</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">vendor</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">minChunks</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">module</span><span class="p">,</span> <span class="nx">count</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">module</span><span class="p">.</span><span class="nx">resource</span><span class="p">,</span> <span class="s2">`引用次数</span><span class="p">${</span><span class="nx">count</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+      <span class="c1">//"有正在处理文件" + "这个文件是 .js 后缀" + "这个文件是在 node_modules 中"</span>
+      <span class="k">return</span> <span class="p">(</span>
+        <span class="nx">module</span><span class="p">.</span><span class="nx">resource</span> <span class="o">&amp;&amp;</span>
+        <span class="sr">/</span><span class="se">\.</span><span class="sr">js$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">module</span><span class="p">.</span><span class="nx">resource</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+        <span class="nx">module</span><span class="p">.</span><span class="nx">resource</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">./node_modules</span><span class="dl">'</span><span class="p">))</span> <span class="o">===</span> <span class="mi">0</span>
+      <span class="p">)</span>
+    <span class="p">},</span>
+  <span class="p">}),</span>
+  <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">optimize</span><span class="p">.</span><span class="nx">CommonsChunkPlugin</span><span class="p">({</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">common</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">chunks</span><span class="p">:</span> <span class="dl">'</span><span class="s1">initial</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">minChunks</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="p">}),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>webpack4 使用 <code class="language-plaintext highlighter-rouge">splitChunks</code> 的实现：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">optimization</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">splitChunks</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">cacheGroups</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">vendor</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">priority</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">//添加权重</span>
+          <span class="na">test</span><span class="p">:</span> <span class="sr">/node_modules/</span><span class="p">,</span> <span class="c1">//把这个目录下符合下面几个条件的库抽离出来</span>
+          <span class="na">chunks</span><span class="p">:</span> <span class="dl">'</span><span class="s1">initial</span><span class="dl">'</span><span class="p">,</span> <span class="c1">//刚开始就要抽离</span>
+          <span class="na">minChunks</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">//重复2次使用的时候需要抽离出来</span>
+        <span class="p">},</span>
+        <span class="na">common</span><span class="p">:</span> <span class="p">{</span>
+          <span class="c1">//公共的模块</span>
+          <span class="na">chunks</span><span class="p">:</span> <span class="dl">'</span><span class="s1">initial</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">minChunks</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">},</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="dllplugin">DLLPlugin</h4>
+
+<p>webpack.DllPlugin 就是来解决这个问题的插件，使用它可以在第一次编译打包后就生成一份不变的代码供其他模块引用，这样下一次构建的时候就可以节省开发时编译打包的时间。</p>
+
+<p>1、在 build 下创建 <code class="language-plaintext highlighter-rouge">webpack.dll.config.js</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">webpack</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">webpack</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">entry</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">vendor</span><span class="p">:</span> <span class="p">[</span>
+      <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">vuex</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">vue/dist/vue.common.js</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">vue/dist/vue.js</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">vue-loader/lib/component-normalizer.js</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">axios</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">echarts</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">],</span>
+  <span class="p">},</span>
+  <span class="na">output</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">path</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">./dist</span><span class="dl">'</span><span class="p">),</span>
+    <span class="na">filename</span><span class="p">:</span> <span class="dl">'</span><span class="s1">[name].dll.js</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">library</span><span class="p">:</span> <span class="dl">'</span><span class="s1">[name]_library</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+    <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">DllPlugin</span><span class="p">({</span>
+      <span class="na">path</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">./dist</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">[name]-manifest.json</span><span class="dl">'</span><span class="p">),</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">[name]_library</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">}),</span>
+    <span class="c1">// 建议加上代码压缩插件，否则dll包会比较大。</span>
+    <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">optimize</span><span class="p">.</span><span class="nx">UglifyJsPlugin</span><span class="p">({</span>
+      <span class="na">compress</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">warnings</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">}),</span>
+  <span class="p">],</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">library</code> 的意思其实就是将 dll 文件以一个全局变量的形式导出出去，便于接下来引用。</li>
+  <li><code class="language-plaintext highlighter-rouge">mainfest.json</code> 文件是一个映射关系，它的作用就是帮助 webpack 使用我们之前打包好的 <code class="language-plaintext highlighter-rouge">***.dll.js</code> 文件，而不是重新再去 <code class="language-plaintext highlighter-rouge">node_modules</code> 中去寻找。</li>
+</ul>
+
+<p>2、在 <code class="language-plaintext highlighter-rouge">webpack.prod.conf.js</code> 的 plugin 后面加入配置</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">DllReferencePlugin</span><span class="p">({</span>
+  <span class="na">manifest</span><span class="p">:</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">../dist/vendor-manifest.json</span><span class="dl">'</span><span class="p">),</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>3、<code class="language-plaintext highlighter-rouge">package.json</code>文件中添加快捷命令<code class="language-plaintext highlighter-rouge">(build:dll)</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">dev</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">webpack-dev-server --inline --progress --config build/webpack.dev.conf.js</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">start</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">npm run dev</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">lint</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">eslint --ext .js,.vue src</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">build</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">node build/build.js</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">build:dll</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">webpack --config build/webpack.dll.conf.js</span><span class="dl">"</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>生产环境打包的时候先<code class="language-plaintext highlighter-rouge">npm run build:dll</code>命令会在打包目录下生成 <code class="language-plaintext highlighter-rouge">vendor-manifest.json</code> 文件与 vendor.dll.js 文件。然后<code class="language-plaintext highlighter-rouge">npm run build</code>生产其他文件。</p>
+
+<p>4、根目录下的入口 <code class="language-plaintext highlighter-rouge">index.html</code> 加入引用</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"./vendor.dll.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<h2 id="7cdn-优化">7、CDN 优化</h2>
+
+<ul>
+  <li>随着项目越做越大，依赖的第三方 npm 包越来越多，构建之后的文件也会越来越大。</li>
+  <li>再加上又是单页应用，这就会导致在网速较慢或者服务器带宽有限的情况出现长时间的白屏。</li>
+</ul>
+
+<p>1、将 <code class="language-plaintext highlighter-rouge">vue、vue-router、vuex、element-ui 和 axios</code> 这五个库，全部改为通过 CDN 链接获取，在 <code class="language-plaintext highlighter-rouge">index.html</code> 里插入 相应链接。</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://cdn.bootcss.com/element-ui/2.0.7/theme-chalk/index.css"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"app"</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.bootcss.com/vue/2.6.10/vue.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.bootcss.com/vuex/3.1.0/vuex.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.bootcss.com/vue-router/3.0.2/vue-router.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.bootcss.com/element-ui/2.6.1/index.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="c">&lt;!-- built files will be auto injected --&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>2、在 <code class="language-plaintext highlighter-rouge">webpack.config.js</code> 配置文件</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+ <span class="err">···</span>
+    <span class="na">externals</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Vue</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">vuex</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Vuex</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">VueRouter</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">element-ui</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ELEMENT</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">Axios</span><span class="dl">'</span><span class="p">:</span><span class="dl">'</span><span class="s1">axios</span><span class="dl">'</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+</code></pre></div></div>
+
+<p>3、卸载依赖的 npm 包</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm uninstall axios element-ui vue vue-router vuex
+</code></pre></div></div>
+
+<p>4、修改 <code class="language-plaintext highlighter-rouge">main.js</code> 文件里之前的引包方式</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// import Vue from 'vue'</span>
+<span class="c1">// import ElementUI from 'element-ui'</span>
+<span class="c1">// import 'element-ui/lib/theme-chalk/index.css'</span>
+<span class="c1">// import VueRouter from 'vue-router'</span>
+
+<span class="k">import</span> <span class="nx">App</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./App.vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">routes</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./router</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">utils</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./utils/Utils</span><span class="dl">'</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">ELEMENT</span><span class="p">)</span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">VueRouter</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VueRouter</span><span class="p">({</span>
+  <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">hash</span><span class="dl">'</span><span class="p">,</span> <span class="c1">//路由的模式</span>
+  <span class="nx">routes</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="nx">router</span><span class="p">,</span>
+  <span class="na">el</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#app</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">render</span><span class="p">:</span> <span class="p">(</span><span class="nx">h</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">h</span><span class="p">(</span><span class="nx">App</span><span class="p">),</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<h4 id="html-webpack-externals-plugin">html-webpack-externals-plugin</h4>
+
+<p>这种方法每次都需要在 index.html 模板中手动引入需要的 cdn 文件，然后还要在 webpack 里配置，有点繁琐了
+<code class="language-plaintext highlighter-rouge">html-webpack-externals-plugin</code>这样的插件就应运而生了。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// webpack.config.js文件</span>
+<span class="kd">const</span> <span class="nx">HtmlWebpackExternalsPlugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">html-webpack-externals-plugin</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+    <span class="k">new</span> <span class="nx">HtmlWebpackExternalsPlugin</span><span class="p">({</span>
+      <span class="na">externals</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="c1">// 引入的模块</span>
+          <span class="na">module</span><span class="p">:</span> <span class="dl">'</span><span class="s1">jquery</span><span class="dl">'</span><span class="p">,</span>
+          <span class="c1">// cdn的地址</span>
+          <span class="na">entry</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js</span><span class="dl">'</span><span class="p">,</span>
+          <span class="c1">// 挂载到了window上的名称</span>
+          <span class="na">global</span><span class="p">:</span> <span class="dl">'</span><span class="s1">jQuery</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="na">module</span><span class="p">:</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">entry</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://cdn.bootcss.com/vue/2.6.10/vue.min.js</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">global</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Vue</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">],</span>
+    <span class="p">}),</span>
+  <span class="p">],</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="8多进程解析和处理文件">8、多进程解析和处理文件</h2>
+
+<p>由于运行在 Node.js 之上的 webpack 是单线程模型的，所以 webpack 需要处理的事情需要一件一件的做，不能多件事一起做。当 webpack 需要打包大量文件时，打包时间就会比较漫长。</p>
+
+<p>以下两个方法能让 webpack 在同一时刻处理多个任务发挥多核 CPU 电脑的功能，提升构建速度。</p>
+
+<h4 id="thread-loader">thread loader</h4>
+
+<p>把这个 <code class="language-plaintext highlighter-rouge">thread loader</code> 放置在其他 loader 之前， 放置在这个 loader 之后的 loader 就会在一个单独的 worker 池(worker pool)中运行。</p>
+
+<p>在 worker 池(worker pool)中运行的 loader 是受到限制的。例如：</p>
+
+<ul>
+  <li>这些 loader 不能产生新的文件。</li>
+  <li>这些 loader 不能使用定制的 loader API（也就是说，通过插件）。</li>
+  <li>这些 loader 无法获取 webpack 的选项设置。</li>
+</ul>
+
+<p>每个 worker 都是一个单独的有 600ms 限制的 node.js 进程。同时跨进程的数据交换也会被限制。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">module</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">rules</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">js$/</span><span class="p">,</span>
+        <span class="na">include</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">src</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">use</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">thread-loader</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">expensive-loader</span><span class="dl">'</span><span class="p">],</span>
+      <span class="p">},</span>
+    <span class="p">],</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="happypack">HappyPack</h4>
+
+<p><code class="language-plaintext highlighter-rouge">HappyPack</code> 能让 webpack 把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。要注意的是 HappyPack 对 file-loader、url-loader 支持的不友好，所以不建议对该 loader 使用。</p>
+
+<p>使用方法如下：</p>
+
+<p>1、 HappyPack 插件安装</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i -D happypack
+</code></pre></div></div>
+
+<p>2、 <code class="language-plaintext highlighter-rouge">webpack.base.conf.js</code> 文件对 module.rules 进行配置</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nl">rules</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">js$/</span><span class="p">,</span>
+      <span class="na">use</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">happypack/loader?id=babel</span><span class="dl">'</span><span class="p">],</span>
+      <span class="na">include</span><span class="p">:</span> <span class="p">[</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">src</span><span class="dl">'</span><span class="p">),</span> <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">)],</span>
+      <span class="na">exclude</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">node_modules</span><span class="dl">'</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">vue$/</span><span class="p">,</span>
+      <span class="na">use</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">happypack/loader?id=vue</span><span class="dl">'</span><span class="p">],</span>
+    <span class="p">},</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>3、在生产环境 <code class="language-plaintext highlighter-rouge">webpack.prod.conf.js</code> 文件进行配置</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">HappyPack</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">happypack</span><span class="dl">'</span><span class="p">)</span>
+<span class="c1">// 构造出共享进程池，在进程池中包含5个子进程</span>
+<span class="kd">const</span> <span class="nx">HappyPackThreadPool</span> <span class="o">=</span> <span class="nx">HappyPack</span><span class="p">.</span><span class="nx">ThreadPool</span><span class="p">({</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">})</span>
+<span class="nx">plugins</span><span class="p">:</span> <span class="p">[</span>
+  <span class="k">new</span> <span class="nx">HappyPack</span><span class="p">({</span>
+    <span class="c1">// 用唯一的标识符id，来代表当前的HappyPack是用来处理一类特定的文件</span>
+    <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">babel</span><span class="dl">'</span><span class="p">,</span>
+    <span class="c1">// 如何处理.js文件，用法和Loader配置中一样</span>
+    <span class="na">loaders</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">babel-loader?cacheDirectory</span><span class="dl">'</span><span class="p">],</span>
+    <span class="na">threadPool</span><span class="p">:</span> <span class="nx">HappyPackThreadPool</span><span class="p">,</span>
+  <span class="p">}),</span>
+  <span class="k">new</span> <span class="nx">HappyPack</span><span class="p">({</span>
+    <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// 用唯一的标识符id，来代表当前的HappyPack是用来处理一类特定的文件</span>
+    <span class="na">loaders</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">loader</span><span class="p">:</span> <span class="dl">'</span><span class="s1">vue-loader</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">options</span><span class="p">:</span> <span class="nx">vueLoaderConfig</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">],</span>
+    <span class="na">threadPool</span><span class="p">:</span> <span class="nx">HappyPackThreadPool</span><span class="p">,</span>
+  <span class="p">}),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p><strong>注意，当项目较小时，多线程打包反而会使打包速度变慢。</strong></p>
+
+<h2 id="启用-gzip-压缩">启用 gzip 压缩</h2>
+
+<p>使用 Gzip 两个明显的好处，一是可以减少存储空间，二是通过网络传输文件时，可以减少传输的时间。</p>
+
+<p>1、安装依赖</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">npm</span> <span class="nx">i</span> <span class="nx">compression</span><span class="o">-</span><span class="nx">webpack</span><span class="o">-</span><span class="nx">plugin</span> <span class="o">--</span><span class="nx">save</span>
+</code></pre></div></div>
+
+<p>2、在 vue.congig.js 中引入并修改 webpack 配置</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">CompressionPlugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">compression-webpack-plugin</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">configureWebpack</span><span class="p">:</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">progress</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+          <span class="k">new</span> <span class="nx">CompressionPlugin</span><span class="p">({</span>
+            <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">js$|</span><span class="se">\.</span><span class="sr">html$|.</span><span class="se">\c</span><span class="sr">ss/</span><span class="p">,</span> <span class="c1">//匹配文件名</span>
+            <span class="na">threshold</span><span class="p">:</span> <span class="mi">10240</span><span class="p">,</span> <span class="c1">//对超过10k的数据压缩</span>
+            <span class="na">deleteOriginalAssets</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">//不删除源文件</span>
+          <span class="p">}),</span>
+        <span class="p">],</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="总结">总结</h3>
+
+<ol>
+  <li>比较实用的方法: 按需加载，优化 loader 配置，关闭生产环境的 sourceMap，CDN 优化。</li>
+  <li>vue-cli 已做的优化： 代码压缩，提取公共代码，再优化空间不大。</li>
+  <li>根据项目实际需要和自身开发水平选择优化方法，必须避免因为优化产生 bug。</li>
+</ol>
+
+    <div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7">
+  <h3>文档信息</h3>
+  <ul>
+    
+    <li>本文作者：<a href="http://localhost:4000" target="_blank">Liang Qi</a></li>
+    <li>本文链接：<a href="http://localhost:4000/2020/07/21/webpack-optimization/" target="_blank">http://localhost:4000/2020/07/21/webpack-optimization/</a></li>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li>    
+    
+  </ul>
+</div>
+
+    </article>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/07/21/webpack-optimization/',
+            clientID: '0f1df03507262b92fd0e',
+            clientSecret: '08cb3c71e4bd1aad2087b35962258d7eb284c543',
+            repo: 'blog-comments',
+            owner: 'ttcoder404',
+            admin: ['ttcoder404'],
+            labels: ['gitment'],
+            perPage: 50,
+        });
+        gitalk.render('gitalk-container');
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input style="width:96%" type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/simple-jekyll-search.min.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: 'http://localhost:4000/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    <div id="post-box">
+  <h3 class="post-directory-title mobile-hidden">webpack 优化打包大全</h3>
+  <div id="post-directory-module" class="mobile-hidden">
+    <section class="post-directory">
+    <!-- Links that trigger the jumping -->
+    <!-- Added by javascript below -->
+    <dl></dl>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+        </div>
+
+    <footer class="container">
+
+    <div class="site-footer" role="contentinfo">
+
+        <div class="copyright pull-left mobile-block">
+            © 2020
+            <span title="Liang Qi">Liang Qi</span>
+            <span>
+                Power by <a href="https://github.com/DONGChuan/Yummy-Jekyll" target="_blank">Yummy Jekyll</a>
+            </span>
+            <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+        </div>
+        
+        <ul class="site-footer-links mobile-hidden">
+            
+            <li>
+                <a href="http://localhost:4000/" title="Home" target="">Home</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/open-source" title="Open-Source" target="">Open-Source</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/talk" title="Talk" target="">Talk</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/archives" title="Archive" target="">Archive</a>
+            </li>
+            
+            <li>
+                <a href="http://localhost:4000/about" title="About" target="">About</a>
+            </li>
+            
+            <li><a href="http://localhost:4000/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+        </ul>
+
+      <!-- 不蒜子访问统计 -->
+
+<script async src="https://cdn.jsdelivr.net/gh/ttcoder404/ttcoder404.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="mobile-hidden" style="margin-top:8px">
+  <span id="busuanzi_container_site_pv" style="display:none">
+    本站访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none">
+    / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+  <span id="busuanzi_container_page_pv" style="display:none">
+    / 本页访问量<span id="busuanzi_value_page_pv"></span>次
+    
+    / 统计始于2020-06-05
+    
+  </span>
+</div>
+
+
+
+    </div>
+
+    <!-- Third-Party JS -->
+    <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
+
+    <!-- My JS -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+
+    
+
+    
+
+</footer>
+
+
+    </body>
+
+</html>
