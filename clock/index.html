@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>头秃程序猿-时间工具</title>
+    <style>
+        *, html , body { margin: 0; padding: 0;} 
+        body {
+            background-color: #000;
+        }
+        #wrap {
+            height:100vh;
+            -webkit-display:flex;
+            display:flex;
+            -webkit-align-items:center;
+            align-items:center;
+            -webkit-justify-content:center;
+            justify-content:center;
+        }
+        #clock {
+            display: flex;
+            vertical-align: middle;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: justify;
+            width:100vw;
+            background: #000;
+            margin:0 auto;
+            color:#fff;
+        }
+        #clock p {
+            display: inline;
+        }
+        #clock p.month, #clock p.week {
+            font-size: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="clock"></div>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/jquery.clock.js"></script>
+    <script>
+        $(function() {
+            $("#clock").MyDigitClock({
+                fontSize: 140,
+                fontFamily: "Century gothic",
+                fontWeight: "bold",
+                bAmPm: true,
+                bWeek: true,
+                timeFormat: '{HH}<span id="ch1">:</span>{MM}',
+                bShowHeartBeat: true
+            });
+        });
+    </script>
+</body>
+</html>
