@@ -218,6 +218,13 @@
       "category" : "webpack",
       
       "url"      : "http://localhost:4000/2020/07/21/webpack-optimization/"
+    } ,
+  
+    {
+      "title"    : "换个思路学习 nodejs",
+      "category" : "Node.js",
+      
+      "url"      : "http://localhost:4000/2020/08/10/Learning-in-a-different-way-about-node.js/"
     } 
   
 ]

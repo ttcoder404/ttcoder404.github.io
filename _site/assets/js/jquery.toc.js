@@ -143,7 +143,9 @@ $(document).ready(function(){
 
   var updateTocHeight = function() {
       var height = document.documentElement.clientHeight;
-      height = height || 'auto';
+	  if (height <= 450) {		  
+		height = height || 'auto';
+	  } else { height = 450}
       $('.post-directory').css('max-height', height);
   }
 
